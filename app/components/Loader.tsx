@@ -7,7 +7,7 @@ interface loaderData {
 
 function Loader({show} : loaderData) {
   return (
-    show ? <div className="loader"><CircularProgress /></div> : null
+    show ? <div className='loader'><CircularProgress /></div> : null
   )
 }
 
