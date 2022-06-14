@@ -1,11 +1,11 @@
 import { CircularProgress } from '@mui/material'
 import React from 'react'
 
-interface loaderData {
+interface Props {
   show: boolean
 }
 
-function Loader({show} : loaderData) {
+function Loader({show} : Props) {
   return (
     show ? <div className='loader'><CircularProgress /></div> : null
   )
