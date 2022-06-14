@@ -1,11 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
+import Link from 'next/link'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
 
 interface Props {
 
@@ -26,16 +27,20 @@ function Navbar({}: Props) {
             sx={{ mr: 2 }}
           >
           </IconButton>
-          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            Ormeli
-          </Typography>
+          <Link href='/'>
+            <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+              Ormeli
+            </Typography>
+          </Link>
           <Image
-            src='/../public/carotte_assistant.png'
+            src='/carotte_assistant.png'
             width='72vw'
             height='100vh'
-            alt='Carrotte Assistant'
+            alt='Carotte Assistant'
           />
-          <Button color='inherit'>Login</Button>
+          <Link href='/login'>
+            <Button color='inherit'>Login</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>
