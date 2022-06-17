@@ -8,7 +8,7 @@ export default function Home() {
       <Head>
         <title>Ormeli</title>
         <meta name='description' content='Ormeli App' />
-        <link rel='icon' href='/carotte_assistant.png' />
+        <link rel='icon' href='/favicon.png' />
       </Head>
 
       <main>
