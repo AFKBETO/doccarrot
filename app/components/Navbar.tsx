@@ -26,13 +26,14 @@ function Navbar({}: Props) {
             direction="row"
             justifyContent="flex-start"
             alignItems="center"
+            sx={{ border : 1, flexShrink: 3 }}
           >
             <IconButton
               size='large'
               edge='start'
               color='inherit'
               aria-label='menu'
-              sx={{ mr: 2 }}
+              sx={{ width: '40%', height: '40%' }}
             >
               <Image
               src='/favicon.png'
@@ -42,91 +43,71 @@ function Navbar({}: Props) {
               />
             </IconButton>
             <Link href='/'>
-              <Typography variant="h3" component="div">
+              <Typography variant="h4" component="div">
                 Ormeli
               </Typography>
             </Link>
           </Grid>
-          {usertype == UserType.patient ?
           <Grid
             container
             direction="row"
             justifyContent="flex-end"
             alignItems="center"
           >
-            <Link href='/'>
-              <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
-            </Link>
-            <Link href='/login'>
-              <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
-            </Link>
-            <Image
-              src='/carotte_assistant.png'
-              width='72vw'
-              height='100vh'
-              alt='Carotte Assistant'
-            />
-          </Grid> : 
-          usertype == UserType.medecin ?
-          <Grid
-            container
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-          >
-            <Link href='/'>
-              <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
-            </Link>
-            <Link href='/login'>
-              <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
-            </Link>
-            <Image
-              src='/carotte_assistant.png'
-              width='72vw'
-              height='100vh'
-              alt='Carotte Assistant'
-            />
-          </Grid> :
-          usertype == UserType.pharmacien ?
-          <Grid
-            container
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-          >
-            <Link href='/'>
-              <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
-            </Link>
-            <Link href='/login'>
-              <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
-            </Link>
-            <Image
-              src='/carotte_assistant.png'
-              width='72vw'
-              height='100vh'
-              alt='Carotte Assistant'
-            />
-          </Grid> :
-          <Grid
-            container
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-          >
-            <Link href='/'>
-              <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
-            </Link>
-            <Link href='/login'>
-              <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
-            </Link>
-            <Image
-              src='/carotte_assistant.png'
-              width='72vw'
-              height='100vh'
-              alt='Carotte Assistant'
-            />
+            {
+              usertype == UserType.patient ?
+              <>
+                <Link href='/'>
+                  <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
+                </Link>
+                <Link href='/login'>
+                  <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
+                </Link>
+              </> : 
+              usertype == UserType.medecin ?
+              <>
+                <Link href='/'>
+                  <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
+                </Link>
+                <Link href='/login'>
+                  <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
+                </Link>
+              </> :
+              usertype == UserType.pharmacien ?
+              <>
+                <Link href='/'>
+                  <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
+                </Link>
+                <Link href='/login'>
+                  <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
+                </Link>
+              </> :
+              <>
+                <Link href='/'>
+                  <Button color='inherit'><Typography noWrap={true}>Pourquoi Ormeli ?</Typography></Button>
+                </Link>
+                <Link href='/'>
+                  <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
+                </Link>
+                <Link href='/login'>
+                  <Button color='inherit'><Typography noWrap={true}>Connexion</Typography></Button>
+                </Link>
+              </>
+            }
+            <Box sx={{position: 'relative'}}>
+              {
+                username == null ?
+                <></> :
+                <Typography sx={{position: 'absolute', right: '120%', bottom: '70%'}} noWrap={true}>Bonjour, {username}</Typography>
+              }
+              <Image
+                src='/carotte_assistant.png'
+                width='72vw'
+                height='100vh'
+                alt='Carotte Assistant'
+              />
+            </Box>
           </Grid>
-          }
         </Toolbar>
       </AppBar>
     </Box>
