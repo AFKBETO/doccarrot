@@ -83,13 +83,13 @@ function Navbar({}: Props) {
                 </Link>
               </> :
               <>
-                <Link href='/'>
+                <Link href='/common/pourquoi'>
                   <Button color='inherit'><Typography noWrap={true}>Pourquoi Ormeli ?</Typography></Button>
                 </Link>
-                <Link href='/'>
+                <Link href='/common/solutions'>
                   <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
                 </Link>
-                <Link href='/login'>
+                <Link href='/common/login'>
                   <Button color='inherit'><Typography noWrap={true}>Connexion</Typography></Button>
                 </Link>
               </>
