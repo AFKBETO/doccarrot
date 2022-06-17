@@ -26,7 +26,7 @@ function Navbar({}: Props) {
             direction="row"
             justifyContent="flex-start"
             alignItems="center"
-            sx={{ border : 1, flexShrink: 3 }}
+            sx={{ flexShrink: 3 }}
           >
             <IconButton
               size='large'
@@ -35,12 +35,14 @@ function Navbar({}: Props) {
               aria-label='menu'
               sx={{ width: '40%', height: '40%' }}
             >
-              <Image
-              src='/favicon.png'
-              width='100%'
-              height='100%'
-              alt='Carotte Assistant'
-              />
+              <Link href='/'>
+                <Image
+                src='/favicon.png'
+                width='100%'
+                height='100%'
+                alt='Ormeli'
+                />
+              </Link>
             </IconButton>
             <Link href='/'>
               <Typography variant="h4" component="div">
