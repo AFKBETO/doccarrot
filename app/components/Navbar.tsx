@@ -108,7 +108,7 @@ function Navbar({}: Props) {
                   <Typography noWrap={true}>Mon Espace</Typography>
                 </Button>
               </Link> :
-              <Link href='/common/login'> 
+              <Link href='/login'> 
                 <Button color='inherit'>{/* navbar non-connecté */}
                   <Typography noWrap={true}>Connexion</Typography>
                 </Button>
