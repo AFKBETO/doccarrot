@@ -4,8 +4,10 @@ interface Props {
   
 }
 
-export default function login({}: Props) {
+function Login({}: Props) {
   return (
     <div>login</div>
   )
 }
+
+export default Login
