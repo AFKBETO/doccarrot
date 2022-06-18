@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Box, Typography } from '@mui/material'
 
-export default function Home() {
+function Home() {
   return (
     <Box> 
       <Head>
@@ -19,3 +19,5 @@ export default function Home() {
     </Box>
   )
 }
+
+export default Home

@@ -4,8 +4,10 @@ interface Props {
   
 }
 
-export default function pourquoi({}: Props) {
+function Pourquoi({}: Props) {
   return (
     <div>pourquoi</div>
   )
 }
+
+export default Pourquoi
