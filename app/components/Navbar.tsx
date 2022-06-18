@@ -56,45 +56,28 @@ function Navbar({}: Props) {
             justifyContent="flex-end"
             alignItems="center"
           >
+            <Link href='/common/pourquoi'>
+              <Button color='inherit'><Typography noWrap={true}>Pourquoi Ormeli ?</Typography></Button>
+            </Link>
+            <Link href='/'>
+              <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
+            </Link>
             {
-              usertype == UserType.patient ?
-              <>
-                <Link href='/'>
-                  <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
-                </Link>
-                <Link href='/login'>
-                  <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
-                </Link>
-              </> : 
+              usertype == UserType.patient ? 
+              <Link href='/login'> {/* navbar patient */}
+                <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
+              </Link> : 
               usertype == UserType.medecin ?
-              <>
-                <Link href='/'>
-                  <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
-                </Link>
-                <Link href='/login'>
-                  <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
-                </Link>
-              </> :
+              <Link href='/login'> {/* navbar medecin */}
+                <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
+              </Link> :
               usertype == UserType.pharmacien ?
-              <>
-                <Link href='/'>
-                  <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
-                </Link>
-                <Link href='/login'>
-                  <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
-                </Link>
-              </> :
-              <>
-                <Link href='/common/pourquoi'>
-                  <Button color='inherit'><Typography noWrap={true}>Pourquoi Ormeli ?</Typography></Button>
-                </Link>
-                <Link href='/common/solutions'>
-                  <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
-                </Link>
-                <Link href='/common/login'>
-                  <Button color='inherit'><Typography noWrap={true}>Connexion</Typography></Button>
-                </Link>
-              </>
+              <Link href='/login'> {/* navbar pharmacien */}
+                <Button color='inherit'><Typography noWrap={true}>Mon Espace</Typography></Button>
+              </Link> :
+              <Link href='/common/login'> {/* navbar non-connecté */}
+                <Button color='inherit'><Typography noWrap={true}>Connexion</Typography></Button>
+              </Link>
             }
             <Box sx={{position: 'relative'}}>
               {
