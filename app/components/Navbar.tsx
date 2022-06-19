@@ -91,8 +91,19 @@ function Navbar({}: Props) {
                   <Typography noWrap={true}>Mon Espace</Typography>
                 </Button>
                 <Popper id={idMenuPatient} open={openMenuPatient} anchorEl={anchorEl}>
-                  <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
-                    The content of the Popper.
+                  <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                    <Link href='/patient/prescriptions'>
+                      <Button color='primary'>
+                        <Typography noWrap={true}>Prescriptions</Typography>
+                      </Button>
+                    </Link>
+                  </Box>
+                  <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                    <Link href='/patient/suivi'>
+                      <Button color='primary'>
+                        <Typography noWrap={true}>Suivi Santé</Typography>
+                      </Button>
+                    </Link>
                   </Box>
                 </Popper>
               </> : 
