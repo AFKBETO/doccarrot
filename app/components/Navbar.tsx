@@ -99,7 +99,7 @@ function Navbar({ }: Props) {
                   </Button>
                   <Popper id={idMenuPatient} open={openMenuPatient} anchorEl={anchorEl}>
                     <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                      <Link href={`/common/${username}`}>
+                      <Link href={`/${username}`}>
                         <Button color='primary'>
                           <Typography noWrap={true}>Mon Compte</Typography>
                         </Button>
@@ -108,14 +108,14 @@ function Navbar({ }: Props) {
                     { usertype == UserType.patient ? 
                     <> {/* navbar patient */}
                       <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                        <Link href='/patient/prescriptions'>
+                        <Link href={`/${username}/patient/prescriptions`}>
                           <Button color='primary'>
                             <Typography noWrap={true}>Prescriptions</Typography>
                           </Button>
                         </Link>
                       </Box>
                       <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                        <Link href='/patient/suivi'>
+                        <Link href={`/${username}/patient/suivi`}>
                           <Button color='primary'>
                             <Typography noWrap={true}>Suivi Santé</Typography>
                           </Button>
