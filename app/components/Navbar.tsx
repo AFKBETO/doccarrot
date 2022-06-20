@@ -1,19 +1,14 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { UserType } from '../config/types'
 import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, Popper } from '@mui/material'
 
 interface Props {
-  posts: String
+
 }
 
-enum UserType {
-  patient,
-  medecin,
-  pharmacien
-}
-
-function Navbar({ posts }: Props) {
+function Navbar({ }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [usertype, setUserType] = React.useState<null | UserType>(null)
   const [username, setUserName] = React.useState<null | String>(null)
