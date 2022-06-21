@@ -21,6 +21,7 @@
     "jsx": "preserve",
     "noImplicitAny": true,
     "noImplicitThis": true,
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
