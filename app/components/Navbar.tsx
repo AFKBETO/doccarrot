@@ -11,7 +11,7 @@ interface Props {
 function Navbar({ }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [usertype, setUserType] = React.useState<null | UserType>(null)
-  const [username, setUserName] = React.useState<null | String>(null)
+  const [username, setUserName] = React.useState<null | string>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -39,8 +39,8 @@ function Navbar({ }: Props) {
   const openMenuPatient = Boolean(anchorEl);
   const idMenuPatient = openMenuPatient ? 'simple-popper' : undefined;
 
-  const user : String | null = null
-  /*const username : String | null = null */
+  const user : string | null = null
+  /*const username : string | null = null */
   /*const usertype : UserType | null = null */
 
   return (
@@ -70,7 +70,7 @@ function Navbar({ }: Props) {
               />
             </IconButton>
             <Link href='/'>
-              <Typography variant='h4' component='div'>
+              <Typography variant='h4' component='div' sx={{color: 'text.primary'}}>
                 Ormeli
               </Typography>
             </Link>

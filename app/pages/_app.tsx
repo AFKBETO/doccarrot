@@ -8,10 +8,9 @@ import { ThemeProvider } from '@mui/material/styles'
 import Navbar from '../components/Navbar'
 
 function MyApp ({ Component, pageProps }: AppProps) {
-  const lightMode = useMediaQuery('(prefers-color-scheme: light)');
 
   return (
-      <ThemeProvider theme={theme(lightMode)}>
+      <ThemeProvider theme={theme()}>
         <Navbar />
         <Component {...pageProps} />
       </ThemeProvider>
