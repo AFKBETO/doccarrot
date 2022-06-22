@@ -9,13 +9,14 @@ export default function theme () {
       primary: {
         main: '#b8cca7',
         light: '#eaffd9',
-        dark: '#889b78'
+        dark: '#889b78',
+        contrastText: '#000000'
       },
       secondary: {
         main: '#ffffff'
       },
       text: {
-        primary:'#ffffff',
+        primary:'#000000',
         secondary:'#ffffff'
       }
     },

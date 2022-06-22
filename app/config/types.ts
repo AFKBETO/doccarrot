@@ -3,3 +3,8 @@ export enum UserType {
   medecin,
   pharmacien
 }
+
+export interface UserData {
+  email: string,
+  password: string
+}

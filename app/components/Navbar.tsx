@@ -70,7 +70,7 @@ function Navbar({ }: Props) {
               />
             </IconButton>
             <Link href='/'>
-              <Typography variant='h4' component='div' sx={{color: 'text.primary'}}>
+              <Typography variant='h4' component='div' sx={{color: 'text.secondary'}}>
                 Ormeli
               </Typography>
             </Link>
@@ -140,7 +140,7 @@ function Navbar({ }: Props) {
               {
                 username == null ?
                 <></> :
-                <Typography sx={{position: 'absolute', right: '120%', bottom: '70%'}} noWrap={true}>Bonjour, {username}</Typography>
+                <Typography sx={{position: 'absolute', right: '120%', bottom: '70%', color: 'text.secondary'}} noWrap={true}>Bonjour, {username}</Typography>
               }
               <Image
                 src='/carotte_assistant.png'
