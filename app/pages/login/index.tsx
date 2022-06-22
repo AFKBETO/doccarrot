@@ -1,5 +1,5 @@
 import React from 'react'
-import { auth, emailAuthProvider } from '../../config/firebase'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { UserData } from '../../config/types';
 import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -31,6 +31,9 @@ function Login({}: Props) {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)
   }
+  const login = () => {
+    signInWithEmailAndPassword(getAuth(), userData.email, userData.password)
+  }
 
   return (
     <Box
@@ -47,7 +50,7 @@ function Login({}: Props) {
       noValidate
       autoComplete='off'
     >
-      <Typography variant='h4' align='center'>Connexion {userData.email}</Typography>
+      <Typography variant='h4' align='center'>Connexion</Typography>
       <Stack
         spacing={2}
         justifyContent="center"
@@ -95,6 +98,7 @@ function Login({}: Props) {
           variant="contained"
           sx={{ bgcolor: 'primary.dark'}}
           focusRipple={false}
+          onClick={login}
         >
           <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
         </Button>

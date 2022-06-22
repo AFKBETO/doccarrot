@@ -1,6 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { getAuth, signOut } from 'firebase/auth'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { UserType } from '../config/types'
 import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, Popper } from '@mui/material'
 
@@ -15,6 +17,14 @@ function Navbar({ }: Props) {
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
+  }
+
+  const auth = getAuth()
+  const [user, loading, error] = useAuthState(auth);
+  
+  const logout = () => {
+    signOut(auth)
+    setAnchorEl(null)
   }
 
   const switchType = () => {
@@ -39,7 +49,7 @@ function Navbar({ }: Props) {
   const openMenuPatient = Boolean(anchorEl);
   const idMenuPatient = openMenuPatient ? 'simple-popper' : undefined;
 
-  const user : string | null = null
+  /* const user : string | null = null */
   /*const username : string | null = null */
   /*const usertype : UserType | null = null */
 
@@ -87,7 +97,7 @@ function Navbar({ }: Props) {
             <Link href='/common/solutions'>
               <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
             </Link>
-              { usertype != null ?
+              { user != null ?
                 <>
                   <Button
                     color='inherit'
@@ -127,6 +137,11 @@ function Navbar({ }: Props) {
                     </> :
                     <> {/* navbar pharmacien */}
                     </>}
+                    <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
+                        <Button color='inherit' onClick={logout}>
+                          <Typography noWrap={true}>Déconnecter</Typography>
+                        </Button>
+                    </Box>
                   </Popper>
                 </>
               :
