@@ -45,7 +45,7 @@ function Register ({}: Props) {
   }
 
   return (
-    <Box sx={{ width: '25%', margin: 'auto', border: 1, borderRadius: '20px', backgroundColor: 'primary.main' }}>
+    <Box sx={{ width: '25%', margin: 'auto', border: 1, borderRadius: '20px', backgroundColor: 'primary.dark' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           textColor='secondary'

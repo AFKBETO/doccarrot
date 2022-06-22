@@ -7,8 +7,9 @@ export default function theme () {
     palette: {
       mode: 'light',
       primary: {
-        main: '#889b78',
-        light: '#eaffd9'
+        main: '#b8cca7',
+        light: '#eaffd9',
+        dark: '#889b78'
       },
       secondary: {
         main: '#ffffff'
