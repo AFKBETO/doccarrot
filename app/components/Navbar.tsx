@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getAuth, signOut } from 'firebase/auth'
+import { UserContext } from '../config/userContext'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { UserType } from '../config/types'
 import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, Popper } from '@mui/material'
@@ -13,14 +14,13 @@ interface Props {
 function Navbar({ }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [usertype, setUserType] = React.useState<null | UserType>(null)
-  const [username, setUserName] = React.useState<null | string>(null)
+  const { user, username } = React.useContext(UserContext)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   }
 
   const auth = getAuth()
-  const [user, loading, error] = useAuthState(auth);
   
   const logout = () => {
     signOut(auth)
@@ -30,19 +30,15 @@ function Navbar({ }: Props) {
   const switchType = () => {
     if (usertype == null) {
       setUserType(UserType.patient)
-      setUserName('Patient')
     }
     else if (usertype == UserType.patient) {
       setUserType(UserType.medecin)
-      setUserName('Medecin')
     }
     else if (usertype == UserType.medecin){
       setUserType(UserType.pharmacien)
-      setUserName('Pharmacien')
     }
     else if (usertype == UserType.pharmacien) {
       setUserType(null)
-      setUserName(null)
     }
   }
 
