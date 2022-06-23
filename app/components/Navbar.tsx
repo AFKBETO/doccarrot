@@ -3,7 +3,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getAuth, signOut } from 'firebase/auth'
 import { UserContext } from '../config/userContext'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { UserType } from '../config/types'
 import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, Popper } from '@mui/material'
 
@@ -14,7 +13,7 @@ interface Props {
 function Navbar({ }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [usertype, setUserType] = React.useState<null | UserType>(null)
-  const { user, username } = React.useContext(UserContext)
+  const userContext = React.useContext(UserContext)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -23,6 +22,7 @@ function Navbar({ }: Props) {
   const auth = getAuth()
   
   const logout = () => {
+    userContext.updateUsername?.(null)
     signOut(auth)
     setAnchorEl(null)
   }
@@ -93,7 +93,7 @@ function Navbar({ }: Props) {
             <Link href='/common/solutions'>
               <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
             </Link>
-              { user != null ?
+              { userContext.user != null ?
                 <>
                   <Button
                     color='inherit'
@@ -105,7 +105,7 @@ function Navbar({ }: Props) {
                   </Button>
                   <Popper id={idMenuPatient} open={openMenuPatient} anchorEl={anchorEl}>
                     <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                      <Link href={`/${username}`}>
+                      <Link href={`/${userContext.username}`}>
                         <Button color='primary'>
                           <Typography noWrap={true}>Mon Compte</Typography>
                         </Button>
@@ -114,14 +114,14 @@ function Navbar({ }: Props) {
                     { usertype == UserType.patient ? 
                     <> {/* navbar patient */}
                       <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                        <Link href={`/${username}/patient/prescriptions`}>
+                        <Link href={`/${userContext.username}/patient/prescriptions`}>
                           <Button color='primary'>
                             <Typography noWrap={true}>Prescriptions</Typography>
                           </Button>
                         </Link>
                       </Box>
                       <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                        <Link href={`/${username}/patient/suivi`}>
+                        <Link href={`/${userContext.username}/patient/suivi`}>
                           <Button color='primary'>
                             <Typography noWrap={true}>Suivi Santé</Typography>
                           </Button>
@@ -149,9 +149,9 @@ function Navbar({ }: Props) {
             }
             <Box sx={{position: 'relative'}}>
               {
-                username == null ?
+                userContext.username == null ?
                 <></> :
-                <Typography sx={{position: 'absolute', right: '120%', bottom: '70%', color: 'text.secondary'}} noWrap={true}>Bonjour, {username}</Typography>
+                <Typography sx={{position: 'absolute', right: '120%', bottom: '70%', color: 'text.secondary'}} noWrap={true}>Bonjour, {userContext.username}</Typography>
               }
               <Image
                 src='/carotte_assistant.png'

@@ -1,4 +1,7 @@
-export const firebaseConfig = {
+import { initializeApp } from "@firebase/app"
+import { getAuth } from "firebase/auth"
+
+const firebaseConfig = {
   apiKey: "AIzaSyD8UzQRZgKUPPU1KxvevKcGs3KdooON0SA",
   authDomain: "doc-carrot.firebaseapp.com",
   databaseURL: "https://doc-carrot-default-rtdb.europe-west1.firebasedatabase.app",
@@ -8,3 +11,7 @@ export const firebaseConfig = {
   appId: "1:791071650638:web:8ee57342c5a2605b18641f",
   measurementId: "G-DL4D6W8V5L"
 }
+
+const app = initializeApp(firebaseConfig)
+
+export const auth = getAuth(app)

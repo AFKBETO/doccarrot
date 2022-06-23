@@ -1,8 +1,10 @@
 import React from 'react'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { UserData } from '../../config/types';
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../config/firebase'
+import { UserData } from '../../config/types'
 import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button } from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import Link from 'next/link'
 
 interface Props {
   
@@ -32,7 +34,7 @@ function Login({}: Props) {
     setShowPassword(!showPassword)
   }
   const login = () => {
-    signInWithEmailAndPassword(getAuth(), userData.email, userData.password)
+    signInWithEmailAndPassword(auth, userData.email, userData.password)
   }
 
   return (
@@ -94,14 +96,16 @@ function Login({}: Props) {
             }
           />
         </FormControl>
-        <Button
-          variant="contained"
-          sx={{ bgcolor: 'primary.dark'}}
-          focusRipple={false}
-          onClick={login}
-        >
-          <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
-        </Button>
+        <Link href='/'>
+          <Button
+            variant="contained"
+            sx={{ bgcolor: 'primary.dark'}}
+            focusRipple={false}
+            onClick={login}
+          >
+            <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
+          </Button>
+        </Link>
 
         <Button
           >

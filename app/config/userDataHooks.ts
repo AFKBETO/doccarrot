@@ -1,21 +1,15 @@
-import { firebaseConfig } from "./firebase";
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { getApp, initializeApp } from "@firebase/app";
-import { getAuth } from "firebase/auth";
+import { auth } from '../config/firebase'
 
-try {
-  getApp()
-} catch (e) {
-  initializeApp(firebaseConfig)
-}
 
 export function useUserData () {
-  const [user] = useAuthState(getAuth())
+  const [user] = useAuthState(auth)
   const [username, setUsername] = useState<string | null>(null)
 
   useEffect(() => {
-    setUsername('unknown')
+    if (user) setUsername('unknown')
+    else setUsername(null)
   }, [user])
 
   return {user, username}
