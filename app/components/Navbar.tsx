@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getAuth, signOut } from 'firebase/auth'
 import { UserContext } from '../config/userContext'
 import { UserType } from '../config/types'
+import { useRouter } from 'next/router'
 import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, Popper } from '@mui/material'
 
 interface Props {
@@ -20,11 +21,16 @@ function Navbar({ }: Props) {
   }
 
   const auth = getAuth()
+  const router = useRouter()
   
   const logout = () => {
     userContext.updateUsername?.(null)
     signOut(auth)
     setAnchorEl(null)
+    router.push({
+      pathname: '/',
+      query: { returnUrl: router.asPath }
+    })
   }
 
   const switchType = () => {

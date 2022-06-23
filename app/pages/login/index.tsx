@@ -1,22 +1,23 @@
 import React from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../config/firebase'
-import { UserData } from '../../config/types'
+import { AuthData } from '../../config/types'
 import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { Redirect } from 'next'
 
 interface Props {
-  
+
 }
 
-function Login({}: Props) {
-  const [userData, setUserData] = React.useState<UserData>({
+function Login(props: Props) {
+  const [userData, setUserData] = React.useState<AuthData>({
     email: '',
     password: ''
   })
-  
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
+  const router = useRouter()
 
   const formEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({
@@ -33,8 +34,13 @@ function Login({}: Props) {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)
   }
+
   const login = () => {
     signInWithEmailAndPassword(auth, userData.email, userData.password)
+    router.push({
+      pathname: '/',
+      query: { returnUrl: router.asPath }
+    })
   }
 
   return (
@@ -96,16 +102,14 @@ function Login({}: Props) {
             }
           />
         </FormControl>
-        <Link href='/'>
-          <Button
-            variant="contained"
-            sx={{ bgcolor: 'primary.dark'}}
-            focusRipple={false}
-            onClick={login}
-          >
-            <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
-          </Button>
-        </Link>
+        <Button
+          variant="contained"
+          sx={{ bgcolor: 'primary.dark'}}
+          focusRipple={false}
+          onClick={login}
+        >
+          <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
+        </Button>
 
         <Button
           >

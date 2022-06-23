@@ -4,7 +4,7 @@ export enum UserType {
   pharmacien
 }
 
-export interface UserData {
+export interface AuthData {
   email: string,
   password: string
 }
