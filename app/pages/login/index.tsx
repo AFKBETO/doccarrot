@@ -5,6 +5,7 @@ import { AuthData } from '../../config/types'
 import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button, Modal } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 import Register from './register'
 
 interface Props {
@@ -40,12 +41,13 @@ function Login(props: Props) {
     setShowPassword(!showPassword)
   }
 
-  const login = () => {
-    signInWithEmailAndPassword(auth, userData.email, userData.password)
-    router.push({
-      pathname: '/',
-      query: { returnUrl: router.asPath }
-    })
+  const login = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, userData.email, userData.password)
+    } catch (error) {
+      toast.error("Email/mot de passe invalide")
+      return
+    }
   }
 
   return (
@@ -129,6 +131,7 @@ function Login(props: Props) {
             position: 'absolute' as 'absolute',
             top: '50%',
             left: '50%',
+            width: '25%',
             transform: 'translate(-50%, -50%)',
             bgcolor: 'transparent',
             boxShadow: 'none' 
