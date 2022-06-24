@@ -1,33 +1,8 @@
 import Head from 'next/head'
-import { auth } from '../config/firebase'
-import { useAuthState } from 'react-firebase-hooks/auth'
+import Image from 'next/image'
 import { Box, Typography } from '@mui/material'
 
 function Home() {
-  const [user, loading, error] = useAuthState(auth)
-
-  if (loading) {
-    return (
-      <div>
-        <p>Initialising User...</p>
-      </div>
-    )
-  }
-  if (error) {
-    return (
-      <div>
-        {`Error: ${error}`}
-      </div>
-    )
-  }
-  if (user) {
-    return (
-      <div>
-        <p>Current User: {user.email}</p>
-      </div>
-    )
-  }
-
   return (
     <Box> 
       <Head>

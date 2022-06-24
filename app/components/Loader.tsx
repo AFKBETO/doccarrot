@@ -5,7 +5,7 @@ interface Props {
   show: boolean
 }
 
-function Loader({ show } : Props) {
+function Loader({show} : Props) {
   return (
     show ? <div className='loader'><CircularProgress /></div> : null
   )
