@@ -1,7 +1,10 @@
 import React from 'react'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { Box, Button, FilledInput, FormControl, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
 import { AuthData, PatientData, MedecinData } from '../../config/types'
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { auth } from '../../config/firebase'
+import toast from 'react-hot-toast'
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -11,6 +14,10 @@ interface TabPanelProps {
 
 interface Props {
   
+}
+
+interface passwordError {
+  message: string
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -59,6 +66,12 @@ function Register ({}: Props) {
     rpps: ''
   })
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
+  const [errorValidator, setErrorValidator] = React.useState({
+    email: false,
+    emailConfirm: false,
+    password: [] as passwordError[],
+    passwordConfirm: false
+  })
 
   const changeTab = (event: React.SyntheticEvent, newTabValue: number) => {
     setTabValue(newTabValue)
@@ -90,8 +103,36 @@ function Register ({}: Props) {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)
   }
-  const register = () => {
-    
+  const verifyEmail = (event: React.ChangeEvent<HTMLInputElement>) =>{
+    setErrorValidator({
+      ...errorValidator,
+      email: validateEmail(event.target.value)
+    })
+  }
+  const verifyConfirmEmail = (event: React.ChangeEvent<HTMLInputElement>) =>{
+    setErrorValidator({
+      ...errorValidator,
+      emailConfirm: (userData.email !== event.target.value)
+    })
+  }
+  const verifyPassword = (event: React.ChangeEvent<HTMLInputElement>) =>{
+    setErrorValidator({
+      ...errorValidator,
+      password: validatePassword(event.target.value)
+    })
+  }
+  const verifyConfirmPassword = (event: React.ChangeEvent<HTMLInputElement>) =>{
+    setErrorValidator({
+      ...errorValidator,
+      passwordConfirm: (userData.password !== event.target.value)
+    })
+  }
+  const register = async () => {
+    try {
+      await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
 
   return (
@@ -126,6 +167,8 @@ function Register ({}: Props) {
           sx={{ my: 4}}
         >
           <TextField
+            error={errorValidator.email}
+            helperText={errorValidator.email ? 'Email invalide' : ''}
             required
             variant='filled'
             id='email-required'
@@ -138,9 +181,12 @@ function Register ({}: Props) {
             }}
             value={userData.email}
             onInput={formEmail}
+            onChange={verifyEmail}
             size='small'
           />
           <TextField
+            error={errorValidator.emailConfirm}
+            helperText={errorValidator.emailConfirm ? 'La confirmation d\'email n\'est pas identique' : ''}
             required
             variant='filled'
             id='email-confirm-required'
@@ -153,6 +199,7 @@ function Register ({}: Props) {
             }}
             value={confirmationData.email}
             onInput={formConfirmationEmail}
+            onChange={verifyConfirmEmail}
             size='small'
           />
           <FormControl required sx={{ m: 1, width: '70%'}} variant="filled" size='small'>
@@ -212,10 +259,6 @@ function Register ({}: Props) {
 function validateEmail (email: string) : boolean {
   if (!/^[\w-.+]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) return true
   return false
-}
-
-interface passwordError {
-  message: string
 }
 
 function validatePassword (password: string): passwordError[] {
