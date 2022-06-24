@@ -2,10 +2,10 @@ import React from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../config/firebase'
 import { AuthData } from '../../config/types'
-import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button } from '@mui/material'
+import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button, Modal } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useRouter } from 'next/router'
-import { Redirect } from 'next'
+import Register from './register'
 
 interface Props {
 
@@ -17,7 +17,12 @@ function Login(props: Props) {
     password: ''
   })
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
+  const [openRegister, setOpenRegister] = React.useState<boolean>(false)
+
   const router = useRouter()
+
+  const handleOpen = () => setOpenRegister(true)
+  const handleClose = () => setOpenRegister(false)
 
   const formEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({
@@ -111,10 +116,26 @@ function Login(props: Props) {
           <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
         </Button>
 
-        <Button
-          >
+        <Button onClick={handleOpen}>
           Votre première connexion ? C'est par ici !
         </Button>
+        <Modal
+          open={openRegister}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={{
+            position: 'absolute' as 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            bgcolor: 'transparent',
+            boxShadow: 'none' 
+          }}>
+            <Register />
+          </Box>
+        </Modal>
       </Stack>
     </Box>
   )
