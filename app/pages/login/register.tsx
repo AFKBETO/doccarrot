@@ -1,10 +1,11 @@
 import React from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { Box, Button, FilledInput, FormControl, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
+import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
 import { AuthData, PatientData, MedecinData } from '../../config/types'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { auth } from '../../config/firebase'
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/router'
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -12,12 +13,8 @@ interface TabPanelProps {
   value: number;
 }
 
-interface Props {
-  
-}
-
-interface passwordError {
-  message: string
+interface RegisterProps {
+  closeModal: () => void
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -52,13 +49,9 @@ function labelProps (index: number) {
   }
 }
 
-function Register ({}: Props) {
+function Register ({ closeModal }: RegisterProps) {
   const [tabValue, setTabValue] = React.useState<number>(0)
   const [userData, setUserData] = React.useState<AuthData>({
-    email: '',
-    password: ''
-  })
-  const [confirmationData, setConfirmationData] = React.useState<AuthData>({
     email: '',
     password: ''
   })
@@ -69,8 +62,10 @@ function Register ({}: Props) {
   const [errorValidator, setErrorValidator] = React.useState({
     email: false,
     emailConfirm: false,
-    password: [] as passwordError[],
-    passwordConfirm: false
+    freshEmail: true,
+    password: [] as React.ReactNode[],
+    passwordConfirm: false,
+    freshPassword: true
   })
 
   const changeTab = (event: React.SyntheticEvent, newTabValue: number) => {
@@ -88,18 +83,6 @@ function Register ({}: Props) {
       password: event.target.value
     })
   }
-  const formConfirmationEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setConfirmationData({
-      ...confirmationData,
-      email: event.target.value
-    })
-  }
-  const formConfirmationPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setConfirmationData({
-      ...confirmationData,
-      password: event.target.value
-    })
-  }
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)
   }
@@ -112,7 +95,8 @@ function Register ({}: Props) {
   const verifyConfirmEmail = (event: React.ChangeEvent<HTMLInputElement>) =>{
     setErrorValidator({
       ...errorValidator,
-      emailConfirm: (userData.email !== event.target.value)
+      emailConfirm: (userData.email !== event.target.value),
+      freshEmail: false
     })
   }
   const verifyPassword = (event: React.ChangeEvent<HTMLInputElement>) =>{
@@ -124,12 +108,15 @@ function Register ({}: Props) {
   const verifyConfirmPassword = (event: React.ChangeEvent<HTMLInputElement>) =>{
     setErrorValidator({
       ...errorValidator,
-      passwordConfirm: (userData.password !== event.target.value)
+      passwordConfirm: (userData.password !== event.target.value),
+      freshPassword: false
     })
   }
+  const router = useRouter()
   const register = async () => {
     try {
       await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+      closeModal()
     } catch (error) {
       toast.error(error.message)
     }
@@ -161,7 +148,7 @@ function Register ({}: Props) {
       </Box>
       <TabPanel value={tabValue} index={0}>
         <Stack
-          spacing={2}
+          spacing={4}
           justifyContent="center"
           alignItems="center"
           sx={{ my: 4}}
@@ -197,12 +184,17 @@ function Register ({}: Props) {
               width: '70%',
               color: 'text.primary'
             }}
-            value={confirmationData.email}
-            onInput={formConfirmationEmail}
+/*             value={confirmationData.email}
+            onInput={formConfirmationEmail} */
             onChange={verifyConfirmEmail}
             size='small'
           />
-          <FormControl required sx={{ m: 1, width: '70%'}} variant="filled" size='small'>
+          <FormControl
+            error={errorValidator.password.length > 0}
+            required
+            sx={{ m: 1, width: '70%'}}
+            variant="filled"
+            size='small'>
             <InputLabel color='secondary' htmlFor="password-required">Mot de passe</InputLabel>
             <FilledInput
               id='password-required'
@@ -210,6 +202,7 @@ function Register ({}: Props) {
               type={showPassword ? 'text' : 'password'}
               value={userData.password}
               onInput={formPassword}
+              onChange={verifyPassword}
               endAdornment={
                 <InputAdornment position='end'>
                   <IconButton
@@ -223,8 +216,11 @@ function Register ({}: Props) {
                 </InputAdornment>
               }
             />
+            <FormHelperText id="password-required-error-text">{errorValidator.password}</FormHelperText>
           </FormControl>
           <TextField
+            error={errorValidator.passwordConfirm}
+            helperText={errorValidator.passwordConfirm ? 'La confirmation de mot de passe n\'est pas identique' : ''}
             required
             variant='filled'
             id='password-confirm-required'
@@ -235,11 +231,18 @@ function Register ({}: Props) {
               width: '70%',
               color: 'text.primary'
             }}
-            value={confirmationData.password}
-            onInput={formConfirmationPassword}
+            onChange={verifyConfirmPassword}
             size='small'
           />
           <Button
+            disabled={
+              errorValidator.email || 
+              errorValidator.password.length > 0 || 
+              errorValidator.emailConfirm || 
+              errorValidator.passwordConfirm ||
+              errorValidator.freshEmail ||
+              errorValidator.freshPassword
+            }
             variant="contained"
             sx={{ bgcolor: 'primary.dark'}}
             focusRipple={false}
@@ -261,25 +264,32 @@ function validateEmail (email: string) : boolean {
   return false
 }
 
-function validatePassword (password: string): passwordError[] {
-  const errors: passwordError[] = []
+function validatePassword (password: string): React.ReactNode[] {
+  const errors: React.ReactNode[] = []
+  let index = 0
   if (!/\d+/.test(password)) {
-    errors.push({message: 'Le mot de passe doit avoir au moins une chiffre (0-9).'})
+    errors.push(<div key={index}>Le mot de passe doit avoir au moins une chiffre (0-9).</div>)
+    index++
   }
   if (!/[a-z]+/.test(password)) {
-    errors.push({message: 'Le mot de passe doit avoir au moins une caractère minuscule.'})
+    errors.push(<div key={index}>Le mot de passe doit avoir au moins une caractère minuscule.</div>)
+    index++
   }
   if (!/[A-Z]+/.test(password)) {
-    errors.push({message: 'Le mot de passe doit avoir au moins une caractère majuscule.'})
+    errors.push(<div key={index}>Le mot de passe doit avoir au moins une caractère majuscule.</div>)
+    index++
   }
   if (!/(\W)|(_)+/.test(password)) {
-    errors.push({message: 'Le mot de passe doit avoir au moins une caractère spéciale.'})
+    errors.push(<div key={index}>Le mot de passe doit avoir au moins une caractère spéciale.</div>)
+    index++
   }
   if (!/[\s\S]{8,32}/.test(password)) {
-    errors.push({message: 'Le mot de passe doit avoir 8-32 caractères.'})
+    errors.push(<div key={index}>Le mot de passe doit avoir 8-32 caractères.</div>)
+    index++
   }
   if (!/^[^ ]+/.test(password)) {
-    errors.push({message: 'Le mot de passe ne doit pas commencer avec une espace.'})
+    errors.push(<div key={index}>Le mot de passe ne doit pas commencer avec une espace.</div>)
+    index++
   }
   return errors
 }

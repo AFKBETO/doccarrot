@@ -136,7 +136,7 @@ function Login(props: Props) {
             bgcolor: 'transparent',
             boxShadow: 'none' 
           }}>
-            <Register />
+            <Register closeModal={handleClose} />
           </Box>
         </Modal>
       </Stack>
