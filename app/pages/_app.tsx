@@ -4,23 +4,22 @@ import theme from '../styles/theme'
 import { AppProps } from 'next/app'
 import { ThemeProvider } from '@mui/material/styles'
 
-import { firebaseConfig } from '../config/firebase'
-import { getApp, initializeApp } from '@firebase/app'
 import Navbar from '../components/Navbar'
+import { UserContext } from '../config/userContext'
+import { useUserData } from '../config/userDataHooks'
+import { Toaster } from 'react-hot-toast'
 
 function MyApp ({ Component, pageProps }: AppProps) {
-
-  try {
-    getApp()
-  } catch (e) {
-    initializeApp(firebaseConfig)
-  }
+  const {user, username} = useUserData()
 
   return (
-      <ThemeProvider theme={theme()}>
+    <ThemeProvider theme={theme()}>
+      <UserContext.Provider value={{user: user, username: username}}>
         <Navbar />
         <Component {...pageProps} />
-      </ThemeProvider>
+      </UserContext.Provider>
+      <Toaster />
+    </ThemeProvider>
   )
 }
 

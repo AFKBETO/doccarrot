@@ -1,20 +1,29 @@
 import React from 'react'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { UserData } from '../../config/types';
-import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button } from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../config/firebase'
+import { AuthData } from '../../config/types'
+import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button, Modal } from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
+import Register from './register'
 
 interface Props {
-  
+
 }
 
-function Login({}: Props) {
-  const [userData, setUserData] = React.useState<UserData>({
+function Login(props: Props) {
+  const [userData, setUserData] = React.useState<AuthData>({
     email: '',
     password: ''
   })
-  
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
+  const [openRegister, setOpenRegister] = React.useState<boolean>(false)
+
+  const router = useRouter()
+
+  const handleOpen = () => setOpenRegister(true)
+  const handleClose = () => setOpenRegister(false)
 
   const formEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({
@@ -31,8 +40,14 @@ function Login({}: Props) {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)
   }
-  const login = () => {
-    signInWithEmailAndPassword(getAuth(), userData.email, userData.password)
+
+  const login = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, userData.email, userData.password)
+    } catch (error) {
+      toast.error("Email/mot de passe invalide")
+      return
+    }
   }
 
   return (
@@ -103,10 +118,27 @@ function Login({}: Props) {
           <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
         </Button>
 
-        <Button
-          >
+        <Button onClick={handleOpen}>
           Votre première connexion ? C'est par ici !
         </Button>
+        <Modal
+          open={openRegister}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={{
+            position: 'absolute' as 'absolute',
+            top: '50%',
+            left: '50%',
+            width: '25%',
+            transform: 'translate(-50%, -50%)',
+            bgcolor: 'transparent',
+            boxShadow: 'none' 
+          }}>
+            <Register />
+          </Box>
+        </Modal>
       </Stack>
     </Box>
   )
