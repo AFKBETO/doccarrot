@@ -1,46 +1,59 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { getAuth, signOut } from 'firebase/auth'
+import { UserContext } from '../config/userContext'
 import { UserType } from '../config/types'
-import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, Popper } from '@mui/material'
+import { useRouter } from 'next/router'
+import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, ClickAwayListener } from '@mui/material'
 
 interface Props {
 
 }
 
 function Navbar({ }: Props) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [openMenu, setOpenMenu] = React.useState<boolean>(false)
   const [usertype, setUserType] = React.useState<null | UserType>(null)
-  const [username, setUserName] = React.useState<null | String>(null)
+  const userContext = React.useContext(UserContext)
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
+  const handleClick = () => {
+    setOpenMenu((prev) => !prev);
+  }
+
+  const handleClickAway = () => {
+    setOpenMenu(false);
+  }
+
+  const auth = getAuth()
+  const router = useRouter()
+  
+  const logout = () => {
+    userContext.updateUsername?.(null)
+    signOut(auth)
+    setOpenMenu(false)
+    router.push({
+      pathname: '/',
+      query: { returnUrl: router.asPath }
+    })
   }
 
   const switchType = () => {
     if (usertype == null) {
       setUserType(UserType.patient)
-      setUserName('Patient')
     }
     else if (usertype == UserType.patient) {
       setUserType(UserType.medecin)
-      setUserName('Medecin')
     }
     else if (usertype == UserType.medecin){
       setUserType(UserType.pharmacien)
-      setUserName('Pharmacien')
     }
     else if (usertype == UserType.pharmacien) {
       setUserType(null)
-      setUserName(null)
     }
   }
 
-  const openMenuPatient = Boolean(anchorEl);
-  const idMenuPatient = openMenuPatient ? 'simple-popper' : undefined;
-
-  const user : String | null = null
-  /*const username : String | null = null */
+  /* const user : string | null = null */
+  /*const username : string | null = null */
   /*const usertype : UserType | null = null */
 
   return (
@@ -70,7 +83,7 @@ function Navbar({ }: Props) {
               />
             </IconButton>
             <Link href='/'>
-              <Typography variant='h4' component='div'>
+              <Typography variant='h4' component='div' sx={{color: 'text.secondary'}}>
                 Ormeli
               </Typography>
             </Link>
@@ -87,48 +100,61 @@ function Navbar({ }: Props) {
             <Link href='/common/solutions'>
               <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
             </Link>
-              { usertype != null ?
-                <>
-                  <Button
-                    color='inherit'
-                    aria-describedby={idMenuPatient}
-                    type='button'
-                    onClick={handleClick}
-                  >
-                    <Typography noWrap={true}>Mon Espace</Typography>
-                  </Button>
-                  <Popper id={idMenuPatient} open={openMenuPatient} anchorEl={anchorEl}>
-                    <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                      <Link href={`/${username}`}>
-                        <Button color='primary'>
-                          <Typography noWrap={true}>Mon Compte</Typography>
-                        </Button>
-                      </Link>
-                    </Box>
-                    { usertype == UserType.patient ? 
-                    <> {/* navbar patient */}
-                      <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                        <Link href={`/${username}/patient/prescriptions`}>
-                          <Button color='primary'>
-                            <Typography noWrap={true}>Prescriptions</Typography>
-                          </Button>
-                        </Link>
+              { userContext.user != null ?
+                <ClickAwayListener onClickAway={handleClickAway}>
+                  <Box sx={{ position: 'relative' }} zIndex='tooltip'>
+                    <Button
+                      color='inherit'
+                      type='button'
+                      onClick={handleClick}
+                    >
+                      <Typography noWrap={true}>Mon Espace</Typography>
+                    </Button>
+                    {openMenu ?
+                      <Box
+                        id='popout-menu'
+                        sx={{
+                          position: 'absolute'
+                        }}
+                      >
+                        <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
+                          <Link href={`/${userContext.username}`}>
+                            <Button color='primary'>
+                              <Typography noWrap={true}>Mon Compte</Typography>
+                            </Button>
+                          </Link>
+                        </Box>
+                        { usertype == UserType.patient ? 
+                        <> {/* navbar patient */}
+                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
+                            <Link href={`/${userContext.username}/patient/prescriptions`}>
+                              <Button color='primary'>
+                                <Typography noWrap={true}>Prescriptions</Typography>
+                              </Button>
+                            </Link>
+                          </Box>
+                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                            <Link href={`/${userContext.username}/patient/suivi`}>
+                              <Button color='primary'>
+                                <Typography noWrap={true}>Suivi Santé</Typography>
+                              </Button>
+                            </Link>
+                          </Box>
+                        </> : 
+                        usertype == UserType.medecin ?
+                        <> {/* navbar medecin */}
+                        </> :
+                        <> {/* navbar pharmacien */}
+                        </>}
+                        <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
+                            <Button color='inherit' onClick={logout}>
+                              <Typography noWrap={true}>Déconnecter</Typography>
+                            </Button>
+                        </Box>
                       </Box>
-                      <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                        <Link href={`/${username}/patient/suivi`}>
-                          <Button color='primary'>
-                            <Typography noWrap={true}>Suivi Santé</Typography>
-                          </Button>
-                        </Link>
-                      </Box>
-                    </> : 
-                    usertype == UserType.medecin ?
-                    <> {/* navbar medecin */}
-                    </> :
-                    <> {/* navbar pharmacien */}
-                    </>}
-                  </Popper>
-                </>
+                    : <></>}
+                  </Box>
+                </ClickAwayListener>
               :
               <Link href='/login'> 
                 <Button color='inherit'>{/* navbar non-connecté */}
@@ -138,9 +164,9 @@ function Navbar({ }: Props) {
             }
             <Box sx={{position: 'relative'}}>
               {
-                username == null ?
+                userContext.username == null ?
                 <></> :
-                <Typography sx={{position: 'absolute', right: '120%', bottom: '70%'}} noWrap={true}>Bonjour, {username}</Typography>
+                <Typography sx={{position: 'absolute', right: '120%', bottom: '70%', color: 'text.secondary'}} noWrap={true}>Bonjour, {userContext.username}</Typography>
               }
               <Image
                 src='/carotte_assistant.png'
