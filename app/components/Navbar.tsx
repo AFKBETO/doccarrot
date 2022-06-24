@@ -5,19 +5,23 @@ import { getAuth, signOut } from 'firebase/auth'
 import { UserContext } from '../config/userContext'
 import { UserType } from '../config/types'
 import { useRouter } from 'next/router'
-import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, Popper } from '@mui/material'
+import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, ClickAwayListener } from '@mui/material'
 
 interface Props {
 
 }
 
 function Navbar({ }: Props) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [openMenu, setOpenMenu] = React.useState<boolean>(false)
   const [usertype, setUserType] = React.useState<null | UserType>(null)
   const userContext = React.useContext(UserContext)
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
+  const handleClick = () => {
+    setOpenMenu((prev) => !prev);
+  }
+
+  const handleClickAway = () => {
+    setOpenMenu(false);
   }
 
   const auth = getAuth()
@@ -26,7 +30,7 @@ function Navbar({ }: Props) {
   const logout = () => {
     userContext.updateUsername?.(null)
     signOut(auth)
-    setAnchorEl(null)
+    setOpenMenu(false)
     router.push({
       pathname: '/',
       query: { returnUrl: router.asPath }
@@ -47,9 +51,6 @@ function Navbar({ }: Props) {
       setUserType(null)
     }
   }
-
-  const openMenuPatient = Boolean(anchorEl);
-  const idMenuPatient = openMenuPatient ? 'simple-popper' : undefined;
 
   /* const user : string | null = null */
   /*const username : string | null = null */
@@ -100,52 +101,60 @@ function Navbar({ }: Props) {
               <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
             </Link>
               { userContext.user != null ?
-                <>
-                  <Button
-                    color='inherit'
-                    aria-describedby={idMenuPatient}
-                    type='button'
-                    onClick={handleClick}
-                  >
-                    <Typography noWrap={true}>Mon Espace</Typography>
-                  </Button>
-                  <Popper id={idMenuPatient} open={openMenuPatient} anchorEl={anchorEl}>
-                    <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                      <Link href={`/${userContext.username}`}>
-                        <Button color='primary'>
-                          <Typography noWrap={true}>Mon Compte</Typography>
-                        </Button>
-                      </Link>
-                    </Box>
-                    { usertype == UserType.patient ? 
-                    <> {/* navbar patient */}
-                      <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                        <Link href={`/${userContext.username}/patient/prescriptions`}>
-                          <Button color='primary'>
-                            <Typography noWrap={true}>Prescriptions</Typography>
-                          </Button>
-                        </Link>
+                <ClickAwayListener onClickAway={handleClickAway}>
+                  <Box sx={{ position: 'relative' }} zIndex='tooltip'>
+                    <Button
+                      color='inherit'
+                      type='button'
+                      onClick={handleClick}
+                    >
+                      <Typography noWrap={true}>Mon Espace</Typography>
+                    </Button>
+                    {openMenu ?
+                      <Box
+                        id='popout-menu'
+                        sx={{
+                          position: 'absolute'
+                        }}
+                      >
+                        <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
+                          <Link href={`/${userContext.username}`}>
+                            <Button color='primary'>
+                              <Typography noWrap={true}>Mon Compte</Typography>
+                            </Button>
+                          </Link>
+                        </Box>
+                        { usertype == UserType.patient ? 
+                        <> {/* navbar patient */}
+                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
+                            <Link href={`/${userContext.username}/patient/prescriptions`}>
+                              <Button color='primary'>
+                                <Typography noWrap={true}>Prescriptions</Typography>
+                              </Button>
+                            </Link>
+                          </Box>
+                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                            <Link href={`/${userContext.username}/patient/suivi`}>
+                              <Button color='primary'>
+                                <Typography noWrap={true}>Suivi Santé</Typography>
+                              </Button>
+                            </Link>
+                          </Box>
+                        </> : 
+                        usertype == UserType.medecin ?
+                        <> {/* navbar medecin */}
+                        </> :
+                        <> {/* navbar pharmacien */}
+                        </>}
+                        <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
+                            <Button color='inherit' onClick={logout}>
+                              <Typography noWrap={true}>Déconnecter</Typography>
+                            </Button>
+                        </Box>
                       </Box>
-                      <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                        <Link href={`/${userContext.username}/patient/suivi`}>
-                          <Button color='primary'>
-                            <Typography noWrap={true}>Suivi Santé</Typography>
-                          </Button>
-                        </Link>
-                      </Box>
-                    </> : 
-                    usertype == UserType.medecin ?
-                    <> {/* navbar medecin */}
-                    </> :
-                    <> {/* navbar pharmacien */}
-                    </>}
-                    <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                        <Button color='inherit' onClick={logout}>
-                          <Typography noWrap={true}>Déconnecter</Typography>
-                        </Button>
-                    </Box>
-                  </Popper>
-                </>
+                    : <></>}
+                  </Box>
+                </ClickAwayListener>
               :
               <Link href='/login'> 
                 <Button color='inherit'>{/* navbar non-connecté */}
