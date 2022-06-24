@@ -44,6 +44,7 @@ function Login(props: Props) {
   const login = async () => {
     try {
       await signInWithEmailAndPassword(auth, userData.email, userData.password)
+      router.push('/')
     } catch (error) {
       toast.error("Email/mot de passe invalide")
       return
