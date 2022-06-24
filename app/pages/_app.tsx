@@ -7,6 +7,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import Navbar from '../components/Navbar'
 import { UserContext } from '../config/userContext'
 import { useUserData } from '../config/userDataHooks'
+import { Toaster } from 'react-hot-toast'
 
 function MyApp ({ Component, pageProps }: AppProps) {
   const {user, username} = useUserData()
@@ -17,6 +18,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
         <Navbar />
         <Component {...pageProps} />
       </UserContext.Provider>
+      <Toaster />
     </ThemeProvider>
   )
 }
