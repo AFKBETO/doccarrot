@@ -1,52 +1,60 @@
-import React, {Dispatch, SetStateAction} from 'react'
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import {User, UserType} from '../config/types';
-import {AppBar, Box, Button, Grid, IconButton, Popper, Toolbar, Typography} from '@mui/material'
+import { getAuth, signOut } from 'firebase/auth'
+import { UserContext } from '../config/userContext'
+import { UserType } from '../config/types'
+import { useRouter } from 'next/router'
+import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, ClickAwayListener } from '@mui/material'
 
 interface Props {
-  user: User | null;
-  setUser: Dispatch<SetStateAction<User>>;
+
 }
 
-function Navbar({ user, setUser }: Props) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+function Navbar({ }: Props) {
+  const [openMenu, setOpenMenu] = React.useState<boolean>(false)
+  const [usertype, setUserType] = React.useState<null | UserType>(null)
+  const userContext = React.useContext(UserContext)
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
+  const handleClick = () => {
+    setOpenMenu((prev) => !prev);
+  }
+
+  const handleClickAway = () => {
+    setOpenMenu(false);
+  }
+
+  const auth = getAuth()
+  const router = useRouter()
+  
+  const logout = () => {
+    userContext.updateUsername?.(null)
+    signOut(auth)
+    setOpenMenu(false)
+    router.push({
+      pathname: '/',
+      query: { returnUrl: router.asPath }
+    })
   }
 
   const switchType = () => {
-    if (user == null) {
-      setUser(() => new User(0, UserType.patient, 'Test', 'Patient', null));
-      // TODO : also change route
+    if (usertype == null) {
+      setUserType(UserType.patient)
     }
-    else if (user.type == UserType.patient) {
-      setUser(prevUser => ({
-        ...prevUser,
-        type: UserType.medecin,
-        firstName: 'Test',
-        lastName: 'Médecin'
-      }));
-      // TODO : also change route
+    else if (usertype == UserType.patient) {
+      setUserType(UserType.medecin)
     }
-    else if (user.type == UserType.medecin) {
-      setUser(prevUser => ({
-        ...prevUser,
-        type: UserType.pharmacien,
-        firstName: 'Test',
-        lastName: 'Pharmacien'
-      }));
-      // TODO : also change route
+    else if (usertype == UserType.medecin){
+      setUserType(UserType.pharmacien)
     }
-    else if (user.type == UserType.pharmacien) {
-      setUser(null);
-      // TODO : also change route
+    else if (usertype == UserType.pharmacien) {
+      setUserType(null)
     }
   }
 
-  const openMenuPatient = Boolean(anchorEl);
-  const idMenuPatient = openMenuPatient ? 'simple-popper' : undefined;
+  /* const user : string | null = null */
+  /*const username : string | null = null */
+  /*const usertype : UserType | null = null */
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -75,7 +83,7 @@ function Navbar({ user, setUser }: Props) {
               />
             </IconButton>
             <Link href='/'>
-              <Typography variant='h4' component='div'>
+              <Typography variant='h4' component='div' sx={{color: 'text.secondary'}}>
                 Ormeli
               </Typography>
             </Link>
@@ -92,48 +100,61 @@ function Navbar({ user, setUser }: Props) {
             <Link href='/common/solutions'>
               <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
             </Link>
-              { user != null ?
-                <>
-                  <Button
-                    color='inherit'
-                    aria-describedby={idMenuPatient}
-                    type='button'
-                    onClick={handleClick}
-                  >
-                    <Typography noWrap={true}>Mon Espace</Typography>
-                  </Button>
-                  <Popper id={idMenuPatient} open={openMenuPatient} anchorEl={anchorEl}>
-                    <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                      <Link href={`/user/${user.id}`}>
-                        <Button color='primary'>
-                          <Typography noWrap={true}>Mon Compte</Typography>
-                        </Button>
-                      </Link>
-                    </Box>
-                    { user.type == UserType.patient ?
-                    <> {/* navbar patient */}
-                      <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                        <Link href={`/user/${user.id}/patient/prescriptions`}>
-                          <Button color='primary'>
-                            <Typography noWrap={true}>Prescriptions</Typography>
-                          </Button>
-                        </Link>
+              { userContext.user != null ?
+                <ClickAwayListener onClickAway={handleClickAway}>
+                  <Box sx={{ position: 'relative' }} zIndex='tooltip'>
+                    <Button
+                      color='inherit'
+                      type='button'
+                      onClick={handleClick}
+                    >
+                      <Typography noWrap={true}>Mon Espace</Typography>
+                    </Button>
+                    {openMenu ?
+                      <Box
+                        id='popout-menu'
+                        sx={{
+                          position: 'absolute'
+                        }}
+                      >
+                        <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
+                          <Link href={`/${userContext.username}`}>
+                            <Button color='primary'>
+                              <Typography noWrap={true}>Mon Compte</Typography>
+                            </Button>
+                          </Link>
+                        </Box>
+                        { usertype == UserType.patient ? 
+                        <> {/* navbar patient */}
+                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
+                            <Link href={`/${userContext.username}/patient/prescriptions`}>
+                              <Button color='primary'>
+                                <Typography noWrap={true}>Prescriptions</Typography>
+                              </Button>
+                            </Link>
+                          </Box>
+                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                            <Link href={`/${userContext.username}/patient/suivi`}>
+                              <Button color='primary'>
+                                <Typography noWrap={true}>Suivi Santé</Typography>
+                              </Button>
+                            </Link>
+                          </Box>
+                        </> : 
+                        usertype == UserType.medecin ?
+                        <> {/* navbar medecin */}
+                        </> :
+                        <> {/* navbar pharmacien */}
+                        </>}
+                        <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
+                            <Button color='inherit' onClick={logout}>
+                              <Typography noWrap={true}>Déconnecter</Typography>
+                            </Button>
+                        </Box>
                       </Box>
-                      <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                        <Link href={`/user/${user.id}/patient/suivi`}>
-                          <Button color='primary'>
-                            <Typography noWrap={true}>Suivi Santé</Typography>
-                          </Button>
-                        </Link>
-                      </Box>
-                    </> : 
-                    user.type == UserType.medecin ?
-                    <> {/* navbar medecin */}
-                    </> :
-                    <> {/* navbar pharmacien */}
-                    </>}
-                  </Popper>
-                </>
+                    : <></>}
+                  </Box>
+                </ClickAwayListener>
               :
               <Link href='/login'> 
                 <Button color='inherit'>{/* navbar non-connecté */}
@@ -143,9 +164,9 @@ function Navbar({ user, setUser }: Props) {
             }
             <Box sx={{position: 'relative'}}>
               {
-                user == null ?
+                userContext.username == null ?
                 <></> :
-                <Typography sx={{position: 'absolute', right: '120%', bottom: '70%'}} noWrap={true}>Bonjour, {user.firstName} {user.lastName}</Typography>
+                <Typography sx={{position: 'absolute', right: '120%', bottom: '70%', color: 'text.secondary'}} noWrap={true}>Bonjour, {userContext.username}</Typography>
               }
               <Image
                 src='/carotte_assistant.png'
