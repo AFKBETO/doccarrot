@@ -1,47 +1,52 @@
-import React from 'react'
+import React, {Dispatch, SetStateAction} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { UserType } from '../config/types'
-import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, Popper } from '@mui/material'
+import {User, UserType} from '../config/types';
+import {AppBar, Box, Button, Grid, IconButton, Popper, Toolbar, Typography} from '@mui/material'
 
 interface Props {
-
+  user: User | null;
+  setUser: Dispatch<SetStateAction<User>>;
 }
 
-function Navbar({ }: Props) {
+function Navbar({ user, setUser }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const [usertype, setUserType] = React.useState<null | UserType>(null)
-  const [username, setUserName] = React.useState<null | String>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   }
 
   const switchType = () => {
-    if (usertype == null) {
-      setUserType(UserType.patient)
-      setUserName('Patient')
+    if (user == null) {
+      setUser(() => new User(0, UserType.patient, 'Test', 'Patient', null));
+      // TODO : also change route
     }
-    else if (usertype == UserType.patient) {
-      setUserType(UserType.medecin)
-      setUserName('Medecin')
+    else if (user.type == UserType.patient) {
+      setUser(prevUser => ({
+        ...prevUser,
+        type: UserType.medecin,
+        firstName: 'Test',
+        lastName: 'Médecin'
+      }));
+      // TODO : also change route
     }
-    else if (usertype == UserType.medecin){
-      setUserType(UserType.pharmacien)
-      setUserName('Pharmacien')
+    else if (user.type == UserType.medecin) {
+      setUser(prevUser => ({
+        ...prevUser,
+        type: UserType.pharmacien,
+        firstName: 'Test',
+        lastName: 'Pharmacien'
+      }));
+      // TODO : also change route
     }
-    else if (usertype == UserType.pharmacien) {
-      setUserType(null)
-      setUserName(null)
+    else if (user.type == UserType.pharmacien) {
+      setUser(null);
+      // TODO : also change route
     }
   }
 
   const openMenuPatient = Boolean(anchorEl);
   const idMenuPatient = openMenuPatient ? 'simple-popper' : undefined;
-
-  const user : String | null = null
-  /*const username : String | null = null */
-  /*const usertype : UserType | null = null */
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -87,7 +92,7 @@ function Navbar({ }: Props) {
             <Link href='/common/solutions'>
               <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
             </Link>
-              { usertype != null ?
+              { user != null ?
                 <>
                   <Button
                     color='inherit'
@@ -98,31 +103,31 @@ function Navbar({ }: Props) {
                     <Typography noWrap={true}>Mon Espace</Typography>
                   </Button>
                   <Popper id={idMenuPatient} open={openMenuPatient} anchorEl={anchorEl}>
-                    <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                      <Link href={`/${username}`}>
+                    <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                      <Link href={`/user/${user.id}`}>
                         <Button color='primary'>
                           <Typography noWrap={true}>Mon Compte</Typography>
                         </Button>
                       </Link>
                     </Box>
-                    { usertype == UserType.patient ? 
+                    { user.type == UserType.patient ?
                     <> {/* navbar patient */}
                       <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}> 
-                        <Link href={`/${username}/patient/prescriptions`}>
+                        <Link href={`/user/${user.id}/patient/prescriptions`}>
                           <Button color='primary'>
                             <Typography noWrap={true}>Prescriptions</Typography>
                           </Button>
                         </Link>
                       </Box>
                       <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                        <Link href={`/${username}/patient/suivi`}>
+                        <Link href={`/user/${user.id}/patient/suivi`}>
                           <Button color='primary'>
                             <Typography noWrap={true}>Suivi Santé</Typography>
                           </Button>
                         </Link>
                       </Box>
                     </> : 
-                    usertype == UserType.medecin ?
+                    user.type == UserType.medecin ?
                     <> {/* navbar medecin */}
                     </> :
                     <> {/* navbar pharmacien */}
@@ -138,9 +143,9 @@ function Navbar({ }: Props) {
             }
             <Box sx={{position: 'relative'}}>
               {
-                username == null ?
+                user == null ?
                 <></> :
-                <Typography sx={{position: 'absolute', right: '120%', bottom: '70%'}} noWrap={true}>Bonjour, {username}</Typography>
+                <Typography sx={{position: 'absolute', right: '120%', bottom: '70%'}} noWrap={true}>Bonjour, {user.firstName} {user.lastName}</Typography>
               }
               <Image
                 src='/carotte_assistant.png'
