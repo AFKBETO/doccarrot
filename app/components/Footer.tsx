@@ -5,7 +5,7 @@ import { getAuth, signOut } from 'firebase/auth'
 import { USER_CONTEXT } from '../config/userContext'
 import { UserType } from '../config/types'
 import { useRouter } from 'next/router'
-import { Modal, AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, ClickAwayListener } from '@mui/material'
+import { Dialog, Modal, AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, ClickAwayListener } from '@mui/material'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -24,10 +24,14 @@ interface Props {}
 function Footer({ }: Props) {
   const [openMenu, setOpenMenu] = React.useState<boolean>(false)
   const userContext = React.useContext(USER_CONTEXT)
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState({
+    modal1: false,
+    modal2: false,
+    modal3: false
+  })
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = (event: React.MouseEvent, field: string) => setOpen({...open, [field]: true}) 
+  const handleClose = (event: React.MouseEvent, field: string) => setOpen({...open, [field]: false}) 
 
   const handleClick = () => {
     setOpenMenu((prev) => !prev);
@@ -79,70 +83,66 @@ function Footer({ }: Props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position='static'>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{position: 'relative'}}>
+          <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+        </Box>
+
+        <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
+          <Grid item xs={3}>
+            <Button onClick={event => handleOpen(event, 'modal1')}>Mentions légales</Button>
+            <Modal
+              open={open.modal1}
+              onClose={event => handleClose(event, 'modal1')}
+            >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Mentions légales
+                </Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  Mentions légales
+                </Typography>
+              </Box>
+            </Modal>
+          </Grid>
+          <Grid item xs={3}>
+            <Button onClick={event => handleOpen(event, 'modal2')}>Crédits</Button>
+            <Modal
+              open={open.modal2}
+              onClose={event => handleClose(event, 'modal2')}
+            >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Crédits
+                </Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  Crédits
+                </Typography>
+              </Box>
+            </Modal>
+          </Grid>
+          <Grid item xs={3}>
+            <Button onClick={event => handleOpen(event, 'modal3')}>A propos</Button>
+            <Modal
+              open={open.modal3}
+              onClose={event => handleClose(event, 'modal3')}
+            >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  A propos
+                </Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  A propos
+                </Typography>
+              </Box>
+            </Modal>
+          </Grid>
+        </Grid>
           <Box sx={{position: 'relative'}}>
             <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
           </Box>
-
-          <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
-            <Grid item xs={3}>
-              <Button onClick={handleOpen}>Mentions légales</Button>
-              <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={style}>
-                  <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Mentions légales
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  Mentions légales
-                  </Typography>
-                </Box>
-              </Modal>
-            </Grid>
-            <Grid item xs={3}>
-            <Button onClick={handleOpen}>Crédits</Button>
-              <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={style}>
-                  <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Crédits
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  Crédits
-                  </Typography>
-                </Box>
-              </Modal>
-            </Grid>
-            <Grid item xs={3}>
-            <Button onClick={handleOpen}>A propos</Button>
-              <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={style}>
-                  <Typography id="modal-modal-title" variant="h6" component="h2">
-                  A propos
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  A propos
-                  </Typography>
-                </Box>
-              </Modal>
-            </Grid>
-           
-          </Grid>
         </Toolbar>
-      </AppBar>
+        </AppBar>
     </Box>
   )
 }
