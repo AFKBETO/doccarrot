@@ -1,108 +1,150 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { getAuth, signOut } from 'firebase/auth'
+import { USER_CONTEXT } from '../config/userContext'
 import { UserType } from '../config/types'
-import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, Popper, Dialog, DialogTitle } from '@mui/material'
+import { useRouter } from 'next/router'
+import { Modal, AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, ClickAwayListener } from '@mui/material'
 
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
+interface Props {}
 
-  const contenus = ['Mentions Légales', 'Crédits','A propos'];
+function Footer({ }: Props) {
+  const [openMenu, setOpenMenu] = React.useState<boolean>(false)
+  const userContext = React.useContext(USER_CONTEXT)
+  const [open, setOpen] = React.useState(false);
 
-    export interface SimpleDialogProps {
-        open: boolean;
-        selectedValue: string;
-        onClose: (value: string) => void;
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleClick = () => {
+    setOpenMenu((prev) => !prev);
+  }
+
+  const handleClickAway = () => {
+    setOpenMenu(false);
+  }
+
+  const auth = getAuth()
+  const router = useRouter()
+  
+  const logout = () => {
+    userContext.updateUserId(null)
+    userContext.updateUserName(null)
+    userContext.updateFirebaseUser(null)
+    signOut(auth)
+    setOpenMenu(false)
+    router.push({ pathname: '/', query: { returnUrl: router.asPath } })
+  }
+
+  const switchType = () => {
+    if (userContext.userType == null) {
+      if (userContext.userId == null) {
+        userContext.updateUserId(0)
+        userContext.updateUserName("Default User")
       }
-
-    function SimpleDialog(props: SimpleDialogProps) {
-        const { onClose, selectedValue, open } = props;
-      
-        const handleClose = () => {
-          onClose(selectedValue);
-        };
-      
-        const handleListItemClick = (value: string) => {
-          onClose(value);
-        };
-      
-        return (
-          <Dialog onClose={handleClose} open={open}>
-            <DialogTitle>{props.selectedValue}</DialogTitle>
-            
-          </Dialog>
-        );
+      userContext.updateUserType(UserType.patient)
+      router.push({ pathname: `/user/${userContext.userId}/patient` })
+    }
+    else if (userContext.userType == UserType.patient) {
+      userContext.updateUserType(UserType.medecin)
+      router.push({ pathname: `/user/${userContext.userId}/medecin` })
+    }
+    else if (userContext.userType == UserType.medecin) {
+      userContext.updateUserType(UserType.pharmacien)
+      router.push({ pathname: `/user/${userContext.userId}/pharmacien` })
+    }
+    else if (userContext.userType == UserType.pharmacien) {
+      if (userContext.userId == 0) {
+        userContext.updateUserId(null)
+        userContext.updateUserName(null)
       }
+      userContext.updateUserType(null)
+      router.push({ pathname: `/` })
+    }
+  }
 
-    export default function Footer() {
-        const [open, setOpen] = React.useState(false);
-        const [selectedValue, setSelectedValue] = React.useState(contenus[2]);
-      
-        const handleClickOpen = () => {
-          setOpen(true);
-        };
-      
-        const handleClose = (value: string) => {
-          setOpen(false);
-          setSelectedValue(value);
-        }; 
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position='static'>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={{position: 'relative'}}>
+            <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+          </Box>
 
-    return (
-        <Box sx={{ flexGrow: 1 }}>
-        <AppBar position='static'>
-            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Grid
-                container
-                direction='row'
-                justifyContent='flex-start'
-                alignItems='center'
-                spacing={4}
-                sx={{ flexShrink: 3 }}
-            >
-                <Grid item xs={3}>
-                    <Image
-                    src='/carotte_assistant.png'
-                    width='72vw'
-                    height='100vh'
-                    alt='Carotte Assistant'
-                    />  
-                </Grid>
-                
-                <Grid item xs={3}>
-                  
-                    <Button color='inherit' onClick={handleClickOpen}>
-                        Mentions légales
-                    </Button>
-                    <SimpleDialog
-                        selectedValue={selectedValue}
-                        open={open}
-                        onClose={handleClose}
-                    />
-                    
-                </Grid>
+          <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
             <Grid item xs={3}>
-            <Button color='inherit' onClick={handleClickOpen}>
-                        A propos
-                    </Button>
-                    <SimpleDialog
-                        selectedValue={selectedValue}
-                        open={open}
-                        onClose={handleClose}
-                    />
-            </Grid>  
-            <Grid item xs={3}>
-            <Button color='inherit' onClick={handleClickOpen}>
-                        Crédits
-                    </Button> 
-                    <SimpleDialog
-                        selectedValue={selectedValue}
-                        open={open}
-                        onClose={handleClose}
-                    />
-                </Grid>       
+              <Button onClick={handleOpen}>Mentions légales</Button>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={style}>
+                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Mentions légales
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  Mentions légales
+                  </Typography>
+                </Box>
+              </Modal>
             </Grid>
-            </Toolbar>
-        </AppBar>
-        </Box>
-    );
+            <Grid item xs={3}>
+            <Button onClick={handleOpen}>Crédits</Button>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={style}>
+                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Crédits
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  Crédits
+                  </Typography>
+                </Box>
+              </Modal>
+            </Grid>
+            <Grid item xs={3}>
+            <Button onClick={handleOpen}>A propos</Button>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={style}>
+                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                  A propos
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  A propos
+                  </Typography>
+                </Box>
+              </Modal>
+            </Grid>
+           
+          </Grid>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  )
 }
 
+export default Footer
