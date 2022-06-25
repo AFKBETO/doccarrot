@@ -37,10 +37,14 @@ function Login(props: Props) {
 
   const login = async () => {
     try {
-      await signInWithEmailAndPassword(auth, userData.email, userData.password)
-      router.push('/')
+      const userCredential = await signInWithEmailAndPassword(auth, userData.email, userData.password)
+      if (userCredential.user.emailVerified) {
+        router.push('/')
+      } else {
+        toast.error('Vous n\'avez pas encore vérifié votre adresse')  
+      }
     } catch (error) {
-      toast.error("Email/mot de passe invalide")
+      toast.error('Email/mot de passe invalide')
       return
     }
   }

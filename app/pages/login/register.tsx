@@ -1,5 +1,5 @@
 import React from 'react'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
 import { AuthData, PatientData, MedecinData } from '../../config/types'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
@@ -109,7 +109,9 @@ function Register ({ closeModal }: RegisterProps) {
   const router = useRouter()
   const register = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+      const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+      sendEmailVerification(userCredential.user)
+      toast.success('Un message de vérification a été envoyé à votre adresse email. Vérifiez votre boîte SPAM.')
       closeModal()
     } catch (error) {
       toast.error(error.message)
