@@ -2,15 +2,16 @@ import React from 'react'
 import {USER_CONTEXT} from "../../../../config/userContext";
 
 interface Props {
+
 }
 
-function IndexMedecin({}: Props) {
+function IndexPatient({}: Props) {
   const userContext = React.useContext(USER_CONTEXT)
 
   return (
-      <div>Page medecin / user "{ userContext.userName }"
+      <div>Page patient / user "{ userContext.userName }"
       </div>
   )
 }
 
-export default IndexMedecin
+export default IndexPatient
