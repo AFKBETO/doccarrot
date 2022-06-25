@@ -35,7 +35,7 @@ import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, Popper, Dia
 
     export default function Footer() {
         const [open, setOpen] = React.useState(false);
-        const [selectedValue, setSelectedValue] = React.useState(contenus[0]);
+        const [selectedValue, setSelectedValue] = React.useState(contenus[2]);
       
         const handleClickOpen = () => {
           setOpen(true);
