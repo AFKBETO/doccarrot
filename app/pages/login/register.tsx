@@ -71,16 +71,10 @@ function Register ({ closeModal }: RegisterProps) {
   const changeTab = (event: React.SyntheticEvent, newTabValue: number) => {
     setTabValue(newTabValue)
   }
-  const formEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const modifyForm = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
     setUserData({
       ...userData,
-      email: event.target.value
-    })
-  }
-  const formPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserData({
-      ...userData,
-      password: event.target.value
+      [field]: event.target.value
     })
   }
   const toggleShowPassword = () => {
@@ -167,7 +161,7 @@ function Register ({ closeModal }: RegisterProps) {
               color: 'text.primary'
             }}
             value={userData.email}
-            onInput={formEmail}
+            onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'email')}
             onChange={verifyEmail}
             size='small'
           />
@@ -201,7 +195,7 @@ function Register ({ closeModal }: RegisterProps) {
               color='primary'
               type={showPassword ? 'text' : 'password'}
               value={userData.password}
-              onInput={formPassword}
+              onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'password')}
               onChange={verifyPassword}
               endAdornment={
                 <InputAdornment position='end'>

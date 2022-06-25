@@ -25,16 +25,10 @@ function Login(props: Props) {
   const handleOpen = () => setOpenRegister(true)
   const handleClose = () => setOpenRegister(false)
 
-  const formEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const modifyForm = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
     setUserData({
       ...userData,
-      email: event.target.value
-    })
-  }
-  const formPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserData({
-      ...userData,
-      password: event.target.value
+      [field]: event.target.value
     })
   }
   const toggleShowPassword = () => {
@@ -69,8 +63,8 @@ function Login(props: Props) {
       <Typography variant='h4' align='center'>Connexion</Typography>
       <Stack
         spacing={2}
-        justifyContent="center"
-        alignItems="center"
+        justifyContent='center'
+        alignItems='center'
         sx={{ my: 4}}
       >
         <TextField
@@ -85,24 +79,24 @@ function Login(props: Props) {
             color: 'text.primary'
           }}
           value={userData.email}
-          onInput={formEmail}
+          onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'email')}
           size='small'
         />
-        <FormControl required sx={{ m: 1, width: '70%'}} variant="filled" size='small'>
-          <InputLabel color='secondary' htmlFor="password-required">Mot de passe</InputLabel>
+        <FormControl required sx={{ m: 1, width: '70%'}} variant='filled' size='small'>
+          <InputLabel color='secondary' htmlFor='password-required'>Mot de passe</InputLabel>
           <FilledInput
             id='password-required'
             color='primary'
             type={showPassword ? 'text' : 'password'}
             value={userData.password}
-            onInput={formPassword}
+            onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'password')}
             endAdornment={
               <InputAdornment position='end'>
                 <IconButton
-                    aria-label="toggle password visibility"
+                    aria-label='toggle password visibility'
                     onClick={toggleShowPassword}
                     onMouseDown={toggleShowPassword}
-                    edge="end"
+                    edge='end'
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
@@ -111,7 +105,7 @@ function Login(props: Props) {
           />
         </FormControl>
         <Button
-          variant="contained"
+          variant='contained'
           sx={{ bgcolor: 'primary.dark'}}
           focusRipple={false}
           onClick={login}
@@ -125,8 +119,6 @@ function Login(props: Props) {
         <Modal
           open={openRegister}
           onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
         >
           <Box sx={{
             position: 'absolute' as 'absolute',
