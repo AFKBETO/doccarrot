@@ -50,8 +50,7 @@ function Login(props: Props) {
   }
 
   return (
-    <Box
-      component='form'
+    <Box component='form' autoComplete='off' noValidate
       sx={{
         width: '25%',
         margin: 'auto',
@@ -61,56 +60,36 @@ function Login(props: Props) {
         borderRadius: '20px',
         backgroundColor: 'primary.main'
       }}
-      noValidate
-      autoComplete='off'
     >
       <Typography variant='h4' align='center'>Connexion</Typography>
-      <Stack
-        spacing={2}
-        justifyContent='center'
-        alignItems='center'
-        sx={{ my: 4}}
-      >
-        <TextField
-          required
-          variant='filled'
-          id='email-required'
-          label='Email'
-          type='email'
-          color='secondary'
+      <Stack spacing={2} justifyContent='center' alignItems='center' sx={{ my: 4}}>
+        <TextField id='email-required' variant='filled' label='Email' type='email' color='secondary' size='small' required
+          value={userData.email}
+          onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'email')}
           sx={{
             width: '70%',
             color: 'text.primary'
           }}
-          value={userData.email}
-          onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'email')}
-          size='small'
         />
         <FormControl required sx={{ m: 1, width: '70%'}} variant='filled' size='small'>
           <InputLabel color='secondary' htmlFor='password-required'>Mot de passe</InputLabel>
-          <FilledInput
-            id='password-required'
-            color='primary'
+          <FilledInput id='password-required' color='primary'
             type={showPassword ? 'text' : 'password'}
             value={userData.password}
             onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'password')}
             endAdornment={
               <InputAdornment position='end'>
-                <IconButton
-                    aria-label='toggle password visibility'
-                    onClick={toggleShowPassword}
-                    onMouseDown={toggleShowPassword}
-                    edge='end'
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
+                <IconButton aria-label='toggle password visibility' edge='end'
+                  onClick={toggleShowPassword}
+                  onMouseDown={toggleShowPassword}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
               </InputAdornment>
             }
           />
         </FormControl>
-        <Button
-          variant='contained'
-          sx={{ bgcolor: 'primary.dark'}}
+        <Button variant='contained' sx={{ bgcolor: 'primary.dark'}}
           focusRipple={false}
           onClick={login}
         >
