@@ -15,9 +15,9 @@ function MyApp ({ Component, pageProps }: AppProps) {
     const { userId, userName, firebaseUser } = useUserData()
     const userContext = React.useContext(USER_CONTEXT);
 
-    if (userId != null) userContext.updateUserId(userId);
-    if (userName != null) userContext.updateUserName(userName);
-    if (firebaseUser != null) userContext.updateFirebaseUser(firebaseUser);
+    userContext.updateUserId(userId);
+    userContext.updateUserName(userName);
+    userContext.updateFirebaseUser(firebaseUser);
 
     return (
         <ThemeProvider theme={theme()}>

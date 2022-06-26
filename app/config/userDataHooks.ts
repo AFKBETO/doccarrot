@@ -10,7 +10,10 @@ export function useUserData () {
   useEffect(() => {
     if (firebaseUser) {
       setUserId(0)
-      setUserName('unknown')
+      setUserName(firebaseUser.displayName)
+    } else {
+      setUserId(null)
+      setUserName(null)
     }
   }, [firebaseUser])
 

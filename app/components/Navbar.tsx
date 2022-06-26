@@ -26,9 +26,6 @@ function Navbar({ }: Props) {
   
   const logout = async () => {
     await signOut(auth)
-    userContext.updateUserId(null)
-    userContext.updateUserName(null)
-    userContext.updateFirebaseUser(null)
     setOpenMenu(false)
     router.push({ pathname: '/', query: { returnUrl: router.asPath } })
   }
