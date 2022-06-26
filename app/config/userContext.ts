@@ -28,7 +28,6 @@ export class UserContext {
   updateUserType(value: UserType | null) {
     this.userType = value
   }
-
   updateFirebaseUser(value: User | null | undefined) {
     this.firebaseUser = value
   }

@@ -26,9 +26,6 @@ function Navbar({ }: Props) {
   
   const logout = async () => {
     await signOut(auth)
-    userContext.updateUserId(null)
-    userContext.updateUserName(null)
-    userContext.updateFirebaseUser(null)
     setOpenMenu(false)
     router.push({ pathname: '/', query: { returnUrl: router.asPath } })
   }
@@ -124,6 +121,13 @@ function Navbar({ }: Props) {
                         /*---------- Navbar medecin ----------*/
                         : userContext.userType == UserType.medecin ?
                         <>
+                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                            <Link href={`/user/${userContext.userId}/medecin/prescription`}>
+                              <Button color='primary'>
+                                <Typography noWrap={true}>Prescription</Typography>
+                              </Button>
+                            </Link>
+                          </Box>
                         </>
                         /*---------- Navbar pharmacien ----------*/
                         :
