@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../../config/firebase'
 import { AuthData } from '../../config/types'
@@ -7,6 +7,8 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
 import Register from './register'
+import { USER_CONTEXT } from '../../config/userContext'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 interface Props {
 
@@ -49,7 +51,6 @@ function Login(props: Props) {
       return
     }
   }
-
   return (
     <Box component='form' autoComplete='off' noValidate
       sx={{
@@ -121,4 +122,19 @@ function Login(props: Props) {
   )
 }
 
-export default Login
+function LoginWrapper({}: Props) {
+  const [render, setRender] = React.useState(false)
+  const [user, loading] = useAuthState(auth)
+  const router = useRouter()
+  useEffect(() => {
+    if (!loading) {
+      if (user) router.push({ pathname: '/'})
+      else setRender(true)
+    }
+  }, [loading])
+
+  if (render) return <Login />
+  else return < ></>
+}
+
+export default LoginWrapper
