@@ -68,8 +68,19 @@ const Input = styled('input')({
 const handleSubmission = () => {
 
 }
+const searchDoctor = () => {
+
+}
 
 const removeDoctor = () => {
+
+}
+
+const searchPharmacy = () => {
+
+}
+
+const removePharmacy = () => {
 
 }
 
@@ -163,6 +174,7 @@ function Suivi({}: Props) {
             <StyledInputBase
               placeholder="Type in a doctor code"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={searchDoctor}
             />
           </Search>
           </Item>
@@ -175,7 +187,7 @@ function Suivi({}: Props) {
             <React.Fragment key={id}>
               <ListItem button>
                 <ListItemText primary={nom} secondary={adresse} />
-                <IconButton variant="contained" component="span" onClick={removeDoctor}>
+                <IconButton variant="contained" component="span" onClick={removePharmacy}>
                 <RemoveIcon />
               </IconButton>
               </ListItem>
@@ -189,6 +201,7 @@ function Suivi({}: Props) {
             <StyledInputBase
               placeholder="Type in a pharmacy code"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={searchPharmacy}
             />
           </Search>
           </Item>
