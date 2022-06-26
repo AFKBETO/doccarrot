@@ -2,8 +2,32 @@ import Head from 'next/head'
 import { auth } from '../config/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Box, Typography } from '@mui/material'
+import axios from 'axios'
+import React from 'react'
+import { GetStaticProps } from 'next'
 
-function Home() {
+interface Props {
+  name: string
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  try {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/hello`)
+    return {
+      props: {
+        name: res.data.name as string
+      }
+    }
+  } catch (error) {
+    return {
+      props: {
+        name: error.message
+      }
+    }
+  }
+}
+
+function Home({ name }: Props) {
   const [user, loading, error] = useAuthState(auth)
 
   if (loading) {
@@ -38,7 +62,7 @@ function Home() {
 
       <main>
         <Typography variant='h1' component='div' align='center'>
-          Welcome to Ormeli
+          Welcome to Ormeli {name}
         </Typography>
       </main>
     </Box>
