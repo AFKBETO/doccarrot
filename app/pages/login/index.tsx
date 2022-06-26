@@ -1,5 +1,5 @@
 import React from 'react'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../../config/firebase'
 import { AuthData } from '../../config/types'
 import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button, Modal } from '@mui/material'
@@ -41,6 +41,7 @@ function Login(props: Props) {
       if (userCredential.user.emailVerified) {
         router.push('/')
       } else {
+        await signOut(auth)
         toast.error('Vous n\'avez pas encore vérifié votre adresse')  
       }
     } catch (error) {
