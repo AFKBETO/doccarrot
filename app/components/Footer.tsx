@@ -116,7 +116,10 @@ function Footer({ }: Props) {
                   Crédits
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  Crédits
+                  Développement : Viet Nguyen, Guillaume Vandenneucker, Maya Gawinowski, Maxime Larroze, Brahim Hda
+                </Typography>
+                <Typography>
+                  Icones : Maya Gawinowski
                 </Typography>
               </Box>
             </Modal>
@@ -132,7 +135,10 @@ function Footer({ }: Props) {
                   A propos
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  A propos
+                  Efrei Paris
+                </Typography>
+                <Typography>
+                  Promotion 2024
                 </Typography>
               </Box>
             </Modal>
