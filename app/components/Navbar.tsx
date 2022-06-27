@@ -1,7 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getAuth, signOut } from 'firebase/auth'
+import { auth } from '../config/firebase'
+import { signOut } from 'firebase/auth'
 import { USER_CONTEXT } from '../config/userContext'
 import { UserType } from '../config/types'
 import { useRouter } from 'next/router'
@@ -18,10 +19,9 @@ function Navbar({ }: Props) {
   }
 
   const handleClickAway = () => {
-    setOpenMenu(false);
+    setOpenMenu(false)
   }
 
-  const auth = getAuth()
   const router = useRouter()
   
   const logout = async () => {
