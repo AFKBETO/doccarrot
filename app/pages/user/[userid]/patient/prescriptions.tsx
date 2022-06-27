@@ -1,6 +1,6 @@
 import React from 'react'
-import { styled, alpha } from '@mui/material/styles';
-import { Paper, InputBase, AppBar, List, Toolbar, Typography, Button, IconButton, Grid, ListSubheader, ListItem, ListItemText, CssBaseline, Avatar, ListItemAvatar } from '@mui/material'
+import { styled } from '@mui/material/styles';
+import { Paper, Typography, Grid, ListItem, ListItemText, List, IconButton } from '@mui/material'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import QrCodeIcon from '@mui/icons-material/QrCode';
@@ -102,30 +102,30 @@ function Prescriptions({}: Props) {
         </Item>
       </Grid>
       <Grid item xs={1}>
-      <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-        <Grid container spacing={2} direction='column'>
-          <Grid item xs={1}>
-            <IconButton variant="contained" component="span" onClick={downloadPrescri}>
-              <FileDownloadIcon />
-            </IconButton>
+        <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+          <Grid container spacing={2} direction='column'>
+            <Grid item xs={1}>
+              <IconButton variant="contained" component="span" onClick={downloadPrescri}>
+                <FileDownloadIcon />
+              </IconButton>
+            </Grid>
+            <Grid item xs={1}>
+              <IconButton variant="contained" component="span" onClick={generateQRCode}>
+                <QrCodeIcon />
+              </IconButton>
+            </Grid>
+            <Grid item xs={1}>
+              <IconButton variant="contained" component="span" onClick={hidePrescri}>
+                <VisibilityOffIcon />
+              </IconButton>
+            </Grid>
+            <Grid item xs={1}>
+              <IconButton variant="contained" component="span" onClick={deletePrescri}>
+                <DeleteIcon />
+              </IconButton>
+            </Grid>
           </Grid>
-          <Grid item xs={1}>
-            <IconButton variant="contained" component="span" onClick={generateQRCode}>
-              <QrCodeIcon />
-            </IconButton>
-          </Grid>
-          <Grid item xs={1}>
-            <IconButton variant="contained" component="span" onClick={hidePrescri}>
-              <VisibilityOffIcon />
-            </IconButton>
-          </Grid>
-          <Grid item xs={1}>
-            <IconButton variant="contained" component="span" onClick={deletePrescri}>
-              <DeleteIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
-      </Item>
+        </Item>
       </Grid>
     </Grid>
   )
