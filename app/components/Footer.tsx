@@ -5,7 +5,7 @@ import { getAuth, signOut } from 'firebase/auth'
 import { USER_CONTEXT } from '../config/userContext'
 import { UserType } from '../config/types'
 import { useRouter } from 'next/router'
-import { Dialog, Modal, AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, ClickAwayListener } from '@mui/material'
+import { Dialog, Modal, AppBar, Box, Toolbar, Typography, Button, Grid } from '@mui/material'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -14,6 +14,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
+  border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
