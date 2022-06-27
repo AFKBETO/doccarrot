@@ -1,10 +1,10 @@
 import React from 'react'
 import {USER_CONTEXT} from "../../../../config/userContext";
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import Link from 'next/link'
-import { Paper, InputBase, AppBar, List, Toolbar, Typography, Button, IconButton, Grid, ListSubheader, ListItem, ListItemText, CssBaseline, Avatar, ListItemAvatar } from '@mui/material'
+import { Paper, InputBase, Typography, List, IconButton, Grid, ListItem, ListItemText } from '@mui/material'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -144,7 +144,7 @@ function IndexMedecin({}: Props) {
               <Typography><h1>Patient X</h1></Typography>
             </Grid>
             <Grid item xs={2}>
-              <Link href={`/user/${userContext.userId}/medecin/prescriptions`}>
+              <Link href={`/user/${userContext.userId}/medecin/prescription`}>
               <IconButton variant="contained" component="span" onClick={newPrescription}>
                   <AddIcon />
                 </IconButton>
