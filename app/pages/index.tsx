@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { auth } from '../config/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Box, Typography } from '@mui/material'
-import axios from 'axios'
+import { getUser } from '../config/api'
 import React from 'react'
 import { GetStaticProps } from 'next'
 
@@ -12,10 +12,10 @@ interface Props {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   try {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/hello`)
+    const res = await getUser('tSrhkhKUpURe8VMaL6L487K6z0u1')
     return {
       props: {
-        name: res.data.name as string
+        name: res.firstName + ' ' + res.lastName
       }
     }
   } catch (error) {
@@ -47,7 +47,7 @@ function Home({ name }: Props) {
   if (user) {
     return (
       <div>
-        <p>Current User: {user.email}</p>
+        <p>Current User: {name}</p>
       </div>
     )
   }

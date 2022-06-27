@@ -9,6 +9,12 @@ export interface AuthData {
   password: string
 }
 
+export interface UserData {
+  firstName: string
+  lastName: string
+  userType: UserType
+}
+
 export interface PatientData {
 
 }
