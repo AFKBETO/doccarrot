@@ -1,33 +1,38 @@
-import { GetStaticProps } from 'next'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../config/firebase'
 import { getUser } from './api'
+import { UserType } from './types'
 
 export function useUserData () {
   const [userId, setUserId] = useState<string | null>(null)
   const [userName, setUserName] = useState<string | null>(null)
+  const [userType, setUserType] = useState<UserType | null>(null)
   const [firebaseUser] = useAuthState(auth)
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (firebaseUser) {
-        console.log(firebaseUser.uid)
-        getUser(firebaseUser.uid).then((userData) => {
-          setUserId(firebaseUser.uid)
-          setUserName(userData.firstName + ' ' + userData.lastName)
-        }).catch((error) => {
-          setUserId('0')
-          setUserName('unknown')
-        })
+    fetchData()    
+  }, [firebaseUser])
+
+  const fetchData = async () => {
+    try {
+      if (firebaseUser) {   
+        const res = await getUser(firebaseUser.uid)
+        setUserId(firebaseUser.uid)
+        setUserName(res.firstName + ' ' + res.lastName)
+        setUserType(res.userType)
       } else {
         setUserId(null)
         setUserName(null)
+        setUserType(null)
       }
+    } catch (error) {
+      setUserId('0')
+      setUserName('unknown')
+      setUserType(UserType.patient)
     }
     
-    fetchData()  
-  }, [firebaseUser])
+  }
 
-  return { userId, userName, firebaseUser }
+  return { userId, userName, userType, firebaseUser }
 }

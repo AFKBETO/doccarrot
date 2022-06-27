@@ -2,32 +2,10 @@ import Head from 'next/head'
 import { auth } from '../config/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Box, Typography } from '@mui/material'
-import { getUser } from '../config/api'
 import React from 'react'
-import { GetStaticProps } from 'next'
 
-interface Props {
-  name: string
-}
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  try {
-    const res = await getUser('tSrhkhKUpURe8VMaL6L487K6z0u1')
-    return {
-      props: {
-        name: res.firstName + ' ' + res.lastName
-      }
-    }
-  } catch (error) {
-    return {
-      props: {
-        name: error.message
-      }
-    }
-  }
-}
-
-function Home({ name }: Props) {
+function Home() {
   const [user, loading, error] = useAuthState(auth)
 
   if (loading) {
@@ -47,7 +25,7 @@ function Home({ name }: Props) {
   if (user) {
     return (
       <div>
-        <p>Current User: {name}</p>
+        <p>Current User: {user.email}</p>
       </div>
     )
   }
@@ -62,7 +40,7 @@ function Home({ name }: Props) {
 
       <main>
         <Typography variant='h1' component='div' align='center'>
-          Welcome to Ormeli {name}
+          Welcome to Ormeli
         </Typography>
       </main>
     </Box>

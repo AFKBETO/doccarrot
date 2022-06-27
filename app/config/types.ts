@@ -12,7 +12,7 @@ export interface AuthData {
 export interface UserData {
   firstName: string
   lastName: string
-  userType: UserType
+  userType: UserType | null
 }
 
 export interface PatientData {
