@@ -21,63 +21,14 @@ const style = {
 interface Props {}
 
 function Footer({ }: Props) {
-  const [openMenu, setOpenMenu] = React.useState<boolean>(false)
-  const userContext = React.useContext(USER_CONTEXT)
   const [open, setOpen] = React.useState({
-    modal1: false,
-    modal2: false,
-    modal3: false
+    modalMentions: false,
+    modalCredits: false,
+    modalAbout: false
   })
 
   const handleOpen = (event: React.MouseEvent, field: string) => setOpen({...open, [field]: true}) 
   const handleClose = (event: React.MouseEvent, field: string) => setOpen({...open, [field]: false}) 
-
-  const handleClick = () => {
-    setOpenMenu((prev) => !prev);
-  }
-
-  const handleClickAway = () => {
-    setOpenMenu(false);
-  }
-
-  const auth = getAuth()
-  const router = useRouter()
-  
-  const logout = () => {
-    userContext.updateUserId(null)
-    userContext.updateUserName(null)
-    userContext.updateFirebaseUser(null)
-    signOut(auth)
-    setOpenMenu(false)
-    router.push({ pathname: '/', query: { returnUrl: router.asPath } })
-  }
-
-  const switchType = () => {
-    if (userContext.userType == null) {
-      if (userContext.userId == null) {
-        userContext.updateUserId('0')
-        userContext.updateUserName("Default User")
-      }
-      userContext.updateUserType(UserType.patient)
-      router.push({ pathname: `/user/${userContext.userId}/patient` })
-    }
-    else if (userContext.userType == UserType.patient) {
-      userContext.updateUserType(UserType.doctor)
-      router.push({ pathname: `/user/${userContext.userId}/medecin` })
-    }
-    else if (userContext.userType == UserType.doctor) {
-      userContext.updateUserType(UserType.pharmacist)
-      router.push({ pathname: `/user/${userContext.userId}/pharmacien` })
-    }
-    else if (userContext.userType == UserType.pharmacist) {
-      if (userContext.userId == '0') {
-        userContext.updateUserId(null)
-        userContext.updateUserName(null)
-      }
-      userContext.updateUserType(null)
-      router.push({ pathname: `/` })
-    }
-  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -89,10 +40,10 @@ function Footer({ }: Props) {
 
         <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
           <Grid item xs={3}>
-            <Button onClick={event => handleOpen(event, 'modal1')}>Mentions légales</Button>
+            <Button onClick={event => handleOpen(event, 'modalMentions')}>Mentions légales</Button>
             <Modal
-              open={open.modal1}
-              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal1')}
+              open={open.modalMentions}
+              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalMentions')}
             >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -105,10 +56,10 @@ function Footer({ }: Props) {
             </Modal>
           </Grid>
           <Grid item xs={3}>
-            <Button onClick={event => handleOpen(event, 'modal2')}>Crédits</Button>
+            <Button onClick={event => handleOpen(event, 'modalCredits')}>Crédits</Button>
             <Modal
-              open={open.modal2}
-              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal2')}
+              open={open.modalCredits}
+              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalCredits')}
             >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -141,10 +92,10 @@ function Footer({ }: Props) {
             </Modal>
           </Grid>
           <Grid item xs={3}>
-            <Button onClick={event => handleOpen(event, 'modal3')}>A propos</Button>
+            <Button onClick={event => handleOpen(event, 'modalAbout')}>A propos</Button>
             <Modal
-              open={open.modal3}
-              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal3')}
+              open={open.modalAbout}
+              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalAbout')}
             >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
