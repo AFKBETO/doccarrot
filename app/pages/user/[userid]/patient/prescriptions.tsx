@@ -81,7 +81,7 @@ function Prescriptions({}: Props) {
 
   return (
     <>
-    <RouteGuard userId={parseInt(userid as string)}>
+    <RouteGuard userId={userid as string}>
     prescriptions
   </RouteGuard>
 

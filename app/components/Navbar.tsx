@@ -30,33 +30,6 @@ function Navbar({ }: Props) {
     router.push({ pathname: '/', query: { returnUrl: router.asPath } })
   }
 
-  const switchType = () => {
-    if (userContext.userType == null) {
-      if (userContext.userId == null) {
-        userContext.updateUserId(0)
-        userContext.updateUserName("Default User")
-      }
-      userContext.updateUserType(UserType.patient)
-      router.push({ pathname: `/user/${userContext.userId}/patient` })
-    }
-    else if (userContext.userType == UserType.patient) {
-      userContext.updateUserType(UserType.medecin)
-      router.push({ pathname: `/user/${userContext.userId}/medecin` })
-    }
-    else if (userContext.userType == UserType.medecin) {
-      userContext.updateUserType(UserType.pharmacien)
-      router.push({ pathname: `/user/${userContext.userId}/pharmacien` })
-    }
-    else if (userContext.userType == UserType.pharmacien) {
-      if (userContext.userId == 0) {
-        userContext.updateUserId(null)
-        userContext.updateUserName(null)
-      }
-      userContext.updateUserType(null)
-      router.push({ pathname: `/` })
-    }
-  }
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position='static'>
@@ -64,9 +37,11 @@ function Navbar({ }: Props) {
 
           {/*---------- PARTIE GAUCHE : LOGO LAPIN + TITRE ORMELI ----------*/}
           <Grid container direction='row' justifyContent='flex-start' alignItems='center' sx={{ flexShrink: 3 }}>
-            <IconButton size='large' edge='start' color='inherit' aria-label='menu' onClick={switchType} sx={{ width: '40%', height: '40%' }}>
-              <Image src='/favicon.png' width='100%' height='100%' alt='Ormeli' />
-            </IconButton>
+            <Link href='/'>
+              <IconButton size='large' edge='start' color='inherit' aria-label='menu' sx={{ width: '40%', height: '40%' }}>
+                <Image src='/favicon.png' width='100%' height='100%' alt='Ormeli' />
+              </IconButton>
+            </Link>
             <Link href='/'>
               <Typography variant='h4' component='div' sx={{color: 'text.secondary'}}>Ormeli</Typography>
             </Link>
@@ -119,7 +94,7 @@ function Navbar({ }: Props) {
                           </Box>
                         </>
                         /*---------- Navbar medecin ----------*/
-                        : userContext.userType == UserType.medecin ?
+                        : userContext.userType == UserType.doctor ?
                         <>
                           <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                             <Link href={`/user/${userContext.userId}/medecin/prescription`}>

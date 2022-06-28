@@ -13,7 +13,7 @@ function IndexPatient({}: Props) {
   const { userid } = router.query
 
   return (
-    <RouteGuard userId={parseInt(userid as string)}>
+    <RouteGuard userId={userid as string}>
       Page patient / user "{ userContext.userName }"
     </RouteGuard>
   )
