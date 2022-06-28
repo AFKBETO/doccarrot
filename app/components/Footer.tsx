@@ -117,6 +117,10 @@ function Footer({ }: Props) {
                 <Grid container direction='column'>
                   <Typography><h3>Notre équipe Doc'Carrot</h3></Typography>
                   <Grid item xs={5}>
+                    <Image src='/viet.jpg' width='100%' height='100%' alt='Ormeli' />
+                    <Typography>Quang Viet Nguyen</Typography>
+                  </Grid>
+                  <Grid item xs={5}>
                     <Image src='/guillaume.jpeg' width='100%' height='100%' alt='Ormeli' />
                     <Typography>Guillaume Vandenneucker</Typography>
                   </Grid>
