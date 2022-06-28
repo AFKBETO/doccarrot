@@ -129,14 +129,7 @@ const pharmacies = [
   },
 ];
 
-const StyledFab = styled(Fab)({
-  position: 'absolute',
-  zIndex: 1,
-  top: -30,
-  left: 0,
-  right: 0,
-  margin: '0 auto',
-});
+
 
 
 interface Props {
@@ -148,6 +141,11 @@ function Suivi({}: Props) {
   const { userid } = router.query
 
   return (
+    <>
+    <RouteGuard userId={parseInt(userid as string)}>
+      suivi
+    </RouteGuard>
+
     <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
       <Grid item xs={10}>
         <Typography><h1>Mon suivi de santé</h1></Typography>
@@ -236,10 +234,7 @@ function Suivi({}: Props) {
         </Item>
       </Grid>
     </Grid>
-    <RouteGuard userId={parseInt(userid as string)}>
-      suivi
-    </RouteGuard>
+    </>
   )
-}
-
+          }
 export default Suivi

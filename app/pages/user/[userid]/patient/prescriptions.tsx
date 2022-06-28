@@ -80,63 +80,66 @@ function Prescriptions({}: Props) {
   const { userid } = router.query
 
   return (
+    <>
     <RouteGuard userId={parseInt(userid as string)}>
-      prescriptions
-    </RouteGuard>
-    <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
-      <Grid item xs={10}>
-        <Typography><h1>Mes prescriptions</h1></Typography>
-      </Grid>
-      <Grid item xs={4}>
+    prescriptions
+  </RouteGuard>
+
+      <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
+        <Grid item xs={10}>
+          <Typography><h1>Mes prescriptions</h1></Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+          <Typography sx={{background: '#ABBD98', color:'white', fontSize: 25}}>Historique</Typography>
+          <List sx={{ mb: 2, maxHeight: '100%', overflow: 'auto'}}>
+            {historique.map(({ id, title, date, url }) => (
+              <React.Fragment key={id}>
+                <ListItem button>
+                  <ListItemText primary={date} secondary={title} />
+                  <IconButton variant="contained" component="span" onClick={event => selectPrescription(event, id)}>
+                  <RemoveRedEyeIcon />
+                </IconButton>
+                </ListItem>
+              </React.Fragment>
+            ))}
+          </List>
+          </Item>
+        </Grid>
+        <Grid item xs={7}>
         <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-        <Typography sx={{background: '#ABBD98', color:'white', fontSize: 25}}>Historique</Typography>
-        <List sx={{ mb: 2, maxHeight: '100%', overflow: 'auto'}}>
-          {historique.map(({ id, title, date, url }) => (
-            <React.Fragment key={id}>
-              <ListItem button>
-                <ListItemText primary={date} secondary={title} />
-                <IconButton variant="contained" component="span" onClick={event => selectPrescription(event, id)}>
-                <RemoveRedEyeIcon />
-              </IconButton>
-              </ListItem>
-            </React.Fragment>
-          ))}
-        </List>
-        </Item>
+          <Typography sx={{background: '#ABBD98', color:'white', fontSize: 25}}>Historique</Typography>
+          </Item>
+        </Grid>
+        <Grid item xs={1}>
+          <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+            <Grid container spacing={2} direction='column'>
+              <Grid item xs={1}>
+                <IconButton variant="contained" component="span" onClick={downloadPrescri}>
+                  <FileDownloadIcon />
+                </IconButton>
+              </Grid>
+              <Grid item xs={1}>
+                <IconButton variant="contained" component="span" onClick={generateQRCode}>
+                  <QrCodeIcon />
+                </IconButton>
+              </Grid>
+              <Grid item xs={1}>
+                <IconButton variant="contained" component="span" onClick={hidePrescri}>
+                  <VisibilityOffIcon />
+                </IconButton>
+              </Grid>
+              <Grid item xs={1}>
+                <IconButton variant="contained" component="span" onClick={deletePrescri}>
+                  <DeleteIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Item>
+        </Grid>
       </Grid>
-      <Grid item xs={7}>
-      <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-        <Typography sx={{background: '#ABBD98', color:'white', fontSize: 25}}>Historique</Typography>
-        </Item>
-      </Grid>
-      <Grid item xs={1}>
-        <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-          <Grid container spacing={2} direction='column'>
-            <Grid item xs={1}>
-              <IconButton variant="contained" component="span" onClick={downloadPrescri}>
-                <FileDownloadIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={1}>
-              <IconButton variant="contained" component="span" onClick={generateQRCode}>
-                <QrCodeIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={1}>
-              <IconButton variant="contained" component="span" onClick={hidePrescri}>
-                <VisibilityOffIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={1}>
-              <IconButton variant="contained" component="span" onClick={deletePrescri}>
-                <DeleteIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </Item>
-      </Grid>
-    </Grid>
-  )
+      </>
+    )
 }
 
 export default Prescriptions

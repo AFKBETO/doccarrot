@@ -110,6 +110,7 @@ function IndexMedecin({}: Props) {
   const { userid } = router.query
 
   return (
+    <>
     <RouteGuard userId={parseInt(userid as string)} userType={UserType.medecin}>
       Page medecin / user "{ userContext.userName }"
     </RouteGuard>
@@ -176,6 +177,7 @@ function IndexMedecin({}: Props) {
         </Grid>
       </Grid>
   </Grid>
+  </>
   )
 }
 

@@ -32,6 +32,7 @@ function Prescription({}: Props) {
   const { userid } = router.query
 
   return (
+    <>
     <RouteGuard userId={parseInt(userid as string)} userType={UserType.medecin}>
       prescriptions
     </RouteGuard>
@@ -62,6 +63,7 @@ function Prescription({}: Props) {
       </Grid>
       
     </Grid>
+    </>
   )
 }
 
