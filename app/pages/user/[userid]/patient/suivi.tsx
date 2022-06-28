@@ -2,10 +2,11 @@ import React from 'react'
 import { styled } from '@mui/material/styles';
 import Image from 'next/image'
 import { Paper, InputBase, List, Typography, IconButton, Grid, ListItem, ListItemText } from '@mui/material'
-import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import SearchIcon from '@mui/icons-material/Search'
-import RemoveIcon from '@mui/icons-material/Remove'
-//import { text } from 'stream/consumers'
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import SearchIcon from '@mui/icons-material/Search';
+import MoreIcon from '@mui/icons-material/MoreVert';
+import RemoveIcon from '@mui/icons-material/Remove';
+//import { text } from 'stream/consumers';
 import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 
@@ -64,22 +65,22 @@ const Input = styled('input')({
 });
 
 const handleSubmission = () => {
-  console.log('handle')
+
 }
 const searchDoctor = () => {
-  console.log('search')
+
 }
 
 const removeDoctor = () => {
-  console.log('remove')
+
 }
 
 const searchPharmacy = () => {
-  console.log('search')
+
 }
 
 const removePharmacy = () => {
-  console.log('remove')
+
 }
 
 const doctors = [
@@ -92,7 +93,7 @@ const doctors = [
     id: 2,
     nom: 'Sanchez',
     prenom: `Tony`,
-  },
+  }/*,
   {
     id: 3,
     nom: 'Ramirez',
@@ -102,7 +103,7 @@ const doctors = [
     id: 4,
     nom: 'Levalois',
     prenom: 'Monique',
-  },
+  },*/
 ];
 
 const pharmacies = [
@@ -115,7 +116,7 @@ const pharmacies = [
     id: 2,
     nom: 'Xavier',
     adresse: `ZAC de la Gare`,
-  },
+  }/*,
   {
     id: 3,
     nom: 'Mathieu André',
@@ -125,10 +126,17 @@ const pharmacies = [
     id: 4,
     nom: 'Pharmacie du progrès',
     adresse: '72 court Carnot',
-  },
-]
+  },*/
+];
 
-function Suivi() {
+
+
+
+interface Props {
+
+}
+
+function Suivi({}: Props) {
   const router = useRouter()
   const { userid } = router.query
 
@@ -216,7 +224,7 @@ function Suivi() {
                   <FileDownloadIcon />
                 </IconButton>
               </label>
-              <Typography sx={{fontSize: 20, textAlign: 'left'}}>{'Carte d\'identité'}</Typography>
+              <Typography sx={{fontSize: 20, textAlign: 'left'}}>Carte d'identité</Typography>
             </Grid>
             <Image src='/carotte_assistant.png' width='100%' height='100%' alt='carte-identite'></Image>
           </Item>

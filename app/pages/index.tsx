@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { auth } from '../config/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { Box, Typography } from '@mui/material'
+import {Box, Grid, Typography} from '@mui/material'
 import React from 'react'
 
 
@@ -24,9 +24,14 @@ function Home() {
   }
   if (user) {
     return (
-      <div>
-        <p>Current User: {user.email}</p>
-      </div>
+        <Grid container sx={{ paddingLeft: 5, paddingRight:5, paddingBottom: 10 }}>
+            <Grid item>
+                <Typography><h1>Logged in as { user.email }</h1></Typography>
+                <p style={{ textAlign: 'justify' }}>
+                  ... page d'accueil ...
+                </p>
+            </Grid>
+        </Grid>
     )
   }
 

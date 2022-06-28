@@ -1,13 +1,14 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { getAuth, signOut } from 'firebase/auth'
 import { USER_CONTEXT } from '../config/userContext'
 import { UserType } from '../config/types'
 import { useRouter } from 'next/router'
-import { Modal, AppBar, Box, Toolbar, Typography, Button, Grid } from '@mui/material'
+import { Dialog, Modal, AppBar, Box, Toolbar, Typography, Button, Grid } from '@mui/material'
 
 const style = {
-  position: 'absolute',
+  position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -15,66 +16,19 @@ const style = {
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
-}
+};
 
-function Footer() {
-  const [openMenu, setOpenMenu] = React.useState<boolean>(false)
-  const userContext = React.useContext(USER_CONTEXT)
+interface Props {}
+
+function Footer({ }: Props) {
   const [open, setOpen] = React.useState({
-    modal1: false,
-    modal2: false,
-    modal3: false
+    modalMentions: false,
+    modalCredits: false,
+    modalAbout: false
   })
 
   const handleOpen = (event: React.MouseEvent, field: string) => setOpen({...open, [field]: true}) 
   const handleClose = (event: React.MouseEvent, field: string) => setOpen({...open, [field]: false}) 
-
-  const handleClick = () => {
-    setOpenMenu((prev) => !prev);
-  }
-
-  const handleClickAway = () => {
-    setOpenMenu(false);
-  }
-
-  const auth = getAuth()
-  const router = useRouter()
-  
-  const logout = () => {
-    userContext.updateUserId(null)
-    userContext.updateUserName(null)
-    userContext.updateFirebaseUser(null)
-    signOut(auth)
-    setOpenMenu(false)
-    router.push({ pathname: '/', query: { returnUrl: router.asPath } })
-  }
-
-  const switchType = () => {
-    if (userContext.userType == null) {
-      if (userContext.userId == null) {
-        userContext.updateUserId('0')
-        userContext.updateUserName("Default User")
-      }
-      userContext.updateUserType(UserType.patient)
-      router.push({ pathname: `/user/${userContext.userId}/patient` })
-    }
-    else if (userContext.userType == UserType.patient) {
-      userContext.updateUserType(UserType.doctor)
-      router.push({ pathname: `/user/${userContext.userId}/medecin` })
-    }
-    else if (userContext.userType == UserType.doctor) {
-      userContext.updateUserType(UserType.pharmacist)
-      router.push({ pathname: `/user/${userContext.userId}/pharmacien` })
-    }
-    else if (userContext.userType == UserType.pharmacist) {
-      if (userContext.userId == '0') {
-        userContext.updateUserId(null)
-        userContext.updateUserName(null)
-      }
-      userContext.updateUserType(null)
-      router.push({ pathname: `/` })
-    }
-  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -86,10 +40,10 @@ function Footer() {
 
         <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
           <Grid item xs={3}>
-            <Button onClick={event => handleOpen(event, 'modal1')}>Mentions légales</Button>
+            <Button onClick={event => handleOpen(event, 'modalMentions')}>Mentions légales</Button>
             <Modal
-              open={open.modal1}
-              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal1')}
+              open={open.modalMentions}
+              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalMentions')}
             >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -102,17 +56,17 @@ function Footer() {
             </Modal>
           </Grid>
           <Grid item xs={3}>
-            <Button onClick={event => handleOpen(event, 'modal2')}>Crédits</Button>
+            <Button onClick={event => handleOpen(event, 'modalCredits')}>Crédits</Button>
             <Modal
-              open={open.modal2}
-              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal2')}
+              open={open.modalCredits}
+              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalCredits')}
             >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                   Crédits
                 </Typography>
                 <Grid container direction='column'>
-                  <Typography><h3>{'Notre équipe Doc\'Carrot'}</h3></Typography>
+                  <Typography><h3>Notre équipe Doc'Carrot</h3></Typography>
                   <Grid item xs={5}>
                     <Image src='/viet.jpg' width='100%' height='100%' alt='Ormeli' />
                     <Typography>Quang Viet Nguyen</Typography>
@@ -138,14 +92,14 @@ function Footer() {
             </Modal>
           </Grid>
           <Grid item xs={3}>
-            <Button onClick={event => handleOpen(event, 'modal3')}>À propos</Button>
+            <Button onClick={event => handleOpen(event, 'modalAbout')}>A propos</Button>
             <Modal
-              open={open.modal3}
-              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal3')}
+              open={open.modalAbout}
+              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalAbout')}
             >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                À propos
+                  A propos
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                   Efrei Paris

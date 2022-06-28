@@ -17,7 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: 'black',
 }));
 
-let id_selection = 0;
+var id_selection = 0;
 const selectPrescription = (event: React.MouseEvent, value: number) => {
   id_selection=value;
   console.log(value);
@@ -71,12 +71,19 @@ const historique = [
   },
 ];
 
-function Prescriptions() {
+interface Props {
+
+}
+
+function Prescriptions({}: Props) {
   const router = useRouter()
   const { userid } = router.query
 
   return (
+    <>
     <RouteGuard userId={userid as string}>
+    </RouteGuard>
+
       <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
         <Grid item xs={10}>
           <Typography><h1>Mes prescriptions</h1></Typography>
@@ -130,8 +137,8 @@ function Prescriptions() {
           </Item>
         </Grid>
       </Grid>
-    </RouteGuard>
-  )
+      </>
+    )
 }
 
 export default Prescriptions

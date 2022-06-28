@@ -30,7 +30,7 @@ function Navbar() {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar position='static'>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
 
