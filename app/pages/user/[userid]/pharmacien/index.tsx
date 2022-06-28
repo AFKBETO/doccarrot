@@ -60,70 +60,65 @@ function IndexPharmacien({}: Props) {
   const handleClose = (event: React.MouseEvent, field: string) => setOpen({...open, [field]: false}) 
   
   return (
-    <>
     <RouteGuard userId={parseInt(userid as string)} userType={UserType.pharmacien}>
-      Page pharmacien / user "{ userContext.userName }"
-    </RouteGuard>
-
-    <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}} direction='row'>
-      <Grid item xs={10}>
-        <Typography><h1>Mon espace pharmacien</h1></Typography>
-      </Grid>
-      <Grid item xs={3}>
-        <Grid container spacing={2}>
-          <Grid item xs={10}>
-            <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-              <Button onClick={event => handleOpen(event, 'modal2')}>scanner qrcode</Button>
-            </Item>
-            <Modal
-              open={open.modal2}
-              onClose={event => handleClose(event, 'modal2')}
-            >
-              <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Scanner le QRCode
-                </Typography>
-              </Box>
-            </Modal>
-          </Grid>
-          <Grid item xs={10}>
-            <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-              <Button onClick={event => handleOpen(event, 'modal1')}>code</Button>
-            </Item>
-            <Modal
-              open={open.modal1}
-              onClose={event => handleClose(event, 'modal1')}
-            >
-              <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Entrez un code de prescription
-                </Typography>
-                <TextField id="standard-basic" label="CODE" variant="standard"/>
-              </Box>
-            </Modal>
-          </Grid>
-        </Grid> 
-      </Grid>
-      <Grid item xs={8}>
-        <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-          <Typography><h1>Prescription</h1></Typography>
-        </Item>
-      </Grid>
-      <Grid item xs={1}>
-      <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-      <Grid container spacing={2} direction='column'>
+      <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}} direction='row'>
+        <Grid item xs={10}>
+          <Typography><h1>Mon espace pharmacien</h1></Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={10}>
+              <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+                <Button onClick={event => handleOpen(event, 'modal2')}>scanner qrcode</Button>
+              </Item>
+              <Modal
+                open={open.modal2}
+                onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal2')}
+              >
+                <Box sx={style}>
+                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                    Scanner le QRCode
+                  </Typography>
+                </Box>
+              </Modal>
+            </Grid>
+            <Grid item xs={10}>
+              <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+                <Button onClick={event => handleOpen(event, 'modal1')}>code</Button>
+              </Item>
+              <Modal
+                open={open.modal1}
+                onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal1')}
+              >
+                <Box sx={style}>
+                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                    Entrez un code de prescription
+                  </Typography>
+                  <TextField id="standard-basic" label="CODE" variant="standard"/>
+                </Box>
+              </Modal>
+            </Grid>
+          </Grid> 
+        </Grid>
+        <Grid item xs={8}>
+          <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+            <Typography><h1>Prescription</h1></Typography>
+          </Item>
+        </Grid>
         <Grid item xs={1}>
-          <IconButton variant="contained" component="span">
-            <UpgradeIcon />
-          </IconButton>
+          <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+            <Grid container spacing={2} direction='column'>
+              <Grid item xs={1}>
+                <IconButton component="span">
+                  <UpgradeIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Item>
         </Grid>
       </Grid>
-    </Item>
-      </Grid>
-    </Grid>
-
-    </>
-)
+    </RouteGuard>
+  )
 }
 
 export default IndexPharmacien

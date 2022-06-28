@@ -141,100 +141,97 @@ function Suivi({}: Props) {
   const { userid } = router.query
 
   return (
-    <>
     <RouteGuard userId={parseInt(userid as string)}>
-      suivi
-    </RouteGuard>
-
-    <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
-      <Grid item xs={10}>
-        <Typography><h1>Mon suivi de santé</h1></Typography>
-      </Grid>
-      <Grid item xs={5}>
-        <Grid container spacing={2}>
-          <Grid item xs={10}>
-          <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-            <Typography sx={{background: '#ABBD98', color:'white', fontSize: 25}}>Mes médecins</Typography>
-            <List sx={{ mb: 2 }}>
-          {doctors.map(({ id, nom, prenom }) => (
-            <React.Fragment key={id}>
-              <ListItem button>
-                <ListItemText primary={nom} secondary={prenom} />
-                <IconButton variant="contained" component="span" onClick={removeDoctor}>
-                <RemoveIcon />
-              </IconButton>
-              </ListItem>
-            </React.Fragment>
-          ))}
-        </List>
-            <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Type in a doctor code"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={searchDoctor}
-            />
-          </Search>
-          </Item>
-          </Grid>
-          <Grid item xs={10}>
-          <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-            <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes pharmacies</Typography>
-            <List sx={{ mb: 2 }}>
-          {pharmacies.map(({ id, nom, adresse }) => (
-            <React.Fragment key={id}>
-              <ListItem button>
-                <ListItemText primary={nom} secondary={adresse} />
-                <IconButton variant="contained" component="span" onClick={removePharmacy}>
-                <RemoveIcon />
-              </IconButton>
-              </ListItem>
-            </React.Fragment>
-          ))}
-        </List>
-            <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Type in a pharmacy code"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={searchPharmacy}
-            />
-          </Search>
-          </Item>
+      <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
+        <Grid item xs={10}>
+          <Typography><h1>Mon suivi de santé</h1></Typography>
+        </Grid>
+        <Grid item xs={5}>
+          <Grid container spacing={2}>
+            <Grid item xs={10}>
+            <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+              <Typography sx={{background: '#ABBD98', color:'white', fontSize: 25}}>Mes médecins</Typography>
+              <List sx={{ mb: 2 }}>
+            {doctors.map(({ id, nom, prenom }) => (
+              <React.Fragment key={id}>
+                <ListItem button>
+                  <ListItemText primary={nom} secondary={prenom} />
+                  <IconButton component="span" onClick={removeDoctor}>
+                  <RemoveIcon />
+                </IconButton>
+                </ListItem>
+              </React.Fragment>
+            ))}
+          </List>
+              <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Type in a doctor code"
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={searchDoctor}
+              />
+            </Search>
+            </Item>
+            </Grid>
+            <Grid item xs={10}>
+            <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+              <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes pharmacies</Typography>
+              <List sx={{ mb: 2 }}>
+            {pharmacies.map(({ id, nom, adresse }) => (
+              <React.Fragment key={id}>
+                <ListItem button>
+                  <ListItemText primary={nom} secondary={adresse} />
+                  <IconButton component="span" onClick={removePharmacy}>
+                    <RemoveIcon />
+                  </IconButton>
+                </ListItem>
+              </React.Fragment>
+            ))}
+          </List>
+              <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Type in a pharmacy code"
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={searchPharmacy}
+              />
+            </Search>
+            </Item>
+            </Grid>
           </Grid>
         </Grid>
+        <Grid item xs={7}>
+          <Item sx={{borderRadius: 5}}>
+            <Typography sx={{fontSize: 25, textAlign:'left'}}>Mes informations</Typography>
+            <Grid direction='row' display='flex'>
+              <label htmlFor="contained-button-file">
+                <Input accept="image/*" id="contained-button-file" multiple type="file" />
+                <IconButton component="span" onClick={handleSubmission}>
+                  <FileDownloadIcon />
+                </IconButton>
+              </label>
+              <Typography sx={{fontSize: 20, textAlign: 'left'}}>Carte vitale</Typography>
+            </Grid>
+            <Image src='/carotte_assistant.png' width='100%' height='100%' alt='carte-vitale'></Image>
+            <Grid direction='row' display='flex'>
+              <label htmlFor="contained-button-file">
+                <Input accept="image/*" id="contained-button-file" multiple type="file" />
+                <IconButton component="span" onClick={handleSubmission}>
+                  <FileDownloadIcon />
+                </IconButton>
+              </label>
+              <Typography sx={{fontSize: 20, textAlign: 'left'}}>Carte d'identité</Typography>
+            </Grid>
+            <Image src='/carotte_assistant.png' width='100%' height='100%' alt='carte-identite'></Image>
+          </Item>
+        </Grid>
       </Grid>
-      <Grid item xs={7}>
-        <Item sx={{borderRadius: 5}}>
-          <Typography sx={{fontSize: 25, textAlign:'left'}}>Mes informations</Typography>
-          <Grid direction='row' display='flex'>
-            <label htmlFor="contained-button-file">
-              <Input accept="image/*" id="contained-button-file" multiple type="file" />
-              <IconButton variant="contained" component="span" onClick={handleSubmission}>
-                <FileDownloadIcon />
-              </IconButton>
-            </label>
-            <Typography sx={{fontSize: 20, textAlign: 'left'}}>Carte vitale</Typography>
-          </Grid>
-          <Image src='/carotte_assistant.png' width='100%' height='100%' alt='carte-vitale'></Image>
-          <Grid direction='row' display='flex'>
-            <label htmlFor="contained-button-file">
-              <Input accept="image/*" id="contained-button-file" multiple type="file" />
-              <IconButton variant="contained" component="span" onClick={handleSubmission}>
-                <FileDownloadIcon />
-              </IconButton>
-            </label>
-            <Typography sx={{fontSize: 20, textAlign: 'left'}}>Carte d'identité</Typography>
-          </Grid>
-          <Image src='/carotte_assistant.png' width='100%' height='100%' alt='carte-identite'></Image>
-        </Item>
-      </Grid>
-    </Grid>
-    </>
+    </RouteGuard>
   )
-          }
+}
+
 export default Suivi

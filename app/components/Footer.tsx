@@ -92,7 +92,7 @@ function Footer({ }: Props) {
             <Button onClick={event => handleOpen(event, 'modal1')}>Mentions légales</Button>
             <Modal
               open={open.modal1}
-              onClose={event => handleClose(event, 'modal1')}
+              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal1')}
             >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -108,7 +108,7 @@ function Footer({ }: Props) {
             <Button onClick={event => handleOpen(event, 'modal2')}>Crédits</Button>
             <Modal
               open={open.modal2}
-              onClose={event => handleClose(event, 'modal2')}
+              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal2')}
             >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -144,7 +144,7 @@ function Footer({ }: Props) {
             <Button onClick={event => handleOpen(event, 'modal3')}>A propos</Button>
             <Modal
               open={open.modal3}
-              onClose={event => handleClose(event, 'modal3')}
+              onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal3')}
             >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -164,7 +164,7 @@ function Footer({ }: Props) {
             <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
           </Box>
         </Toolbar>
-        </AppBar>
+      </AppBar>
     </Box>
   )
 }

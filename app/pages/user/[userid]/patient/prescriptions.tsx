@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 var id_selection = 0;
-const selectPrescription = (event, value: number) => {
+const selectPrescription = (event: React.MouseEvent, value: number) => {
   id_selection=value;
   console.log(value);
   diplayPrescription();
@@ -97,9 +97,9 @@ function Prescriptions({}: Props) {
               <React.Fragment key={id}>
                 <ListItem button>
                   <ListItemText primary={date} secondary={title} />
-                  <IconButton variant="contained" component="span" onClick={event => selectPrescription(event, id)}>
-                  <RemoveRedEyeIcon />
-                </IconButton>
+                  <IconButton component="span" onClick={(event: React.MouseEvent<Element, MouseEvent>) => selectPrescription(event, id)}>
+                    <RemoveRedEyeIcon />
+                  </IconButton>
                 </ListItem>
               </React.Fragment>
             ))}
@@ -115,22 +115,22 @@ function Prescriptions({}: Props) {
           <Item sx={{background: '#ABBD98', borderRadius: 5}}>
             <Grid container spacing={2} direction='column'>
               <Grid item xs={1}>
-                <IconButton variant="contained" component="span" onClick={downloadPrescri}>
+                <IconButton component="span" onClick={downloadPrescri}>
                   <FileDownloadIcon />
                 </IconButton>
               </Grid>
               <Grid item xs={1}>
-                <IconButton variant="contained" component="span" onClick={generateQRCode}>
+                <IconButton component="span" onClick={generateQRCode}>
                   <QrCodeIcon />
                 </IconButton>
               </Grid>
               <Grid item xs={1}>
-                <IconButton variant="contained" component="span" onClick={hidePrescri}>
+                <IconButton component="span" onClick={hidePrescri}>
                   <VisibilityOffIcon />
                 </IconButton>
               </Grid>
               <Grid item xs={1}>
-                <IconButton variant="contained" component="span" onClick={deletePrescri}>
+                <IconButton component="span" onClick={deletePrescri}>
                   <DeleteIcon />
                 </IconButton>
               </Grid>

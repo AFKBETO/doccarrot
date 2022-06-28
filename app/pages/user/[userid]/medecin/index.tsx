@@ -1,10 +1,10 @@
 import React from 'react'
-import { styled } from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
+import { styled } from '@mui/material/styles'
+import SearchIcon from '@mui/icons-material/Search'
+import AddIcon from '@mui/icons-material/Add'
 import Link from 'next/link'
 import { Paper, InputBase, Typography, List, IconButton, Grid, ListItem, ListItemText } from '@mui/material'
-import {USER_CONTEXT} from "../../../../config/userContext";
+import { USER_CONTEXT } from "../../../../config/userContext";
 import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import { UserType } from '../../../../config/types'
@@ -73,7 +73,7 @@ const newPrescription = () => {
 }
 
 var id_patient: number;
-const seePatient = (event, value: number) => {
+const seePatient = (event: React.MouseEvent, value: number) => {
   id_patient=value;
   console.log(value);
 }
@@ -110,74 +110,70 @@ function IndexMedecin({}: Props) {
   const { userid } = router.query
 
   return (
-    <>
     <RouteGuard userId={parseInt(userid as string)} userType={UserType.medecin}>
-      Page medecin / user "{ userContext.userName }"
-    </RouteGuard>
-    <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
-    <Grid item xs={10}>
-      <Typography><h1>Mon espace médecin</h1></Typography>
-    </Grid>
-    <Grid item xs={5}>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
         <Grid item xs={10}>
-          <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-          <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes patients</Typography>
-        <List sx={{ mb: 2 }}>
-          {patients.map(({ id, nom, prenom}) => (
-            <React.Fragment key={id}>
-              <ListItem button onClick={event => seePatient(event, id)}>
-                <ListItemText primary={nom} secondary={prenom} />
-              </ListItem>
-            </React.Fragment>
-          ))}
-        </List>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Type in patient"
-            inputProps={{ 'aria-label': 'search' }}
-            onChange={searchPatient}
-          />
-        </Search>
-          </Item>
+          <Typography><h1>Mon espace médecin</h1></Typography>
         </Grid>
-      </Grid>
-      
-    </Grid>
-    <Grid item xs={7}>
-        <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+        <Grid item xs={5}>
           <Grid container spacing={2}>
-            <Grid item xs={8}>
-              <Typography><h1>Patient X</h1></Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <Link href={`/user/${userContext.userId}/medecin/prescription`}>
-              <IconButton variant="contained" component="span" onClick={newPrescription}>
-                  <AddIcon />
-                </IconButton>
-              </Link>
+            <Grid item xs={10}>
+              <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+                <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes patients</Typography>
+                <List sx={{ mb: 2 }}>
+                  {patients.map(({ id, nom, prenom}) => (
+                    <React.Fragment key={id}>
+                      <ListItem button onClick={event => seePatient(event, id)}>
+                        <ListItemText primary={nom} secondary={prenom} />
+                      </ListItem>
+                    </React.Fragment>
+                  ))}
+                </List>
+                <Search>
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    placeholder="Type in patient"
+                    inputProps={{ 'aria-label': 'search' }}
+                    onChange={searchPatient}
+                  />
+                </Search>
+              </Item>
             </Grid>
           </Grid>
-        </Item>
-        <Grid item xs={10}>
-          <List sx={{ mb: 2 }}>
-            {patients.map(({ id, nom, prenom}) => (
-              <React.Fragment key={id}>
-                {id==id_patient && (
-                  <ListItem button onClick={event => seePatient(event, id)}>
-                  <ListItemText primary={nom} secondary={prenom} />
-                </ListItem>
-                )}
-              </React.Fragment>
-            ))}
-          </List>
+        </Grid>
+        <Grid item xs={7}>
+          <Item sx={{background: '#ABBD98', borderRadius: 5}}>
+            <Grid container spacing={2}>
+              <Grid item xs={8}>
+                <Typography><h1>Patient X</h1></Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Link href={`/user/${userContext.userId}/medecin/prescription`}>
+                  <IconButton component="span" onClick={newPrescription}>
+                    <AddIcon />
+                  </IconButton>
+                </Link>
+              </Grid>
+            </Grid>
+          </Item>
+          <Grid item xs={10}>
+            <List sx={{ mb: 2 }}>
+              {patients.map(({ id, nom, prenom}) => (
+                <React.Fragment key={id}>
+                  {id==id_patient && (
+                    <ListItem button onClick={event => seePatient(event, id)}>
+                    <ListItemText primary={nom} secondary={prenom} />
+                  </ListItem>
+                  )}
+                </React.Fragment>
+              ))}
+            </List>
+          </Grid>
         </Grid>
       </Grid>
-  </Grid>
-  </>
+    </RouteGuard>
   )
 }
 
