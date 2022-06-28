@@ -9,17 +9,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const { uid, type } = req.query
       console.log(uid,type)
       switch(type) {
-        case 'patient':
-          const { nss } = req.body
+        case 'patient': {
+          const { nss } = req.body.nss
           await setDoc(doc(firestore,`${type}s`, uid as string), { nss: nss})
           break
+        }
         case 'doctor':
-        case 'pharmacist':
+        case 'pharmacist': {
           const { rpps } = req.body
           await setDoc(doc(firestore,`${type}s`, uid as string), { rpps: rpps})
         break
       }
-      
+    }
       res.status(201).json({ message: 'Data added successfully'})
     } catch {
       res.status(400).json({ error: 'Cannot add user' })

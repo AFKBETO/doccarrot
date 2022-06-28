@@ -3,10 +3,7 @@ import React from 'react'
 import { USER_CONTEXT } from '../../../config/userContext'
 import RouteGuard from '../../../components/RouteGuard'
 
-interface Props {
-}
-
-function User ({} : Props) {
+function User () {
   const router = useRouter()
   const { userid } = router.query
   const userContext = React.useContext(USER_CONTEXT)

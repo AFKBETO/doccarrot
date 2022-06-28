@@ -1,8 +1,4 @@
-interface Props {
-  
-}
-
-function Pourquoi({}: Props) {
+function Pourquoi() {
   return (
     <div>pourquoi</div>
   )

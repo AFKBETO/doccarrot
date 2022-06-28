@@ -61,21 +61,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const searchPatient = () => {
-
+  console.log('search')
 }
 
 const removePatient = () => {
-
+  console.log('remove')
 }
 
 const newPrescription = () => {
-
+  console.log('newPres')
 }
 
-var id_patient: number;
+let id_patient: number
 const seePatient = (event: React.MouseEvent, value: number) => {
-  id_patient=value;
-  console.log(value);
+  id_patient=value
+  console.log(value)
 }
 
 const patients = [
@@ -99,12 +99,10 @@ const patients = [
     nom: 'Levalois',
     prenom: 'Monique',
   },
-];
-interface Props {
-}
+]
 
 
-function IndexMedecin({}: Props) {
+function IndexMedecin() {
   const userContext = React.useContext(USER_CONTEXT)
   const router = useRouter()
   const { userid } = router.query

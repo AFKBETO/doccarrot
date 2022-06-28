@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 import { User } from 'firebase/auth'
-import { UserType } from "./types";
+import { UserType } from "./types"
 
 export class UserContext {
 

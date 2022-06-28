@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -31,21 +31,18 @@ const style = {
 
 
 const readQRCode = () => {
-
+  console.log('read')
 }
 
 const readCode = () => {
-
+  console.log('read')
 }
 
 const updatePrescri = () => {
-
+  console.log('update')
 }
 
-interface Props {
-}
-
-function IndexPharmacien({}: Props) {
+function IndexPharmacien() {
   const userContext = React.useContext(USER_CONTEXT)
   const router = useRouter()
   const { userid } = router.query
