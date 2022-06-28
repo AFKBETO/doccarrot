@@ -7,6 +7,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import RemoveIcon from '@mui/icons-material/Remove';
 //import { text } from 'stream/consumers';
+import RouteGuard from '../../../../components/RouteGuard'
+import { useRouter } from 'next/router'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -142,6 +144,9 @@ interface Props {
 }
 
 function Suivi({}: Props) {
+  const router = useRouter()
+  const { userid } = router.query
+
   return (
     <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
       <Grid item xs={10}>
@@ -231,6 +236,9 @@ function Suivi({}: Props) {
         </Item>
       </Grid>
     </Grid>
+    <RouteGuard userId={parseInt(userid as string)}>
+      suivi
+    </RouteGuard>
   )
 }
 

@@ -1,4 +1,7 @@
 import React from 'react'
+import RouteGuard from '../../../../components/RouteGuard'
+import { useRouter } from 'next/router'
+import { UserType } from '../../../../config/types'
 import { styled } from '@mui/material/styles';
 import { Paper, Typography, IconButton, Grid } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit';
@@ -25,7 +28,13 @@ interface Props {
 }
 
 function Prescription({}: Props) {
+  const router = useRouter()
+  const { userid } = router.query
+
   return (
+    <RouteGuard userId={parseInt(userid as string)} userType={UserType.medecin}>
+      prescriptions
+    </RouteGuard>
     <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
       <Grid item xs={10}>
         <Typography><h1>Création d'une prescription</h1></Typography>

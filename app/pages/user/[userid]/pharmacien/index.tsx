@@ -4,6 +4,9 @@ import { styled, alpha } from '@mui/material/styles';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import Link from 'next/link'
 import { Paper, Modal, Box, TextField, List, Toolbar, Typography, Button, IconButton, Grid, ListSubheader, ListItem, ListItemText, CssBaseline, Avatar, ListItemAvatar } from '@mui/material'
+import RouteGuard from '../../../../components/RouteGuard'
+import { useRouter } from 'next/router'
+import { UserType } from '../../../../config/types'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -44,6 +47,9 @@ interface Props {
 
 function IndexPharmacien({}: Props) {
   const userContext = React.useContext(USER_CONTEXT)
+  const router = useRouter()
+  const { userid } = router.query
+
   const [open, setOpen] = React.useState({
     modal1: false,
     modal2: false,
@@ -54,6 +60,9 @@ function IndexPharmacien({}: Props) {
   const handleClose = (event: React.MouseEvent, field: string) => setOpen({...open, [field]: false}) 
   
   return (
+    <RouteGuard userId={parseInt(userid as string)} userType={UserType.pharmacien}>
+      Page pharmacien / user "{ userContext.userName }"
+    </RouteGuard>
       <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}} direction='row'>
         <Grid item xs={10}>
           <Typography><h1>Mon espace pharmacien</h1></Typography>

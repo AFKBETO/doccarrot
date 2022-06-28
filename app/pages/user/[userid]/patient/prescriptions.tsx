@@ -1,4 +1,6 @@
 import React from 'react'
+import RouteGuard from '../../../../components/RouteGuard'
+import { useRouter } from 'next/router'
 import { styled } from '@mui/material/styles';
 import { Paper, Typography, Grid, ListItem, ListItemText, List, IconButton } from '@mui/material'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -74,7 +76,13 @@ interface Props {
 }
 
 function Prescriptions({}: Props) {
+  const router = useRouter()
+  const { userid } = router.query
+
   return (
+    <RouteGuard userId={parseInt(userid as string)}>
+      prescriptions
+    </RouteGuard>
     <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
       <Grid item xs={10}>
         <Typography><h1>Mes prescriptions</h1></Typography>

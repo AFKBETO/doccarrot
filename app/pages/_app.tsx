@@ -10,13 +10,24 @@ import Footer from '../components/Footer'
 function MyApp ({ Component, pageProps }: AppProps) {
   const lightMode = useMediaQuery('(prefers-color-scheme: light)');
 
-  return (
-      <ThemeProvider theme={theme(lightMode)}>
-        <Navbar />
-        <Component {...pageProps} />
+    // récupération des données actuellement en cache depuis Firebase
+    const { userId, userName, firebaseUser } = useUserData()
+    const userContext = React.useContext(USER_CONTEXT)
+
+    userContext.updateUserId(userId)
+    userContext.updateUserName(userName)
+    userContext.updateFirebaseUser(firebaseUser)
+
+    return (
+        <ThemeProvider theme={theme()}>
+            <USER_CONTEXT.Provider value={userContext}>
+                <Navbar />
+                <Component {...pageProps} />
+            </USER_CONTEXT.Provider>
+            <Toaster />
+        </ThemeProvider>
+    )
         <Footer />
-      </ThemeProvider>
-  )
 }
 
 export default MyApp

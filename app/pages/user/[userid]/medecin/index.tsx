@@ -1,10 +1,13 @@
 import React from 'react'
-import {USER_CONTEXT} from "../../../../config/userContext";
 import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import Link from 'next/link'
 import { Paper, InputBase, Typography, List, IconButton, Grid, ListItem, ListItemText } from '@mui/material'
+import {USER_CONTEXT} from "../../../../config/userContext";
+import RouteGuard from '../../../../components/RouteGuard'
+import { useRouter } from 'next/router'
+import { UserType } from '../../../../config/types'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -100,10 +103,16 @@ const patients = [
 interface Props {
 }
 
+
 function IndexMedecin({}: Props) {
   const userContext = React.useContext(USER_CONTEXT)
+  const router = useRouter()
+  const { userid } = router.query
 
   return (
+    <RouteGuard userId={parseInt(userid as string)} userType={UserType.medecin}>
+      Page medecin / user "{ userContext.userName }"
+    </RouteGuard>
     <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
     <Grid item xs={10}>
       <Typography><h1>Mon espace médecin</h1></Typography>
