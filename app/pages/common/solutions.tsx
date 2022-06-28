@@ -4,11 +4,7 @@ import SendIcon from "@mui/icons-material/Send";
 import React from "react";
 import {textAlign} from "@mui/system";
 
-interface Props {
-  
-}
-
-function Solutions({}: Props) {
+function Solutions() {
   return (
       <Grid container sx={{ paddingLeft: 5, paddingRight:5, paddingBottom: 10 }}>
           <Typography><h1>Nos solutions</h1></Typography>

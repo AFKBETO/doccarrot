@@ -66,7 +66,7 @@ function Navbar() {
 
                   {/*---------- Menu dropdown utilisateur ----------*/}
                   { openMenu ?
-                    <Box id='popout-menu' sx={{ position: 'absolute' }}>
+                    <Box id='popout-menu' sx={{ position: 'absolute', right: '0px' }}>
                       <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                         <Link href={`/user/${userContext.userId}`}>
                           <Button color='primary'>
@@ -74,6 +74,17 @@ function Navbar() {
                           </Button>
                         </Link>
                       </Box>
+                      { userContext.userType !== null ? 
+                        <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                          <Link href={`/user/${userContext.userId}/${UserType[userContext.userType]}`}>
+                            <Button color='primary'>
+                              <Typography noWrap={true}>Mon Espace {userContext.userType === 0 ? 'Patient' : userContext.userType === 1 ? 'Médecin' : 'Pharmacien'}</Typography>
+                            </Button>
+                          </Link>
+                        </Box>
+                        :
+                        <></>
+                      }
                       { userContext.userType == UserType.patient ?
                         /*---------- Navbar patient ----------*/
                         <>
@@ -92,11 +103,11 @@ function Navbar() {
                             </Link>
                           </Box>
                         </>
-                        /*---------- Navbar medecin ----------*/
+                        /*---------- Navbar doctor ----------*/
                         : userContext.userType == UserType.doctor ?
                         <>
                           <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                            <Link href={`/user/${userContext.userId}/medecin/prescription`}>
+                            <Link href={`/user/${userContext.userId}/doctor/prescription`}>
                               <Button color='primary'>
                                 <Typography noWrap={true}>Prescription</Typography>
                               </Button>

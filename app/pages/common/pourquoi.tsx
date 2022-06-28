@@ -1,11 +1,7 @@
 import {Grid, Typography} from "@mui/material";
 import React from "react";
 
-interface Props {
-  
-}
-
-function Pourquoi({}: Props) {
+function Pourquoi() {
   return (
       <Grid container sx={{ paddingLeft: 5, paddingRight:5, paddingBottom: 10 }}>
         <Typography><h1>Pourquoi Ormeli ?</h1></Typography>

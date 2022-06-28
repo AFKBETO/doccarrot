@@ -15,33 +15,33 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'center',
   color: 'black',
-}));
+}))
 
-var id_selection = 0;
+let id_selection = 0
 const selectPrescription = (event: React.MouseEvent, value: number) => {
-  id_selection=value;
-  console.log(value);
-  diplayPrescription();
+  id_selection=value
+  console.log(value)
+  diplayPrescription()
 }
 
 const diplayPrescription = () => {
-  console.log("display prescription");
+  console.log("display prescription")
 }
 
 const downloadPrescri = () => {
-  console.log("download");
+  console.log("download")
 }
 
 const generateQRCode = () => {
-  console.log("QRCode");
+  console.log("QRCode")
 }
 
 const hidePrescri = () => {
-  console.log("hide");
+  console.log("hide")
 }
 
 const deletePrescri = () => {
-  console.log("delete");
+  console.log("delete")
 }
 
 const historique = [
@@ -71,11 +71,8 @@ const historique = [
   },
 ];
 
-interface Props {
 
-}
-
-function Prescriptions({}: Props) {
+function Prescriptions() {
   const router = useRouter()
   const { userid } = router.query
 

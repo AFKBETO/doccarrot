@@ -28,7 +28,7 @@ function Home() {
             <Grid item>
                 <Typography><h1>Logged in as { user.email }</h1></Typography>
                 <p style={{ textAlign: 'justify' }}>
-                  ... page d'accueil ...
+                  {'... page d\'accueil ...'}
                 </p>
             </Grid>
         </Grid>

@@ -4,10 +4,7 @@ import { USER_CONTEXT } from '../../../config/userContext'
 import RouteGuard from '../../../components/RouteGuard'
 import {Grid, Typography} from "@mui/material";
 
-interface Props {
-}
-
-function User ({} : Props) {
+function User () {
     const router = useRouter()
     const { userid } = router.query
     const userContext = React.useContext(USER_CONTEXT)

@@ -15,8 +15,8 @@ function RouteGuard(props: PropsWithChildren & Props): ReactElement {
     return <div>Veuillez <Link href='/login'>connecter</Link> à votre compte !</div>
   }
 
-  if (props.userType !== null && userContext.userType !== props.userType) {
-    return <div>{'Vous n\'avez pas la permission suffisante !'}</div>
+  if (props.userType !== null && props.userType !== undefined && (userContext.userType !== props.userType)) {
+    return <div>{`Vous n'avez pas la permission suffisante !`}</div>
   }
 
   return props.children as ReactElement
