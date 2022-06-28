@@ -19,7 +19,7 @@ function Navbar({ }: Props) {
   }
 
   const handleClickAway = () => {
-    setOpenMenu(false);
+    setOpenMenu(false)
   }
 
   const router = useRouter()
