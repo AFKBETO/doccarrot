@@ -82,8 +82,7 @@ function Prescriptions({}: Props) {
   return (
     <>
     <RouteGuard userId={userid as string}>
-    prescriptions
-  </RouteGuard>
+    </RouteGuard>
 
       <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
         <Grid item xs={10}>

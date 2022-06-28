@@ -93,7 +93,7 @@ const doctors = [
     id: 2,
     nom: 'Sanchez',
     prenom: `Tony`,
-  },
+  }/*,
   {
     id: 3,
     nom: 'Ramirez',
@@ -103,7 +103,7 @@ const doctors = [
     id: 4,
     nom: 'Levalois',
     prenom: 'Monique',
-  },
+  },*/
 ];
 
 const pharmacies = [
@@ -116,7 +116,7 @@ const pharmacies = [
     id: 2,
     nom: 'Xavier',
     adresse: `ZAC de la Gare`,
-  },
+  }/*,
   {
     id: 3,
     nom: 'Mathieu André',
@@ -126,7 +126,7 @@ const pharmacies = [
     id: 4,
     nom: 'Pharmacie du progrès',
     adresse: '72 court Carnot',
-  },
+  },*/
 ];
 
 
