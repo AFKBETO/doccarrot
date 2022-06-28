@@ -8,9 +8,8 @@ import { UserType } from '../config/types'
 import { useRouter } from 'next/router'
 import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, ClickAwayListener } from '@mui/material'
 
-interface Props {}
 
-function Navbar({ }: Props) {
+function Navbar() {
   const [openMenu, setOpenMenu] = React.useState<boolean>(false)
   const userContext = React.useContext(USER_CONTEXT)
 

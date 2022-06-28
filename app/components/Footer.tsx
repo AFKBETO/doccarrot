@@ -1,14 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { getAuth, signOut } from 'firebase/auth'
 import { USER_CONTEXT } from '../config/userContext'
 import { UserType } from '../config/types'
 import { useRouter } from 'next/router'
-import { Dialog, Modal, AppBar, Box, Toolbar, Typography, Button, Grid } from '@mui/material'
+import { Modal, AppBar, Box, Toolbar, Typography, Button, Grid } from '@mui/material'
 
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -16,11 +15,9 @@ const style = {
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
-};
+}
 
-interface Props {}
-
-function Footer({ }: Props) {
+function Footer() {
   const [openMenu, setOpenMenu] = React.useState<boolean>(false)
   const userContext = React.useContext(USER_CONTEXT)
   const [open, setOpen] = React.useState({
@@ -115,7 +112,7 @@ function Footer({ }: Props) {
                   Crédits
                 </Typography>
                 <Grid container direction='column'>
-                  <Typography><h3>Notre équipe Doc'Carrot</h3></Typography>
+                  <Typography><h3>{'Notre équipe Doc\'Carrot'}</h3></Typography>
                   <Grid item xs={5}>
                     <Image src='/viet.jpg' width='100%' height='100%' alt='Ormeli' />
                     <Typography>Quang Viet Nguyen</Typography>
@@ -141,14 +138,14 @@ function Footer({ }: Props) {
             </Modal>
           </Grid>
           <Grid item xs={3}>
-            <Button onClick={event => handleOpen(event, 'modal3')}>A propos</Button>
+            <Button onClick={event => handleOpen(event, 'modal3')}>À propos</Button>
             <Modal
               open={open.modal3}
               onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modal3')}
             >
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                  A propos
+                À propos
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                   Efrei Paris

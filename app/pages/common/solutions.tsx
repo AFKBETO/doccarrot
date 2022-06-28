@@ -1,8 +1,4 @@
-interface Props {
-  
-}
-
-function Solutions({}: Props) {
+function Solutions() {
   return (
     <div>solutions</div>
   )

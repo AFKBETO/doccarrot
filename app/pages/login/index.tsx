@@ -7,14 +7,9 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
 import Register from './register'
-import { USER_CONTEXT } from '../../config/userContext'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-interface Props {
-
-}
-
-function Login(props: Props) {
+function Login() {
   const [userData, setUserData] = React.useState<AuthData>({
     email: '',
     password: ''
@@ -99,14 +94,14 @@ function Login(props: Props) {
         </Button>
 
         <Button onClick={handleOpen}>
-          Votre première connexion ? C'est par ici !
+          {'Votre première connexion ? C\'est par ici !'}
         </Button>
         <Modal
           open={openRegister}
           onClose={handleClose}
         >
           <Box sx={{
-            position: 'absolute' as 'absolute',
+            position: 'absolute',
             top: '50%',
             left: '50%',
             width: '25%',
@@ -122,7 +117,7 @@ function Login(props: Props) {
   )
 }
 
-function LoginWrapper({}: Props) {
+function LoginWrapper() {
   const [render, setRender] = React.useState(false)
   const [user, loading] = useAuthState(auth)
   const router = useRouter()

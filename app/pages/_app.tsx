@@ -1,6 +1,5 @@
 import '../styles/globals.css'
 import React from 'react';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import theme from '../styles/theme'
 import { AppProps } from 'next/app'
 import { ThemeProvider } from '@mui/material/styles'
@@ -13,8 +12,6 @@ import { Toaster } from 'react-hot-toast'
 
 
 function MyApp ({ Component, pageProps }: AppProps) {
-  const lightMode = useMediaQuery('(prefers-color-scheme: light)');
-
     // récupération des données actuellement en cache depuis Firebase
     const { userId, userName, userType, firebaseUser } = useUserData()
     const userContext = React.useContext(USER_CONTEXT)
