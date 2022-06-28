@@ -12,7 +12,7 @@ function User ({} : Props) {
   const userContext = React.useContext(USER_CONTEXT)
 
   return (
-    <RouteGuard userId={parseInt(userid as string)}>
+    <RouteGuard userId={userid as string}>
       Hello, user { userContext.userName }
     </RouteGuard>
   )

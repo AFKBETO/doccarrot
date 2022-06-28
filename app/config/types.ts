@@ -1,7 +1,7 @@
 export enum UserType {
   patient,
-  medecin,
-  pharmacien
+  doctor,
+  pharmacist
 }
 
 export interface AuthData {
@@ -9,10 +9,21 @@ export interface AuthData {
   password: string
 }
 
-export interface PatientData {
-
+export interface UserData {
+  firstName: string
+  lastName: string
+  userType: UserType | null
 }
 
-export interface MedecinData {
-  rpps: string
+export interface PatientData {
+  nss?: string
+  tokenCarteVitale?: string
+}
+
+export interface DoctorData {
+  rpps?: string
+}
+
+export interface PharmacistData {
+  rpps?: string
 }

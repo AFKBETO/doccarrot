@@ -2,6 +2,8 @@ import Head from 'next/head'
 import { auth } from '../config/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Box, Typography } from '@mui/material'
+import React from 'react'
+
 
 function Home() {
   const [user, loading, error] = useAuthState(auth)

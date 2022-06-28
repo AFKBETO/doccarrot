@@ -4,7 +4,7 @@ import { UserType } from '../config/types'
 import { Link } from '@mui/material'
 
 interface Props {
-  userId: number
+  userId: string
   userType?: UserType | null
 }
 

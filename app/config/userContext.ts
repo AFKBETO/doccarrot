@@ -4,12 +4,12 @@ import { UserType } from "./types";
 
 export class UserContext {
 
-  userId: number | null
+  userId: string | null
   userName: string | null
   userType: UserType | null
   firebaseUser: User | null | undefined
 
-  constructor(userId: number | null = null,
+  constructor(userId: string | null = null,
               userName: string | null,
               userType: UserType | null,
               firebaseUser: User | null | undefined) {
@@ -19,7 +19,7 @@ export class UserContext {
     this.userType = userType
   }
 
-  updateUserId(value: number | null) {
+  updateUserId(value: string | null) {
     this.userId = value
   }
   updateUserName(value: string | null) {
