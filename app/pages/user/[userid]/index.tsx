@@ -15,12 +15,12 @@ function User ({} : Props) {
     return (
         <RouteGuard userId={userid as string}>
             <Grid container sx={{ paddingLeft: 5, paddingRight:5, paddingBottom: 10 }}>
-              <Grid item>
-                <Typography><h1>Hello, { userContext.userName }</h1></Typography>
-                <p style={{ textAlign: 'justify' }}>
-                  ... paramètres utilisateur ...
-                </p>
-              </Grid>
+                <Grid item>
+                    <Typography><h1>Hello, { userContext.userName }</h1></Typography>
+                    <p style={{ textAlign: 'justify' }}>
+                      ... paramètres utilisateur ...
+                    </p>
+                </Grid>
             </Grid>
       </RouteGuard>
     )
