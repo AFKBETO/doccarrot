@@ -1,7 +1,7 @@
 import React from 'react'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
-import { AuthData, PatientData, MedecinData, UserData } from '../../config/types'
+import { Box, Button, FilledInput, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography, Switch } from '@mui/material'
+import { AuthData, PatientData, MedecinData, UserData, UserType } from '../../config/types'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { auth } from '../../config/firebase'
 import toast from 'react-hot-toast'
@@ -73,6 +73,10 @@ function Register ({ closeModal }: RegisterProps) {
 
   const changeTab = (event: React.SyntheticEvent, newTabValue: number) => {
     setTabValue(newTabValue)
+    setUserData({
+      ...userData,
+      userType: newTabValue === 0 ? UserType.patient : UserType.medecin
+    })
   }
   const modifyForm = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
     setUserData({
@@ -82,6 +86,12 @@ function Register ({ closeModal }: RegisterProps) {
   }
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)
+  }
+  const togglePharmacien = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData({
+      ...userData,
+      userType: event.target.checked ? UserType.pharmacien : UserType.medecin
+    })
   }
   const verifyEmail = (event: React.ChangeEvent<HTMLInputElement>) =>{
     setErrorValidator({
@@ -222,6 +232,14 @@ function Register ({ closeModal }: RegisterProps) {
       {/*---------Création compte médecin---------*/}
       <TabPanel value={tabValue} index={1}>
         <Stack spacing={2} justifyContent="center" alignItems="center">
+          <FormGroup>
+            <FormControlLabel control={
+              <Switch size='small' inputProps={{ 'aria-label': 'controlled' }}
+                checked={userData.userType == UserType.pharmacien}
+                onChange={togglePharmacien}
+              />
+            } label="Label" />
+          </FormGroup>
           <TextField id='placeholder' variant='filled' label='Placeholder Médecin' type='text' color='secondary' size='small'
             error={false}
             helperText={false}
