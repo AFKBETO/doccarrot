@@ -1,11 +1,12 @@
 import React from 'react'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { Box, Button, FilledInput, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography, Switch } from '@mui/material'
-import { AuthData, PatientData, MedecinData, UserData, UserType } from '../../config/types'
+import { AuthData, PatientData, DoctorData, UserData, UserType, PharmacistData } from '../../config/types'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { auth } from '../../config/firebase'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
+import { addUser, addUserType } from '../../config/api'
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -51,14 +52,13 @@ function labelProps (index: number) {
 
 function Register ({ closeModal }: RegisterProps) {
   const [tabValue, setTabValue] = React.useState<number>(0)
-  const [userData, setUserData] = React.useState<AuthData & UserData>({
+  const [userData, setUserData] = React.useState<AuthData & UserData & PatientData & DoctorData & PharmacistData>({
     email: '',
     password: '',
     firstName: '',
     lastName: '',
     userType: UserType.patient,
-  })
-  const [medecinData, setMedecinData] = React.useState<MedecinData>({
+    nss: '',
     rpps: ''
   })
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
@@ -122,7 +122,17 @@ function Register ({ closeModal }: RegisterProps) {
   const router = useRouter()
   const register = async (event: React.MouseEvent, isPatient: boolean) => {
     try {
+      console.log(userData)
       const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+      await addUser(userCredential.user.uid, {
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        userType: userData.userType
+      })
+      await addUserType(userCredential.user.uid, userData.userType, {
+        nss: userData.nss,
+        rpps: userData.rpps
+      })
       sendEmailVerification(userCredential.user)
       toast.success('Un message de vérification a été envoyé à votre adresse email. Vérifiez votre boîte SPAM.')
       closeModal()
@@ -216,12 +226,9 @@ function Register ({ closeModal }: RegisterProps) {
       {/*---------Création compte patient---------*/}
       <TabPanel value={tabValue} index={0}>
         <Stack spacing={2} justifyContent="center" alignItems="center">
-          <TextField id='placeholder' variant='filled' label='Placeholder Patient' type='text' color='secondary' size='small'
-            error={false}
-            helperText={false}
-            value=''
-            onInput={event => {}}
-            onChange={event => {}}
+          <TextField id='nss' variant='filled' label='Numéro NSS' type='text' color='secondary' size='small'
+            value={userData.nss}
+            onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'nss')}
             sx={{
               width: '70%',
               color: 'text.primary'
@@ -238,14 +245,11 @@ function Register ({ closeModal }: RegisterProps) {
                 checked={userData.userType == UserType.pharmacist}
                 onChange={togglePharmacien}
               />
-            } label="Label" />
+            } label="Vous etes pharmacien ?" />
           </FormGroup>
-          <TextField id='placeholder' variant='filled' label='Placeholder Médecin' type='text' color='secondary' size='small'
-            error={false}
-            helperText={false}
-            value=''
-            onInput={event => {}}
-            onChange={event => {}}
+          <TextField id='rpps' variant='filled' label='Numéro RPPS' type='text' color='secondary' size='small'
+            value={userData.rpps}
+            onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'rpps')}
             sx={{
               width: '70%',
               color: 'text.primary'
