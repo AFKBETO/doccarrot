@@ -94,7 +94,7 @@ function Navbar({ }: Props) {
                           </Box>
                         </>
                         /*---------- Navbar medecin ----------*/
-                        : userContext.userType == UserType.medecin ?
+                        : userContext.userType == UserType.doctor ?
                         <>
                           <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                             <Link href={`/user/${userContext.userId}/medecin/prescription`}>

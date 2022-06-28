@@ -56,7 +56,7 @@ function Register ({ closeModal }: RegisterProps) {
     password: '',
     firstName: '',
     lastName: '',
-    userType: null
+    userType: UserType.patient,
   })
   const [medecinData, setMedecinData] = React.useState<MedecinData>({
     rpps: ''
@@ -75,7 +75,7 @@ function Register ({ closeModal }: RegisterProps) {
     setTabValue(newTabValue)
     setUserData({
       ...userData,
-      userType: newTabValue === 0 ? UserType.patient : UserType.medecin
+      userType: newTabValue === 0 ? UserType.patient : UserType.doctor
     })
   }
   const modifyForm = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
@@ -90,7 +90,7 @@ function Register ({ closeModal }: RegisterProps) {
   const togglePharmacien = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({
       ...userData,
-      userType: event.target.checked ? UserType.pharmacien : UserType.medecin
+      userType: event.target.checked ? UserType.pharmacist : UserType.doctor
     })
   }
   const verifyEmail = (event: React.ChangeEvent<HTMLInputElement>) =>{
@@ -235,7 +235,7 @@ function Register ({ closeModal }: RegisterProps) {
           <FormGroup>
             <FormControlLabel control={
               <Switch size='small' inputProps={{ 'aria-label': 'controlled' }}
-                checked={userData.userType == UserType.pharmacien}
+                checked={userData.userType == UserType.pharmacist}
                 onChange={togglePharmacien}
               />
             } label="Label" />

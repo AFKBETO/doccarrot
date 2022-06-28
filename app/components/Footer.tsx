@@ -62,14 +62,14 @@ function Footer({ }: Props) {
       router.push({ pathname: `/user/${userContext.userId}/patient` })
     }
     else if (userContext.userType == UserType.patient) {
-      userContext.updateUserType(UserType.medecin)
+      userContext.updateUserType(UserType.doctor)
       router.push({ pathname: `/user/${userContext.userId}/medecin` })
     }
-    else if (userContext.userType == UserType.medecin) {
-      userContext.updateUserType(UserType.pharmacien)
+    else if (userContext.userType == UserType.doctor) {
+      userContext.updateUserType(UserType.pharmacist)
       router.push({ pathname: `/user/${userContext.userId}/pharmacien` })
     }
-    else if (userContext.userType == UserType.pharmacien) {
+    else if (userContext.userType == UserType.pharmacist) {
       if (userContext.userId == '0') {
         userContext.updateUserId(null)
         userContext.updateUserName(null)

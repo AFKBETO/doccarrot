@@ -110,7 +110,7 @@ function IndexMedecin({}: Props) {
   const { userid } = router.query
 
   return (
-    <RouteGuard userId={parseInt(userid as string)} userType={UserType.medecin}>
+    <RouteGuard userId={parseInt(userid as string)} userType={UserType.doctor}>
       <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
         <Grid item xs={10}>
           <Typography><h1>Mon espace médecin</h1></Typography>
