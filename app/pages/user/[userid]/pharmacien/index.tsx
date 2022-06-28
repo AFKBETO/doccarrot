@@ -60,7 +60,7 @@ function IndexPharmacien({}: Props) {
   const handleClose = (event: React.MouseEvent, field: string) => setOpen({...open, [field]: false}) 
   
   return (
-    <RouteGuard userId={parseInt(userid as string)} userType={UserType.pharmacist}>
+    <RouteGuard userId={userid as string} userType={UserType.pharmacist}>
       <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}} direction='row'>
         <Grid item xs={10}>
           <Typography><h1>Mon espace pharmacien</h1></Typography>

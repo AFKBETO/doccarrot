@@ -141,7 +141,7 @@ function Suivi({}: Props) {
   const { userid } = router.query
 
   return (
-    <RouteGuard userId={parseInt(userid as string)}>
+    <RouteGuard userId={userid as string}>
       <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
         <Grid item xs={10}>
           <Typography><h1>Mon suivi de santé</h1></Typography>
