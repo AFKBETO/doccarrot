@@ -55,7 +55,7 @@ function Footer({ }: Props) {
   const switchType = () => {
     if (userContext.userType == null) {
       if (userContext.userId == null) {
-        userContext.updateUserId(0)
+        userContext.updateUserId('0')
         userContext.updateUserName("Default User")
       }
       userContext.updateUserType(UserType.patient)
@@ -70,7 +70,7 @@ function Footer({ }: Props) {
       router.push({ pathname: `/user/${userContext.userId}/pharmacien` })
     }
     else if (userContext.userType == UserType.pharmacien) {
-      if (userContext.userId == 0) {
+      if (userContext.userId == '0') {
         userContext.updateUserId(null)
         userContext.updateUserName(null)
       }
