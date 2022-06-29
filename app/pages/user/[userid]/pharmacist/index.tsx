@@ -1,9 +1,9 @@
 import React from 'react'
 import {USER_CONTEXT} from "../../../../config/userContext";
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 //import Link from 'next/link'
-import { Paper, Modal, Box, TextField, List, Toolbar, Typography, Button, IconButton, Grid, ListSubheader, ListItem, ListItemText, CssBaseline, Avatar, ListItemAvatar } from '@mui/material'
+import { Paper, Modal, Box, TextField, Typography, Button, IconButton, Grid } from '@mui/material'
 import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import { UserType } from '../../../../config/types'
@@ -27,8 +27,6 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-
-
 
 const readQRCode = () => {
   console.log('read')

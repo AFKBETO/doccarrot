@@ -126,7 +126,7 @@ function LoginWrapper() {
       if (user) router.push({ pathname: '/'})
       else setRender(true)
     }
-  }, [loading])
+  }, [loading, user, router])
 
   if (render) return <Login />
   else return < ></>

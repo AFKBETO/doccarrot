@@ -1,12 +1,12 @@
 import React from 'react'
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth'
 import { Box, Button, FilledInput, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography, Switch } from '@mui/material'
 import { AuthData, PatientData, DoctorData, UserData, UserType, PharmacistData } from '../../config/types'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { auth } from '../../config/firebase'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
-import { addUser, addUserType } from '../../config/api'
+import { addUser } from '../../config/api'
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -119,21 +119,14 @@ function Register ({ closeModal }: RegisterProps) {
       freshPassword: false
     })
   }
-  const router = useRouter()
-  const register = async (event: React.MouseEvent, isPatient: boolean) => {
+  //const router = useRouter()
+  const register = async () => {
     try {
       console.log(userData)
       const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
-      await addUser(userCredential.user.uid, {
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        userType: userData.userType
-      })
-      await addUserType(userCredential.user.uid, userData.userType, {
-        nss: userData.nss,
-        rpps: userData.rpps
-      })
+      await addUser(userCredential.user.uid, userData)
       sendEmailVerification(userCredential.user)
+      signOut(auth)
       toast.success('Un message de vérification a été envoyé à votre adresse email. Vérifiez votre boîte SPAM.')
       closeModal()
     } catch (error) {
@@ -209,7 +202,7 @@ function Register ({ closeModal }: RegisterProps) {
             value={userData.firstName}
             onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'firstName')}
             sx={{
-              width: '41%',
+              width: '34%',
               color: 'text.primary'
             }}
           />
@@ -217,7 +210,7 @@ function Register ({ closeModal }: RegisterProps) {
             value={userData.lastName}
             onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'lastName')}
             sx={{
-              width: '41%',
+              width: '34%',
               color: 'text.primary'
             }}
           />
@@ -269,7 +262,7 @@ function Register ({ closeModal }: RegisterProps) {
           }
           sx={{ bgcolor: 'primary.dark' }}
           focusRipple={false}
-          onClick={event => register(event, true)}
+          onClick={register}
         >
           <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
         </Button>

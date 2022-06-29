@@ -25,7 +25,12 @@ function Footer() {
   const handleClose = (event: React.MouseEvent, field: string) => setOpen({...open, [field]: false}) 
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{
+      flexGrow: 1,
+      position : 'sticky',
+      bottom: '0vh',
+      width: '100%'
+    }}>
       <AppBar position='static'>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{position: 'relative'}}>
