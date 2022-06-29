@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log(uid,type)
       switch(type) {
         case 'patient': {
-          const { nss } = req.body.nss
+          const { nss } = req.body
           await setDoc(doc(firestore,`${type}s`, uid as string), { nss: nss})
           break
         }
