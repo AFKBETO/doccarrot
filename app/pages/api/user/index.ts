@@ -12,9 +12,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         lastName: lastName,
         userType: userType
       }, { merge: true })
+      await addUserType(req, res)
       res.status(201).json({ message: 'Data added successfully'})
     } catch {
       res.status(400).json({ error: 'Cannot add user' })
+    }
+  }
+}
+
+async function addUserType(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'PUT') {
+    try {
+      const { uid, userType } = req.body
+      console.log(uid,userType)
+      switch(userType) {
+        case 'patient': {
+          const { nss } = req.body
+          await setDoc(doc(firestore,`${userType}s`, uid), { nss: nss})
+          break
+        }
+        case 'doctor':
+        case 'pharmacist': {
+          const { rpps } = req.body
+          await setDoc(doc(firestore,`${userType}s`, uid), { rpps: rpps})
+        break
+        }
+      }
+    } catch (error) {
+      throw error
     }
   }
 }

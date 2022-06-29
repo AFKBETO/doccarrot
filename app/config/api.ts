@@ -28,14 +28,3 @@ export async function addUser (uid: string, userData: UserData): Promise<void> {
     throw error
   }
 }
-
-export async function addUserType (uid: string, userType: UserType | null, userData: PatientData & DoctorData & PharmacistData): Promise<void> {
-  try {
-    if (userType !== null) {
-      await axios.put(`${process.env.NEXT_PUBLIC_URL}/api/user/${uid}/${UserType[userType]}`, userData)
-    } else throw new Error('User type is not specified')
-    
-  } catch (error) {
-    throw error
-  }
-}
