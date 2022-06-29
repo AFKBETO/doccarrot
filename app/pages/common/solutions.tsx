@@ -1,8 +1,5 @@
-import {Grid, IconButton, Typography} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import SendIcon from "@mui/icons-material/Send";
-import React from "react";
-import {textAlign} from "@mui/system";
+import {Grid, Typography} from "@mui/material"
+import React from "react"
 
 function Solutions() {
   return (

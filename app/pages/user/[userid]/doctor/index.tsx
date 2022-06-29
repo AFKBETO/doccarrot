@@ -148,7 +148,7 @@ function IndexMedecin() {
                 <Typography><h1>Patient X</h1></Typography>
               </Grid>
               <Grid item xs={2}>
-                <Link href={`/user/${userContext.userId}/medecin/prescription`}>
+                <Link href={`/user/${userContext.userId}/doctor/prescription`}>
                   <IconButton component="span" onClick={newPrescription}>
                     <AddIcon />
                   </IconButton>

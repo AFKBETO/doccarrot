@@ -119,8 +119,8 @@ function Register ({ closeModal }: RegisterProps) {
       freshPassword: false
     })
   }
-  const router = useRouter()
-  const register = async (event: React.MouseEvent, isPatient: boolean) => {
+  //const router = useRouter()
+  const register = async () => {
     try {
       console.log(userData)
       const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
@@ -209,7 +209,7 @@ function Register ({ closeModal }: RegisterProps) {
             value={userData.firstName}
             onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'firstName')}
             sx={{
-              width: '41%',
+              width: '34%',
               color: 'text.primary'
             }}
           />
@@ -217,7 +217,7 @@ function Register ({ closeModal }: RegisterProps) {
             value={userData.lastName}
             onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'lastName')}
             sx={{
-              width: '41%',
+              width: '34%',
               color: 'text.primary'
             }}
           />
@@ -269,7 +269,7 @@ function Register ({ closeModal }: RegisterProps) {
           }
           sx={{ bgcolor: 'primary.dark' }}
           focusRipple={false}
-          onClick={event => register(event, true)}
+          onClick={register}
         >
           <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
         </Button>

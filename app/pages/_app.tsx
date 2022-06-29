@@ -1,6 +1,6 @@
 import '../styles/globals.css'
-import React from 'react';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import React from 'react'
+//import useMediaQuery from '@mui/material/useMediaQuery'
 import theme from '../styles/theme'
 import { AppProps } from 'next/app'
 import { ThemeProvider } from '@mui/material/styles'
@@ -10,7 +10,7 @@ import Footer from '../components/Footer'
 import { USER_CONTEXT } from '../config/userContext'
 import { useUserData } from '../config/userDataHooks'
 import { Toaster } from 'react-hot-toast'
-import { Box } from "@mui/material";
+import { Box } from "@mui/material"
 
 const bodyStyle = {
     'height': '90vh',
