@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from '@mui/material/styles';
 import Image from 'next/image'
 import { Paper, InputBase, List, Typography, IconButton, Grid, ListItem, ListItemText } from '@mui/material'
@@ -67,16 +67,9 @@ const Input = styled('input')({
 const handleSubmission = () => {
   console.log('handle')
 }
-const searchDoctor = () => {
-  console.log('search')
-}
 
 const removeDoctor = () => {
   console.log('remove')
-}
-
-const searchPharmacy = () => {
-  console.log('search')
 }
 
 const removePharmacy = () => {
@@ -130,9 +123,19 @@ const pharmacies = [
 ]
 
 function Suivi() {
+  const [searchDoc, setSearchDoc] = useState<string>('')
+  const [searchPhar, setSearchPhar] = useState<string>('')
   const router = useRouter()
   const { userid } = router.query
 
+  const searchDoctor = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchDoc(event.target.value.toLowerCase())
+  }
+  
+  const searchPharmacy = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchPhar(event.target.value.toLowerCase())
+  }
+  
   return (
     <RouteGuard userId={userid as string}>
       <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
@@ -145,34 +148,34 @@ function Suivi() {
             <Item sx={{background: '#ABBD98', borderRadius: 5}}>
               <Typography sx={{background: '#ABBD98', color:'white', fontSize: 25}}>Mes médecins</Typography>
               <List sx={{ mb: 2 }}>
-            {doctors.map(({ id, nom, prenom }) => (
-              <React.Fragment key={id}>
-                <ListItem button>
-                  <ListItemText primary={nom} secondary={prenom} />
-                  <IconButton component="span" onClick={removeDoctor}>
-                  <RemoveIcon />
-                </IconButton>
-                </ListItem>
-              </React.Fragment>
-            ))}
-          </List>
+                {doctors.map(({ id, nom, prenom }) => (((searchDoc.length > 0) && !(`${nom.toLowerCase()} ${prenom.toLowerCase()}`.includes(searchDoc))) ? <></> :
+                  <React.Fragment key={id}>
+                    <ListItem button>
+                      <ListItemText primary={nom} secondary={prenom} />
+                      <IconButton component="span" onClick={removeDoctor}>
+                      <RemoveIcon />
+                    </IconButton>
+                    </ListItem>
+                  </React.Fragment>
+                ))}
+              </List>
               <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Type in a doctor code"
-                inputProps={{ 'aria-label': 'search' }}
-                onChange={searchDoctor}
-              />
-            </Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Chercher par nom de docteur"
+                  inputProps={{ 'aria-label': 'search' }}
+                  onInput={searchDoctor}
+                />
+              </Search>
             </Item>
             </Grid>
             <Grid item xs={10}>
             <Item sx={{background: '#ABBD98', borderRadius: 5}}>
               <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes pharmacies</Typography>
               <List sx={{ mb: 2 }}>
-            {pharmacies.map(({ id, nom, adresse }) => (
+            {pharmacies.map(({ id, nom, adresse }) => (((searchPhar.length > 0) && !(nom.toLowerCase().includes(searchPhar) || adresse.toLowerCase().includes(searchPhar))) ? <></> :
               <React.Fragment key={id}>
                 <ListItem button>
                   <ListItemText primary={nom} secondary={adresse} />
@@ -183,14 +186,14 @@ function Suivi() {
               </React.Fragment>
             ))}
           </List>
-              <Search>
+            <Search>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
-                placeholder="Type in a pharmacy code"
+                placeholder="Chercher par nom de pharmacie"
                 inputProps={{ 'aria-label': 'search' }}
-                onChange={searchPharmacy}
+                onInput={searchPharmacy}
               />
             </Search>
             </Item>
