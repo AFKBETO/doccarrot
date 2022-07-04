@@ -74,7 +74,7 @@ function Navbar() {
                           </Button>
                         </Link>
                       </Box>
-                      { userContext.userType !== null ? 
+                      {/* userContext.userType !== null ?
                         <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                           <Link href={`/user/${userContext.userId}/${UserType[userContext.userType]}`}>
                             <Button color='primary'>
@@ -84,21 +84,21 @@ function Navbar() {
                         </Box>
                         :
                         <></>
-                      }
+                      */}
                       { userContext.userType == UserType.patient ?
                         /*---------- Navbar patient ----------*/
                         <>
                           <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                             <Link href={`/user/${userContext.userId}/patient/prescriptions`}>
                               <Button color='primary'>
-                                <Typography variant="h4" noWrap={true}>Prescriptions</Typography>
+                                <Typography variant="h4" noWrap={true}>Mes Prescriptions</Typography>
                               </Button>
                             </Link>
                           </Box>
                           <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                             <Link href={`/user/${userContext.userId}/patient/suivi`}>
                               <Button color='primary'>
-                                <Typography variant="h4" noWrap={true}>Suivi Santé</Typography>
+                                <Typography variant="h4" noWrap={true}>Mon Suivi de Santé</Typography>
                               </Button>
                             </Link>
                           </Box>
