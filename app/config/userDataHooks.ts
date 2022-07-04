@@ -8,7 +8,7 @@ export function useUserData () {
   const [userId, setUserId] = useState<string | null>(null)
   const [userName, setUserName] = useState<string | null>(null)
   const [userType, setUserType] = useState<UserType | null>(null)
-  const [firebaseUser] = useAuthState(auth)
+  const [firebaseUser, loading, error] = useAuthState(auth)
 
   useEffect(() => {
     fetchData()    
@@ -34,5 +34,5 @@ export function useUserData () {
     
   }
 
-  return { userId, userName, userType, firebaseUser }
+  return { userId, userName, userType, firebaseUser, loading, error }
 }

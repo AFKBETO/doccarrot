@@ -77,10 +77,7 @@ function Prescriptions() {
   const { userid } = router.query
 
   return (
-    <>
     <RouteGuard userId={userid as string}>
-    </RouteGuard>
-
       <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
         <Grid item xs={10}>
           <Typography><h1>Mes prescriptions</h1></Typography>
@@ -134,7 +131,7 @@ function Prescriptions() {
           </Item>
         </Grid>
       </Grid>
-      </>
+    </RouteGuard>
     )
 }
 

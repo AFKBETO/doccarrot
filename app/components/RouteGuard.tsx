@@ -1,7 +1,8 @@
-import { useContext, ReactElement, PropsWithChildren } from 'react'
-import { USER_CONTEXT } from '../config/userContext'
+import { ReactElement, PropsWithChildren } from 'react'
 import { UserType } from '../config/types'
+import { useUserData } from '../config/userDataHooks'
 import { Link } from '@mui/material'
+import Loader from './Loader'
 
 interface Props {
   userId: string
@@ -9,13 +10,21 @@ interface Props {
 }
 
 function RouteGuard(props: PropsWithChildren & Props): ReactElement {
-  const userContext = useContext(USER_CONTEXT)
+  const { userId, loading, error, userType } = useUserData()
 
-  if (props.userId !== userContext.userId) {
+  if (loading) {
+    return <Loader show={loading} />
+  }
+
+  if (error) {
+    return <div>Erreur</div>
+  }
+
+  if (props.userId !== userId) {
     return <div>Veuillez <Link href='/login'>connecter</Link> à votre compte !</div>
   }
 
-  if (props.userType !== null && props.userType !== undefined && (userContext.userType !== props.userType)) {
+  if (props.userType !== null && props.userType !== undefined && (userType !== props.userType)) {
     return <div>{`Vous n'avez pas la permission suffisante !`}</div>
   }
 
