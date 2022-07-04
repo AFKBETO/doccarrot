@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import { styled } from '@mui/material/styles';
@@ -10,6 +10,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {useUserData} from "../../../../config/userDataHooks";
 import {usePrescriptions} from "../../../../config/prescriptionsHooks";
+import moment from "moment";
+import {PrescriptionData} from "../../../../config/types";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -18,17 +20,6 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: 'black',
 }))
-
-let id_selection = 0
-const selectPrescription = (event: React.MouseEvent, value: number) => {
-  id_selection=value
-  console.log(value)
-  diplayPrescription()
-}
-
-const diplayPrescription = () => {
-  console.log("display prescription")
-}
 
 const downloadPrescri = () => {
   console.log("download")
@@ -53,6 +44,8 @@ function Prescriptions() {
   const { userId } = useUserData()
   const { prescriptions } = usePrescriptions(userId)
 
+  const [ selectedPrescription, setSelectedPrescription ] = useState<PrescriptionData | null>(null);
+
   return (
     <RouteGuard userId={userid as string}>
       <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
@@ -64,18 +57,14 @@ function Prescriptions() {
           <Typography sx={{background: '#ABBD98', color:'white', fontSize: 25}}>Historique</Typography>
           <List sx={{ mb: 2, maxHeight: '100%', overflow: 'auto'}}>
             { prescriptions.map((prescription) => (
-                <>
-                  {prescription.idPatient}
-                  {prescription.location}
-                  { /* <React.Fragment key={id}>
-                <ListItem button>
-                  <ListItemText primary={date} secondary={title} />
-                  <IconButton component="span" onClick={(event: React.MouseEvent<Element, MouseEvent>) => selectPrescription(event, id)}>
-                    <RemoveRedEyeIcon />
-                  </IconButton>
-                </ListItem>
-              </React.Fragment> */ }
-                </>
+                <React.Fragment key={prescription.idPrescription}>
+                  <ListItem button onClick={() => setSelectedPrescription(prescription) }>
+                    <ListItemText primary={ moment(prescription.date.seconds * 1000).format("[Le] DD/MM/YYYY [à] HH:mm") } secondary={prescription.location} />
+                    <IconButton component="span">
+                      <RemoveRedEyeIcon />
+                    </IconButton>
+                  </ListItem>
+                </React.Fragment>
             )) }
           </List>
           </Item>
@@ -83,7 +72,10 @@ function Prescriptions() {
         <Grid item xs={7}>
         <Item sx={{background: '#ABBD98', borderRadius: 5}}>
           <Typography sx={{background: '#ABBD98', color:'white', fontSize: 25}}>Historique</Typography>
-          </Item>
+          { selectedPrescription ? <>
+            <span>Selected : {selectedPrescription.location}</span>
+          </> : <></> }
+        </Item>
         </Grid>
         <Grid item xs={1}>
           <Item sx={{background: '#ABBD98', borderRadius: 5}}>
