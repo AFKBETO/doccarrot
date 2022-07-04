@@ -51,7 +51,7 @@ function Prescriptions() {
             {/*---------- PARTIE GAUCHE : HISTORIQUE DES PRESCRIPTIONS ----------*/}
             <Grid item xs={4}>
               <Item sx={{ background: '#ABBD98', borderRadius: 5 }}>
-                <Typography variant="h3">Historique</Typography>
+                <Typography variant="h3" sx={{ textDecoration: 'underline' }}>Historique</Typography>
 
                 <List sx={{ mb: 2, maxHeight: '100%', overflow: 'auto' }}>
                   { prescriptionContext.prescriptions.map((prescription) => (
@@ -76,13 +76,13 @@ function Prescriptions() {
             <Grid item xs={7}>
               <Item sx={{background: '#ABBD98', borderRadius: 5}}>
 
-                <Typography variant='h3'>Détails de la prescription</Typography>
+                <Typography variant='h3' sx={{ textDecoration: 'underline' }}>Détails de la prescription</Typography>
 
                 { selectedPrescription ?
                     <>
                       <Container sx={{ margin: 2, textAlign: 'left' }}>
                         <Typography variant='h4'>Rédigée par :</Typography>
-                        <Typography>{ selectedPrescription.idDoctor }</Typography>
+                        <Typography>{ selectedPrescription.doctorFirstName }  { selectedPrescription.doctorLastName }</Typography>
                         <br />
                         <Typography variant='h4'>Date :</Typography>
                         <Typography>{ moment(selectedPrescription.date.seconds * 1000).format("[Le] DD/MM/YYYY [à] HH:mm") }</Typography>
@@ -95,7 +95,9 @@ function Prescriptions() {
                         <br />
                         <Typography variant='h4'>Liste de médicaments :</Typography>
                         { selectedPrescription.medications.map(medication => (
-                            <Typography>- { medication.name }</Typography>
+                            <React.Fragment key={medication.idMedication}>
+                              <Typography>- { medication.name } x{ medication.quantity }</Typography>
+                            </React.Fragment>
                         )) }
                       </Container>
                     </>
