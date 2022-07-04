@@ -12,7 +12,7 @@ interface Props {
 function RouteGuard(props: PropsWithChildren & Props): ReactElement {
     const userContext = React.useContext(USER_CONTEXT)
 
-    if (userContext.firebaseLoading) {
+    if (userContext.firebaseLoading || !userContext.userId) {  // firebase might have finished loading, but not us
         return (
             <Grid container sx={{ padding: 10, textAlign: 'center' }}>
               <Loader show />
