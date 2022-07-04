@@ -32,3 +32,20 @@ export interface MedicationTypes {
   id: string,
   name: string
 }
+
+export interface MedicationData {
+  idMedication: string
+  idMedicationType: string
+  quantity: number
+}
+
+export interface PrescriptionData {
+  idPrescription: string
+  idPatient: string
+  idDoctor: string
+  date: number
+  location: string
+  currentUses: number
+  maxUses: number
+  medications: MedicationData[]
+}

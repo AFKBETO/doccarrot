@@ -8,6 +8,8 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import {useUserData} from "../../../../config/userDataHooks";
+import {usePrescriptions} from "../../../../config/prescriptionsHooks";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -44,37 +46,12 @@ const deletePrescri = () => {
   console.log("delete")
 }
 
-const historique = [
-  {
-    id: 1,
-    title : 'doliprane',
-    date: '2022-03-14',
-    url: "truc",
-  },
-  {
-    id: 2,
-    title: 'contraception',
-    date: '2022-02-10',
-    url: `ZAC de la Gare`,
-  },
-  {
-    id: 3,
-    title: 'migraine',
-    date: '2021-03-30',
-    url: '12 rue Eugène Pelletan',
-  },
-  {
-    id: 4,
-    title: 'nausées',
-    date: '2019-05-06',
-    url: '72 court Carnot',
-  },
-];
-
-
 function Prescriptions() {
   const router = useRouter()
   const { userid } = router.query
+
+  const { userId } = useUserData()
+  const { prescriptions } = usePrescriptions(userId)
 
   return (
     <RouteGuard userId={userid as string}>
@@ -86,16 +63,20 @@ function Prescriptions() {
           <Item sx={{background: '#ABBD98', borderRadius: 5}}>
           <Typography sx={{background: '#ABBD98', color:'white', fontSize: 25}}>Historique</Typography>
           <List sx={{ mb: 2, maxHeight: '100%', overflow: 'auto'}}>
-            {historique.map(({ id, title, date, url }) => (
-              <React.Fragment key={id}>
+            { prescriptions.map((prescription) => (
+                <>
+                  {prescription.idPatient}
+                  {prescription.location}
+                  { /* <React.Fragment key={id}>
                 <ListItem button>
                   <ListItemText primary={date} secondary={title} />
                   <IconButton component="span" onClick={(event: React.MouseEvent<Element, MouseEvent>) => selectPrescription(event, id)}>
                     <RemoveRedEyeIcon />
                   </IconButton>
                 </ListItem>
-              </React.Fragment>
-            ))}
+              </React.Fragment> */ }
+                </>
+            )) }
           </List>
           </Item>
         </Grid>
