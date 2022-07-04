@@ -7,9 +7,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const snapshot = await getDocs(collection(firestore, 'pharmacies'));
       let docs = snapshot.docs.map(doc => doc.data());
-      res.status(201).json({ pharmacies: docs })
+      res.status(200).json({ pharmacies: docs })
     } catch {
-      res.status(400).json({ error: 'Cannot add user' })
+      res.status(400).json({ error: 'Cannot get pharmacy' })
     }
   }
 }
