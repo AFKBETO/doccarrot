@@ -26,7 +26,7 @@ function Home() {
     return (
         <Grid container sx={{ paddingLeft: 5, paddingRight:5, paddingBottom: 10 }}>
             <Grid item>
-                <Typography><h1>Logged in as { user.email }</h1></Typography>
+                <Typography variant="h2">Logged in as { user.email }</Typography>
                 <p style={{ textAlign: 'justify' }}>
                   {'... page d\'accueil ...'}
                 </p>
@@ -44,9 +44,7 @@ function Home() {
       </Head>
 
       <main>
-        <Typography variant='h1' component='div' align='center'>
-          Welcome to Ormeli
-        </Typography>
+          <Typography variant='h2' align='center'>Bienvenue sur Ormeli.</Typography>
       </main>
     </Box>
   )

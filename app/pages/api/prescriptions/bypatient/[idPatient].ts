@@ -13,8 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const snapshot = await getDocs(q);
 
       let prescriptions = snapshot.docs.map(doc => doc.data());
-      console.log('patientId', idPatient)
-      console.log(prescriptions);
 
       for (let prescription of prescriptions) {
         const snapMeds = await getDocs(collection(firestore, 'prescriptions/' + (prescription.idPrescription as string) + '/medications'));

@@ -43,7 +43,7 @@ export interface PrescriptionData {
   idPrescription: string
   idPatient: string
   idDoctor: string
-  date: number
+  date: { seconds: number }
   location: string
   currentUses: number
   maxUses: number

@@ -111,7 +111,7 @@ function IndexMedecin() {
     <RouteGuard userId={userid as string} userType={UserType.doctor}>
       <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
         <Grid item xs={10}>
-          <Typography><h1>Mon espace médecin</h1></Typography>
+          <Typography variant="h2">Mon espace médecin</Typography>
         </Grid>
         <Grid item xs={5}>
           <Grid container spacing={2}>
