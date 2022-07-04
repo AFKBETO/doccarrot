@@ -5,8 +5,7 @@ export async function getUser (uid: string): Promise<UserData> {
   try {
     const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/user/${uid}`)
     return {
-      firstName: res.data.firstName,
-      lastName: res.data.lastName,
+      ...res.data,
       userType: UserType[res.data.userType as keyof typeof UserType]
     }
   } catch (error) {
@@ -27,4 +26,8 @@ export async function addUser (uid: string, userData: UserData): Promise<void> {
   } catch (error) {
     throw error
   }
+}
+
+export async function getMedicines () {
+  return await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/medicine/`)
 }
