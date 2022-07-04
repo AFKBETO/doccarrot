@@ -2,7 +2,7 @@ import React, { ReactElement, PropsWithChildren } from 'react'
 import { UserType } from '../config/types'
 import { Grid } from '@mui/material'
 import Loader from './Loader'
-import {USER_CONTEXT} from "../config/dataContexts";
+import {USER_CONTEXT} from "../config/userContext";
 
 interface Props {
   userId: string

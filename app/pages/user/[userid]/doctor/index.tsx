@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import AddIcon from '@mui/icons-material/Add'
 import Link from 'next/link'
 import { Paper, InputBase, Typography, List, IconButton, Grid, ListItem, ListItemText } from '@mui/material'
-import { USER_CONTEXT } from "../../../../config/dataContexts";
+import { USER_CONTEXT } from "../../../../config/userContext";
 import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import { UserType } from '../../../../config/types'

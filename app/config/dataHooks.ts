@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../config/firebase'
-import { getPrescriptionsByPatient, getUser } from './api'
-import { PrescriptionData, UserType } from "./types";
+import {getDoctorsByPatient, getPrescriptionsByPatient, getUser} from './api'
+import {PrescriptionData, UserData, UserType} from "./types";
 
 export function useHooks () {
     const [userId, setUserId] = useState<string | null>(null)
     const [userName, setUserName] = useState<string | null>(null)
     const [userType, setUserType] = useState<UserType | null>(null)
-    const [userPrescriptions, setUserPrescriptions] = useState<PrescriptionData[]>([])
+    const [patientPrescriptions, setPatientPrescriptions] = useState<PrescriptionData[]>([])
+    const [patientDoctors, setPatientDoctors] = useState<UserData[]>([])
     const [firebaseUser, firebaseLoading, firebaseError] = useAuthState(auth)
 
     useEffect(() => {
@@ -23,8 +24,16 @@ export function useHooks () {
                 setUserName(res.firstName + ' ' + res.lastName)
                 setUserType(res.userType)
 
-                const prescriptions = await getPrescriptionsByPatient(firebaseUser.uid)
-                setUserPrescriptions(prescriptions)
+                if (res.userType == UserType.patient) {
+                    const patientPrescriptions = await getPrescriptionsByPatient(firebaseUser.uid)
+                    setPatientPrescriptions(patientPrescriptions)
+
+                    const patientDoctors = await getDoctorsByPatient(firebaseUser.uid)
+                    setPatientDoctors(patientDoctors)
+                } else {
+                    setPatientPrescriptions([])
+                    setPatientDoctors([])
+                }
 
                 return
             }
@@ -34,8 +43,8 @@ export function useHooks () {
         setUserId(null)
         setUserName(null)
         setUserType(null)
-        setUserPrescriptions([])
+        setPatientPrescriptions([])
     }
 
-    return { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, userPrescriptions }
+    return { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors }
 }

@@ -10,6 +10,7 @@ export interface AuthData {
 }
 
 export interface UserData {
+  idUser: string
   firstName: string
   lastName: string
   userType: UserType | null

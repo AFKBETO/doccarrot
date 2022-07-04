@@ -9,8 +9,8 @@ import QrCodeIcon from '@mui/icons-material/QrCode';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import moment from "moment";
-import {PrescriptionData} from "../../../../config/types";
-import {PRESCRIPTIONS_CONTEXT } from "../../../../config/dataContexts";
+import {PrescriptionData, UserType} from "../../../../config/types";
+import { USER_CONTEXT } from "../../../../config/userContext";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -37,10 +37,10 @@ function Prescriptions() {
   const { userid } = router.query
 
   const [ selectedPrescription, setSelectedPrescription ] = useState<PrescriptionData | null>(null);
-  const prescriptionContext = React.useContext(PRESCRIPTIONS_CONTEXT)
+  const userContext = React.useContext(USER_CONTEXT)
 
   return (
-      <RouteGuard userId={userid as string}>
+      <RouteGuard userId={userid as string} userType={UserType.patient}>
           <Grid container spacing={2} sx={{ paddingLeft: 5, paddingRight: 5, paddingBottom: 10 }}>
 
             {/*---------- TITRE TOP ----------*/}
@@ -54,7 +54,7 @@ function Prescriptions() {
                 <Typography variant="h3" sx={{ textDecoration: 'underline' }}>Historique</Typography>
 
                 <List sx={{ mb: 2, maxHeight: '100%', overflow: 'auto' }}>
-                  { prescriptionContext.prescriptions.map((prescription) => (
+                  { userContext.patientPrescriptions.map((prescription) => (
 
                       /*---------- Une prescription dans la liste de gauche ----------*/
                       <React.Fragment key={prescription.idPrescription}>

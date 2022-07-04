@@ -1,14 +1,13 @@
 import Head from 'next/head'
 import {Box, Grid, Typography} from '@mui/material'
 import React from 'react'
-import {PRESCRIPTIONS_CONTEXT, USER_CONTEXT} from "../config/dataContexts";
+import { USER_CONTEXT } from "../config/userContext";
 import Loader from "../components/Loader";
 import {useHooks} from "../config/dataHooks";
 
 
 function Home() {
     const userContext = React.useContext(USER_CONTEXT)
-    const prescriptionContext = React.useContext(PRESCRIPTIONS_CONTEXT)
 
     if (userContext.firebaseLoading) {
         return (
