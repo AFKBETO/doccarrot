@@ -2,11 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { firestore } from '../../config/firebase'
 import { getDocs, collection } from 'firebase/firestore'
-
-interface MedicationTypes {
-  id: string,
-  name: string
-}
+import { MedicationTypes } from '../../config/types'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {

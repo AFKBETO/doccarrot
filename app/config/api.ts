@@ -27,3 +27,7 @@ export async function addUser (uid: string, userData: UserData): Promise<void> {
     throw error
   }
 }
+
+export async function getMedicines () {
+  return await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/medicine/`)
+}
