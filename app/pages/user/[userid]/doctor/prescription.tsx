@@ -6,6 +6,8 @@ import { styled } from '@mui/material/styles'
 import { Paper, Typography, IconButton, Grid } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import SendIcon from '@mui/icons-material/Send'
+import { getMedicines } from '../../../../config/api'
+import { MedicationTypes } from '../../../../config/types'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -24,8 +26,14 @@ const sharePrescri = () => {
 }
 
 function Prescription() {
+  const [ medicines, setMedicines ] = React.useState<MedicationTypes>({id:'', name: ''})
+  const [ reload, setReload ] = React.useState<boolean>(false)
   const router = useRouter()
   const { userid } = router.query
+
+  React.useEffect(() => {
+
+  }, [reload])
 
   return (
     <RouteGuard userId={userid as string} userType={UserType.doctor}>
