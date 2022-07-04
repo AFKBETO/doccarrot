@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import AddIcon from '@mui/icons-material/Add'
 import Link from 'next/link'
 import { Paper, InputBase, Typography, List, IconButton, Grid, ListItem, ListItemText } from '@mui/material'
-import { USER_CONTEXT } from "../../../../config/userContext";
+import { USER_CONTEXT } from "../../../../config/dataContexts";
 import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import { UserType } from '../../../../config/types'
@@ -61,21 +61,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const searchPatient = () => {
-  console.log('search')
 }
 
 const removePatient = () => {
-  console.log('remove')
 }
 
 const newPrescription = () => {
-  console.log('newPres')
 }
 
 let id_patient: number
 const seePatient = (event: React.MouseEvent, value: number) => {
   id_patient=value
-  console.log(value)
 }
 
 const patients = [

@@ -65,15 +65,12 @@ const Input = styled('input')({
 });
 
 const handleSubmission = () => {
-  console.log('handle')
 }
 
 const removeDoctor = () => {
-  console.log('remove')
 }
 
 const removePharmacy = () => {
-  console.log('remove')
 }
 
 const doctors = [

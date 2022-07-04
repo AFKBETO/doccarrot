@@ -18,11 +18,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const editPrescri = () => {
-  console.log('edit')
 }
 
 const sharePrescri = () => {
-  console.log('share')
 }
 
 function Prescription() {

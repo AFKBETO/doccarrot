@@ -35,14 +35,16 @@ export interface MedicationTypes {
 
 export interface MedicationData {
   idMedication: string
-  idMedicationType: string
   quantity: number
+  name: string
 }
 
 export interface PrescriptionData {
   idPrescription: string
   idPatient: string
   idDoctor: string
+  doctorFirstName: string
+  doctorLastName: string
   date: { seconds: number }
   location: string
   currentUses: number

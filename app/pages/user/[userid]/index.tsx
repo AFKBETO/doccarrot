@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React from 'react'
-import { USER_CONTEXT } from '../../../config/userContext'
+import { USER_CONTEXT } from '../../../config/dataContexts'
 import RouteGuard from '../../../components/RouteGuard'
 import {Grid, Typography} from "@mui/material";
 

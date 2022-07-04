@@ -1,5 +1,5 @@
 import React from 'react'
-import {USER_CONTEXT} from "../../../../config/userContext";
+import {USER_CONTEXT} from "../../../../config/dataContexts";
 import { styled } from '@mui/material/styles';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 //import Link from 'next/link'
@@ -29,15 +29,12 @@ const style = {
 };
 
 const readQRCode = () => {
-  console.log('read')
 }
 
 const readCode = () => {
-  console.log('read')
 }
 
 const updatePrescri = () => {
-  console.log('update')
 }
 
 function IndexPharmacien() {

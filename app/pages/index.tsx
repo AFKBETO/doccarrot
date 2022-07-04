@@ -1,53 +1,55 @@
 import Head from 'next/head'
-import { auth } from '../config/firebase'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import {Box, Grid, Typography} from '@mui/material'
 import React from 'react'
+import {PRESCRIPTIONS_CONTEXT, USER_CONTEXT} from "../config/dataContexts";
+import Loader from "../components/Loader";
+import {useHooks} from "../config/dataHooks";
 
 
 function Home() {
-  const [user, loading, error] = useAuthState(auth)
+    const userContext = React.useContext(USER_CONTEXT)
+    const prescriptionContext = React.useContext(PRESCRIPTIONS_CONTEXT)
 
-  if (loading) {
-    return (
-      <div>
-        <p>Initialising User...</p>
-      </div>
-    )
-  }
-  if (error) {
-    return (
-      <div>
-        {`Error: ${error}`}
-      </div>
-    )
-  }
-  if (user) {
-    return (
-        <Grid container sx={{ paddingLeft: 5, paddingRight:5, paddingBottom: 10 }}>
-            <Grid item>
-                <Typography variant="h2">Logged in as { user.email }</Typography>
-                <p style={{ textAlign: 'justify' }}>
-                  {'... page d\'accueil ...'}
-                </p>
+    if (userContext.firebaseLoading) {
+        return (
+            <Grid container sx={{ padding: 10, textAlign: 'center' }}>
+                <Loader show />
             </Grid>
-        </Grid>
+        )
+    }
+    if (userContext.firebaseError) {
+        return (
+            <Grid container sx={{ padding: 10 }}>
+                <>Erreur de chargement des données. {userContext.firebaseError}</>
+            </Grid>
+        )
+    }
+    if (userContext.firebaseUser) {
+        return (
+            <Grid container sx={{ paddingLeft: 5, paddingRight:5, paddingBottom: 10 }}>
+                <Grid item>
+                    <Typography variant="h2">Bienvenue, { userContext.userName }</Typography>
+                    <p style={{ textAlign: 'justify' }}>
+                        {'... page d\'accueil ...'}
+                    </p>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    return (
+        <Box>
+            <Head>
+                <title>Ormeli</title>
+                <meta name='description' content='Ormeli App' />
+                <link rel='icon' href='/favicon.png' />
+            </Head>
+
+            <main>
+                <Typography variant='h2' align='center'>Bienvenue sur Ormeli.</Typography>
+            </main>
+        </Box>
     )
-  }
-
-  return (
-    <Box> 
-      <Head>
-        <title>Ormeli</title>
-        <meta name='description' content='Ormeli App' />
-        <link rel='icon' href='/favicon.png' />
-      </Head>
-
-      <main>
-          <Typography variant='h2' align='center'>Bienvenue sur Ormeli.</Typography>
-      </main>
-    </Box>
-  )
 }
 
 export default Home

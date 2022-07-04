@@ -34,10 +34,12 @@ export async function getPrescriptionsByPatient (idUser: string): Promise<Prescr
     let prescriptions: PrescriptionData[] = []
     for (let p of res.data.prescriptions) {
       let medications: MedicationData[] = []
-      let prescription = {
+      let prescription: PrescriptionData = {
         currentUses: p.currentUses,
         date: p.date,
         idDoctor: p.idDoctor,
+        doctorFirstName: p.doctorFirstName,
+        doctorLastName: p.doctorLastName,
         idPatient: p.idPatient,
         idPrescription: p.idPrescription,
         location: p.location,
@@ -47,7 +49,7 @@ export async function getPrescriptionsByPatient (idUser: string): Promise<Prescr
       for (let m of p.medications) {
         medications.push({
           idMedication: m.idMedication,
-          idMedicationType: m.idMedicationType,
+          name: m.name,
           quantity: m.quantity
         })
       }
@@ -55,6 +57,7 @@ export async function getPrescriptionsByPatient (idUser: string): Promise<Prescr
     }
     return prescriptions;
   } catch (error) {
+    console.log(error);
     throw error
   }
 }
