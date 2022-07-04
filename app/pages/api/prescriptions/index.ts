@@ -44,13 +44,13 @@ export async function fetchPrescriptionDetails(prescription: PrescriptionData) {
     }
 
     // fetch medications and their details
-    const snapMeds = await getDocs(collection(firestore, 'prescriptions', prescription.idPrescription, 'medications'))
-    for (const med of snapMeds.docs.map(d => d.data())) {
-        const snapMedType = await getDoc(doc(firestore, 'medicationsTypes', med.idMedicationType))
+    const meds = (await getDocs(collection(firestore, 'prescriptions', prescription.idPrescription, 'medications'))).docs.map(d => d.data())
+    for (const med of meds) {
+        const medTypeData = (await getDoc(doc(firestore, 'medicationTypes', med.idMedicationType))).data()
         prescription.medications.push({
             idMedication: med.idMedication,
             quantity: med.quantity,
-            name: snapMedType.data()?.name
+            name: medTypeData?.name
         })
     }
 
