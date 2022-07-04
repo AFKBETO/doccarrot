@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { firestore } from '../../../config/firebase'
+import { firestore } from '../../../../config/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 
 interface UserData extends Record<string, any> {
