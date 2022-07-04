@@ -1,7 +1,7 @@
-import { ReactElement, PropsWithChildren } from 'react'
+import React, { ReactElement, PropsWithChildren } from 'react'
 import { UserType } from '../config/types'
 import { useUserData } from '../config/userDataHooks'
-import { Link } from '@mui/material'
+import { Grid } from '@mui/material'
 import Loader from './Loader'
 
 interface Props {
@@ -10,25 +10,37 @@ interface Props {
 }
 
 function RouteGuard(props: PropsWithChildren & Props): ReactElement {
-  const { userId, loading, error, userType } = useUserData()
+    const { userId, loading, error, userType } = useUserData()
 
-  if (loading) {
-    return <Loader show={loading} />
-  }
+    if (loading) {
+        return (
+            <Grid container sx={{ padding: 10, textAlign: 'center' }}>
+              <Loader show />
+            </Grid>
+        )
+    }
 
-  if (error) {
-    return <div>Erreur</div>
-  }
+    if (error) {
+        return (
+            <Grid container sx={{ padding: 10 }}>
+              Erreur de chargement des données.
+            </Grid>
+      )
+    }
 
-  if (props.userId !== userId) {
-    return <div>Veuillez <Link href='/login'>connecter</Link> à votre compte !</div>
-  }
+    if (props.userId !== userId) {
+        return (
+            <Grid container sx={{ padding: 10, textAlign: 'center' }}>
+              <Loader show />
+            </Grid>
+        )
+    }
 
-  if (props.userType !== null && props.userType !== undefined && (userType !== props.userType)) {
-    return <div>{`Vous n'avez pas la permission suffisante !`}</div>
-  }
+    if (props.userType !== null && props.userType !== undefined && (userType !== props.userType)) {
+        return <div>{`Vous n'avez pas la permission suffisante !`}</div>
+    }
 
-  return props.children as ReactElement
+    return props.children as ReactElement
 }
 
 export default RouteGuard
