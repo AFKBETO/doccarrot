@@ -38,11 +38,11 @@ function Prescription() {
   const router = useRouter()
   const { userid } = router.query
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
   };
 
@@ -62,8 +62,8 @@ function Prescription() {
           <Item sx={{background: '#ABBD98', borderRadius: 5}}>
             <Typography><h1>Espace édition</h1></Typography>
             
-            <form onSubmit="handleSubmit">
-              <Grid container sx={{paddingLeft: 5}} textAlign="left" justify="center" direction="column">
+            <FormControl onSubmit={handleSubmit}>
+              <Grid container sx={{ paddingLeft: 5, textAlign: 'left', justify: 'center', direction: 'column' }} >
                 <Grid item>
                   <Typography>Nom Médecin</Typography>
                 </Grid>
@@ -182,7 +182,7 @@ function Prescription() {
                   </Grid>
                 </Grid>
               </Grid>
-            </form>
+            </FormControl>
            
           </Item>
         </Grid>
