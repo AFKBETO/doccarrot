@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { DoctorData, PatientData, PharmacistData, UserData, UserType } from './types'
+import {DoctorData, MedicationData, PatientData, PharmacistData, PrescriptionData, UserData, UserType} from './types'
 
 export async function getUser (uid: string): Promise<UserData> {
   try {
@@ -27,6 +27,38 @@ export async function addUser (uid: string, userData: UserData): Promise<void> {
     throw error
   }
 }
+
+export async function getPrescriptionsByPatient (idUser: string): Promise<PrescriptionData[]> {
+  try {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/prescriptions/bypatient/${idUser}`)
+    let prescriptions: PrescriptionData[] = []
+    for (let p of res.data.prescriptions) {
+      let medications: MedicationData[] = []
+      let prescription = {
+        currentUses: p.currentUses,
+        date: p.date,
+        idDoctor: p.idDoctor,
+        idPatient: p.idPatient,
+        idPrescription: p.idPrescription,
+        location: p.location,
+        maxUses: p.maxUses,
+        medications: medications
+      };
+      for (let m of p.medications) {
+        medications.push({
+          idMedication: m.idMedication,
+          idMedicationType: m.idMedicationType,
+          quantity: m.quantity
+        })
+      }
+      prescriptions.push(prescription);
+    }
+    return prescriptions;
+  } catch (error) {
+    throw error
+  }
+}
+
 
 export async function getMedicines () {
   return await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/medicine/`)
