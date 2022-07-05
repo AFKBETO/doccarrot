@@ -16,7 +16,7 @@ const bodyStyle = {
   'maxHeight': '90vh',
   'margin': 0,
   'display': 'flex',
-  'flex-direction': 'column'
+  'flexDirection': 'column'
 }
 
 function MyApp ({ Component, pageProps }: AppProps) {
