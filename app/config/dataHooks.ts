@@ -31,12 +31,12 @@ export function useHooks () {
     const fetchUserData = async () => {
         try {
             if (firebaseUser) {
-                const res = await getUser(firebaseUser.uid)
+                const userData = await getUser(firebaseUser.uid)
                 setUserId(firebaseUser.uid)
-                setUserName(res.firstName + ' ' + res.lastName)
-                setUserType(res.userType)
+                setUserName(userData.firstName + ' ' + userData.lastName)
+                setUserType(userData.userType)
 
-                if (res.userType == UserType.patient) {
+                if (userData.userType == UserType.patient) {
                     const patientPrescriptions = await getPrescriptionsByPatient(firebaseUser.uid)
                     setPatientPrescriptions(patientPrescriptions)
 
@@ -47,9 +47,9 @@ export function useHooks () {
                     setPatientPharmacies(patientPharmacies)
 
                     setPharmacistPrescriptions([])
-                } else if (res.userType == UserType.pharmacist) {
-                    if (res.idPharmacy) {
-                        const pharmacistPrescriptions = await getPrescriptionsByPharmacy(res.idPharmacy)
+                } else if (userData.userType == UserType.pharmacist) {
+                    if (userData.idPharmacy) {
+                        const pharmacistPrescriptions = await getPrescriptionsByPharmacy(userData.idPharmacy)
                         setPharmacistPrescriptions(pharmacistPrescriptions)
                     } else {
                         setPharmacistPrescriptions([])

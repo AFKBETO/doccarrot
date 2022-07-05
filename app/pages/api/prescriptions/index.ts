@@ -63,7 +63,9 @@ export async function fetchPrescriptionDetails(prescription: PrescriptionData) {
         // fetch shared with
         let swith = (await getDocs(collection(firestore, 'sharingCodes', code.idSharingCode, 'sharedWith'))).docs.map(d => d.data())
         for (let sw of swith) {
-            let shared: SharedWithData = {}
+            let shared: SharedWithData = {
+                idSharedWith: sw.idSharedWith
+            }
 
             if (sw.idDoctor) {
                 const sharedWithDoctorData = (await getDoc(doc(firestore, 'users', sw.idDoctor))).data()

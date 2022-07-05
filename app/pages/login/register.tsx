@@ -1,7 +1,7 @@
 import React from 'react'
 import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth'
 import { Box, Button, FilledInput, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography, Switch } from '@mui/material'
-import { AuthData, PatientData, DoctorData, UserData, UserType, PharmacistData } from '../../config/types'
+import { AuthData, UserData, UserType } from '../../config/types'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { auth } from '../../config/firebase'
 import toast from 'react-hot-toast'
@@ -52,7 +52,7 @@ function labelProps (index: number) {
 
 function Register ({ closeModal }: RegisterProps) {
   const [tabValue, setTabValue] = React.useState<number>(0)
-  const [userData, setUserData] = React.useState<AuthData & UserData & PatientData & DoctorData & PharmacistData>({
+  const [userData, setUserData] = React.useState<AuthData & UserData>({
     idUser: "",
     tokenCarteVitale: "",
     email: '',

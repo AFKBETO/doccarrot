@@ -1,9 +1,5 @@
 import axios from 'axios'
 import {
-    DoctorData,
-    MedicationData,
-    PatientData,
-    PharmacistData,
     PharmacyData,
     PrescriptionData,
     UserData,
