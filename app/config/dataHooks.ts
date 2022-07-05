@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../config/firebase'
-import {getDoctorsByPatient, getPharmaciesByPatient, getPrescriptionsByPatient, getUser} from './api'
+import {
+    getDoctorsByPatient,
+    getPharmaciesByPatient,
+    getPrescriptionsByPatient,
+    getPrescriptionsByPharmacy,
+    getUser
+} from './api'
 import {PharmacyData, PrescriptionData, UserData, UserType} from "./types";
 
 export function useHooks () {
@@ -15,9 +21,14 @@ export function useHooks () {
     const [patientDoctors, setPatientDoctors] = useState<UserData[]>([])
     const [patientPharmacies, setPatientPharmacies] = useState<PharmacyData[]>([])
 
-    useEffect(() => { refreshUserData() }, [ firebaseUser ])
+    const [pharmacistPrescriptions, setPharmacistPrescriptions] = useState<PrescriptionData[]>([])
 
-    const refreshUserData = async () => {
+    const [refetchUserData, setRefetchUserData] = useState<number>(0)
+    const refreshUserData = () => setRefetchUserData(refetchUserData + 1);
+
+    useEffect(() => { fetchUserData() }, [ firebaseUser, refetchUserData ])
+
+    const fetchUserData = async () => {
         try {
             if (firebaseUser) {
                 const res = await getUser(firebaseUser.uid)
@@ -34,6 +45,19 @@ export function useHooks () {
 
                     const patientPharmacies = await getPharmaciesByPatient(firebaseUser.uid)
                     setPatientPharmacies(patientPharmacies)
+
+                    setPharmacistPrescriptions([])
+                } else if (res.userType == UserType.pharmacist) {
+                    if (res.idPharmacy) {
+                        const pharmacistPrescriptions = await getPrescriptionsByPharmacy(res.idPharmacy)
+                        setPharmacistPrescriptions(pharmacistPrescriptions)
+                    } else {
+                        setPharmacistPrescriptions([])
+                    }
+
+                    setPatientPrescriptions([])
+                    setPatientDoctors([])
+                    setPatientPharmacies([])
                 } else {
                     setPatientPrescriptions([])
                     setPatientDoctors([])
@@ -53,5 +77,5 @@ export function useHooks () {
         setPatientPharmacies([])
     }
 
-    return { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors, patientPharmacies }
+    return { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors, patientPharmacies, refreshUserData }
 }

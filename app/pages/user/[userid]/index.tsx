@@ -13,7 +13,7 @@ function User () {
         <RouteGuard userId={userid as string}>
             <Grid container sx={{ paddingLeft: 5, paddingRight:5, paddingBottom: 10 }}>
                 <Grid item>
-                    <Typography><h1>Hello, { userContext.userName }</h1></Typography>
+                    <Typography variant="h2">Hello, { userContext.userName }</Typography>
                     <p style={{ textAlign: 'justify' }}>
                       ... paramètres utilisateur ...
                     </p>

@@ -132,7 +132,7 @@ function Suivi() {
                   <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes médecins</Typography>
                   <List sx={{ mb: 2 }}>
                     { userContext.patientDoctors
-                        .filter(doctor => searchDoc.length == 0 || `${doctor.firstName.toLowerCase()} ${doctor.lastName.toLowerCase()}`.includes(searchDoc))
+                        .filter(doctor => searchDoc.length == 0 || doctor.firstName.toLowerCase().includes(searchDoc) || doctor.lastName.toLowerCase().includes(searchDoc))
                         .map((doctor) => (
                             <React.Fragment key={doctor.idUser}>
                               <ListItem button>
@@ -149,7 +149,7 @@ function Suivi() {
                       <SearchIcon />
                     </SearchIconWrapper>
                     <StyledInputBase
-                        placeholder="Chercher par nom de docteur"
+                        placeholder="Filtrer"
                         inputProps={{ 'aria-label': 'search' }}
                         onInput={searchDoctor}
                     />
@@ -162,23 +162,25 @@ function Suivi() {
                 <Item sx={{background: '#ABBD98', borderRadius: 5}}>
                   <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes pharmacies</Typography>
                   <List sx={{ mb: 2 }}>
-                    {pharmacies.map(({ id, nom, adresse }) => (((searchPhar.length > 0) && !(nom.toLowerCase().includes(searchPhar) || adresse.toLowerCase().includes(searchPhar))) ? <></> :
-                            <React.Fragment key={id}>
+                    { userContext.patientPharmacies
+                        .filter(pharmacy => searchPhar.length == 0 || pharmacy.name.toLowerCase().includes(searchPhar) || pharmacy.address.toLowerCase().includes(searchPhar))
+                        .map((pharmacy) => (
+                            <React.Fragment key={pharmacy.idPharmacy}>
                               <ListItem button>
-                                <ListItemText primary={nom} secondary={adresse} />
+                                <ListItemText primary={pharmacy.name} secondary={pharmacy.address} />
                                 <IconButton component="span" onClick={removePharmacy}>
                                   <RemoveIcon />
                                 </IconButton>
                               </ListItem>
                             </React.Fragment>
-                    ))}
+                        )) }
                   </List>
                   <Search>
                     <SearchIconWrapper>
                       <SearchIcon />
                     </SearchIconWrapper>
                     <StyledInputBase
-                        placeholder="Chercher par nom de pharmacie"
+                        placeholder="Filtrer"
                         inputProps={{ 'aria-label': 'search' }}
                         onInput={searchPharmacy}
                     />

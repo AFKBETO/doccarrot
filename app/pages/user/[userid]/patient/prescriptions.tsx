@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import { styled } from '@mui/material/styles';
@@ -21,7 +21,7 @@ import QrCodeIcon from '@mui/icons-material/QrCode';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import moment from "moment";
-import {PharmacyData, PrescriptionData, UserType} from "../../../../config/types";
+import {PharmacyData, PrescriptionData, SharedWithData, UserType} from "../../../../config/types";
 import { USER_CONTEXT } from "../../../../config/userContext";
 import {addSharingCode, getPharmacyById, getPharmacyByPublicId} from "../../../../config/api";
 import toast from "react-hot-toast";
@@ -46,6 +46,12 @@ const modalStyle = {
   background: '#ABBD98'
 }
 
+const prescriptionPropsStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+  marginBottom: 1
+}
+
 const downloadPrescri = () => {
   alert('Téléchargement de la prescription')
 }
@@ -58,15 +64,24 @@ const deletePrescri = () => {
   alert('Supprimer la prescription')
 }
 
-function makeid(length) {  // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-  let result           = '';
-  let characters       = '0123456789';
+function makeid(length: number) {  // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+  let result = '';
+  let characters = '0123456789';
   let charactersLength = characters.length;
-  for ( let i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() *
-        charactersLength));
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+function describeSharedWith(sharedWith: SharedWithData[]) {
+  if (sharedWith.length == 0) return "non partagé"
+  let shared = "partagé avec "
+  for (let i = 0; i < sharedWith.length; ++i) {
+    shared += sharedWith[i].pharmacyName || (sharedWith[i].doctorFirstName + ' ' + sharedWith[i].doctorLastName)
+    if (i + 1 < sharedWith.length) shared += ", "
+  }
+  return shared
 }
 
 function Prescriptions() {
@@ -74,10 +89,14 @@ function Prescriptions() {
   const { userid } = router.query
   const userContext = React.useContext(USER_CONTEXT)
 
-  const [selectedPrescription, setSelectedPrescription] = useState<PrescriptionData | null>(null);
+  const [selectedPrescription, setSelectedPrescription] = useState<PrescriptionData | null | undefined>(null);
   const [sharingSelectedPharmacy, setSharingSelectedPharmacy] = useState<PharmacyData | null>(null);
   const [sharingPharmacyID, setSharingPharmacyID] = useState<string>('');
   const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    setSelectedPrescription(userContext.patientPrescriptions.find(p => p.idPrescription == selectedPrescription?.idPrescription))
+  }, [userContext.patientPrescriptions]);
 
   const shareToPharmacy = async () => {
     let shareWithPharmacyId = null
@@ -95,6 +114,9 @@ function Prescriptions() {
       shareWithPharmacyId = sharingSelectedPharmacy.idPharmacy
     }
 
+    // close modal
+    setOpenCreateModal(false)
+
     // generate code
     await addSharingCode(
         userContext.userId as string,
@@ -103,7 +125,8 @@ function Prescriptions() {
         shareWithPharmacyId ? [{ idPharmacy: shareWithPharmacyId }] : []
     )
 
-    setOpenCreateModal(false)
+    // refresh user data
+    userContext.refreshUserData()
   }
 
   return (
@@ -148,24 +171,42 @@ function Prescriptions() {
               { selectedPrescription ?
                   <>
                     <Container sx={{ margin: 2, textAlign: 'left' }}>
-                      <Typography variant='h4'>Rédigée par :</Typography>
-                      <Typography>{ selectedPrescription.doctorFirstName }  { selectedPrescription.doctorLastName }</Typography>
-                      <br />
-                      <Typography variant='h4'>Date :</Typography>
-                      <Typography>{ moment(selectedPrescription.date.seconds * 1000).format("[Le] DD/MM/YYYY [à] HH:mm") }</Typography>
-                      <br />
-                      <Typography variant='h4'>Location :</Typography>
-                      <Typography>{ selectedPrescription.location }</Typography>
-                      <br />
-                      <Typography variant='h4'>Utilisations :</Typography>
-                      <Typography>{ selectedPrescription.currentUses } / { selectedPrescription.maxUses }</Typography>
-                      <br />
-                      <Typography variant='h4'>Liste de médicaments :</Typography>
-                      { selectedPrescription.medications.map(medication => (
-                          <React.Fragment key={medication.idMedication}>
-                            <Typography>- { medication.name } x{ medication.quantity }</Typography>
-                          </React.Fragment>
-                      )) }
+                      {/*---------- INFORMATIONS GENERALES ----------*/}
+                      <Box sx={prescriptionPropsStyle}>
+                        <Typography variant='h4'>Rédigée par : </Typography>
+                        <Typography variant='h5'>&nbsp;{ selectedPrescription.doctorFirstName } { selectedPrescription.doctorLastName }</Typography>
+                      </Box>
+                      <Box sx={prescriptionPropsStyle}>
+                        <Typography variant='h4'>Date : </Typography>
+                        <Typography variant='h5'>&nbsp;{ moment(selectedPrescription.date.seconds * 1000).format("[le] DD/MM/YYYY [à] HH:mm") }</Typography>
+                      </Box>
+                      <Box sx={prescriptionPropsStyle}>
+                        <Typography variant='h4'>Lieu : </Typography>
+                        <Typography variant='h5'>&nbsp;{ selectedPrescription.location }</Typography>
+                      </Box>
+                      <Box sx={prescriptionPropsStyle}>
+                        <Typography variant='h4'>Utilisations : </Typography>
+                        <Typography variant='h5'>&nbsp;{ selectedPrescription.currentUses } / { selectedPrescription.maxUses }</Typography>
+                      </Box>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant='h4'>Liste de médicaments : </Typography>
+                        { selectedPrescription.medications.map(medication => (
+                            <React.Fragment key={medication.idMedication}>
+                              <Typography variant='h5'>- { medication.name } x{ medication.quantity }</Typography>
+                            </React.Fragment>
+                        )) }
+                      </Box>
+                      { selectedPrescription.sharingCodes.length != 0 ?
+                          <Box>
+                            <Typography variant='h4'>Codes de partage : </Typography>
+                            { selectedPrescription.sharingCodes.map(sharingCode => (
+                                <React.Fragment key={sharingCode.idSharingCode}>
+                                  <Typography variant='h5' component='div'>- { sharingCode.code }, {describeSharedWith(sharingCode.sharedWith)}</Typography>
+                                </React.Fragment>
+                            )) }
+                          </Box>
+                          : <></>
+                      }
                     </Container>
                   </>
                   :
@@ -203,7 +244,7 @@ function Prescriptions() {
                             { userContext.patientPharmacies.length != 0 ?
                                 <>
                                   <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                                  <Select labelId="select-pharmacy-label" id="select-pharmacy" label="Partager aussi avec votre pharmacie"
+                                  <Select labelId="select-pharmacy-label" id="select-pharmacy" label="Avec votre pharmacie"
                                           value={ 0 }
                                           onChange={ event => setSharingSelectedPharmacy(userContext.patientPharmacies[event.target.value as number]) }
                                   >
@@ -216,7 +257,7 @@ function Prescriptions() {
                             }
 
                             {/*---------- ... WITH NEW PHARMACY ... ----------*/}
-                            <TextField id="id-pharmacy" label="Partager aussi avec une nouvelle pharmacie" variant="outlined"
+                            <TextField id="id-pharmacy" label="Avec une nouvelle pharmacie" variant="outlined"
                                        value={sharingPharmacyID}
                                        onChange={ event => setSharingPharmacyID(event.target.value) }
                             />

@@ -40,7 +40,12 @@ export default function theme () {
             },
             h4: {
                 fontSize: 17,
-                color: 'white',
+                color: 'white'
+            },
+            h5: {
+                fontSize: 17,
+                color: 'black',
+                fontWeight: 'bold'
             },
             body1: {
                 fontSize: 17,
