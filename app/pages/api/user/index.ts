@@ -24,7 +24,6 @@ async function addUserType(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'PUT') {
     try {
       const { uid, userType } = req.body
-      console.log(uid,userType)
       switch(userType) {
         case 'patient': {
           const { nss } = req.body

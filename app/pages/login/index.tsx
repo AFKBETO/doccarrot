@@ -53,12 +53,12 @@ function Login() {
         margin: 'auto',
         mt: 4,
         pt: 2,
-        border: 1,
+        mb: 4,
         borderRadius: '20px',
         backgroundColor: 'primary.main'
       }}
     >
-      <Typography variant='h4' align='center'>Connexion</Typography>
+      <Typography variant='h3' align='center'>Connexion</Typography>
       <Stack spacing={2} justifyContent='center' alignItems='center' sx={{ my: 4}}>
         <TextField id='email-required' variant='filled' label='Email' type='email' color='secondary' size='small' required
           value={userData.email}

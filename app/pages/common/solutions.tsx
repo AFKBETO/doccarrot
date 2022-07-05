@@ -4,7 +4,7 @@ import React from "react"
 function Solutions() {
   return (
       <Grid container sx={{ px:5, pb: 10, overflow: 'auto' }}>
-          <Typography><h1>Nos solutions</h1></Typography>
+          <Typography variant="h2">Nos solutions</Typography>
           <p style={{ textAlign: 'justify' }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed libero orci, viverra nec tortor nec, accumsan posuere risus. Aenean mollis justo at tempor sodales. Etiam ullamcorper urna vel ante auctor, id dictum ex vehicula. Morbi in finibus dolor, id sagittis enim. Praesent a pellentesque sapien. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam pharetra est nec mauris posuere fringilla. Integer vitae malesuada mauris, sit amet congue libero. Sed justo leo, consequat eget mollis sed, lobortis nec tellus.
           </p>

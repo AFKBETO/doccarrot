@@ -29,15 +29,12 @@ const style = {
 };
 
 const readQRCode = () => {
-  console.log('read')
 }
 
 const readCode = () => {
-  console.log('read')
 }
 
 const updatePrescri = () => {
-  console.log('update')
 }
 
 function IndexPharmacien() {

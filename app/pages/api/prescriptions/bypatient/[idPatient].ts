@@ -2,31 +2,39 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { firestore } from '../../../../config/firebase'
 import { collection, query, where, getDocs } from "firebase/firestore";
+import {PrescriptionData} from "../../../../config/types";
+import {fetchPrescriptionDetails} from "../index";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    try {
-      const { idPatient } = req.query
+    if (req.method === 'GET') {
+        try {
+            const { idPatient } = req.query
+            const docs = (await getDocs(query(collection(firestore, 'prescriptions'), where('idPatient', '==', idPatient))))
+                .docs
+                .map(d => d.data())
 
-      const coll = collection(firestore, 'prescriptions');
-      const q = query(coll, where('idPatient', '==', idPatient));
-      const snapshot = await getDocs(q);
+            let prescriptions: PrescriptionData[] = []
 
-      let prescriptions = snapshot.docs.map(doc => doc.data());
-      console.log('patientId', idPatient)
-      console.log(prescriptions);
-
-      for (let prescription of prescriptions) {
-        const snapMeds = await getDocs(collection(firestore, 'prescriptions/' + (prescription.idPrescription as string) + '/medications'));
-        prescription.medications = [];
-        for (const doc of snapMeds.docs.map(d => d.data())) {
-          prescription.medications.push(doc);
-        }
-      }
+            for (let doc of docs) {
+                let prescription: PrescriptionData = {
+                    currentUses: doc.currentUses,
+                    date: doc.date,
+                    doctorFirstName: "?",  // to be fetched below
+                    doctorLastName: "?",  // to be fetched below
+                    idDoctor: doc.idDoctor,
+                    idPatient: doc.idPatient,
+                    idPrescription: doc.idPrescription,
+                    location: doc.location,
+                    maxUses: doc.maxUses,
+                    medications: []  // to be fetched below
+                }
+                await fetchPrescriptionDetails(prescription)
+                prescriptions.push(prescription)
+            }
 
       res.status(200).json({ prescriptions })
     } catch (error) {
-      res.status(404).json({ error: error.message })
+      res.status(404).json({ error: error.message + req.body.uid })
     }
   }
 }

@@ -1,41 +1,47 @@
-import { createContext } from 'react'
+import React, { createContext } from 'react'
 import { User } from 'firebase/auth'
-import { UserType } from "./types"
+import {PrescriptionData, UserData, UserType} from "./types"
 
 export class UserContext {
 
-  userId: string | null
-  userName: string | null
-  userType: UserType | null
-  firebaseUser: User | null | undefined
+    firebaseUser: User | null | undefined = null
+    firebaseLoading: boolean = false
+    firebaseError: Error | undefined = undefined
 
-  constructor(userId: string | null = null,
-              userName: string | null,
-              userType: UserType | null,
-              firebaseUser: User | null | undefined) {
-    this.userId = userId
-    this.firebaseUser = firebaseUser
-    this.userName = userName
-    this.userType = userType
-  }
+    userId: string | null = null
+    userName: string | null = null
+    userType: UserType | null = null
 
-  updateUserId(value: string | null) {
-    this.userId = value
-  }
-  updateUserName(value: string | null) {
-    this.userName = value
-  }
-  updateUserType(value: UserType | null) {
-    this.userType = value
-  }
-  updateFirebaseUser(value: User | null | undefined) {
-    this.firebaseUser = value
-  }
+    patientPrescriptions: PrescriptionData[] = []
+    patientDoctors: UserData[] = []
 
-  toString() {
-    return `${(this.userId)},${this.userName},${this.userType}`;
-  }
+    updateFirebase(user: User | null | undefined, loading: boolean, error: Error | undefined) {
+        this.firebaseUser = user
+        this.firebaseLoading = loading
+        this.firebaseError = error
+    }
+
+    updateUserId(value: string | null) {
+        this.userId = value
+    }
+    updateUserName(value: string | null) {
+        this.userName = value
+    }
+    updateUserType(value: UserType | null) {
+        this.userType = value
+    }
+
+    updatePatientPrescriptions(value: PrescriptionData[]) {
+        this.patientPrescriptions = value
+    }
+    updatePatientDoctors(value: UserData[]) {
+        this.patientDoctors = value
+    }
+
+    toString() {
+        return `${(this.userId)},${this.userName},${this.userType}`;
+    }
 
 }
 
-export const USER_CONTEXT = createContext<UserContext>(new UserContext(null, null, null, null))
+export const USER_CONTEXT = createContext<UserContext>(new UserContext())

@@ -53,6 +53,8 @@ function labelProps (index: number) {
 function Register ({ closeModal }: RegisterProps) {
   const [tabValue, setTabValue] = React.useState<number>(0)
   const [userData, setUserData] = React.useState<AuthData & UserData & PatientData & DoctorData & PharmacistData>({
+    idUser: "",
+    tokenCarteVitale: "",
     email: '',
     password: '',
     firstName: '',
@@ -122,7 +124,6 @@ function Register ({ closeModal }: RegisterProps) {
   //const router = useRouter()
   const register = async () => {
     try {
-      console.log(userData)
       const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
       await addUser(userCredential.user.uid, userData)
       sendEmailVerification(userCredential.user)
