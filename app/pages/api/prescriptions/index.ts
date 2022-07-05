@@ -56,6 +56,7 @@ export async function fetchPrescriptionDetails(prescription: PrescriptionData) {
 
     // fetch sharing codes
     const codes = (await getDocs(query(collection(firestore, 'sharingCodes'),where('idPrescription', '==', prescription.idPrescription)))).docs.map(d => d.data())
+
     for (let code of codes) {
         let sharedWith: SharedWithData[] = []
 

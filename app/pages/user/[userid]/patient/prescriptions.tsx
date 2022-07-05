@@ -46,6 +46,12 @@ const modalStyle = {
   background: '#ABBD98'
 }
 
+const prescriptionPropsStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+  marginBottom: 1
+}
+
 const downloadPrescri = () => {
   alert('Téléchargement de la prescription')
 }
@@ -58,13 +64,12 @@ const deletePrescri = () => {
   alert('Supprimer la prescription')
 }
 
-function makeid(length) {  // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-  let result           = '';
-  let characters       = '0123456789';
+function makeid(length: number) {  // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+  let result = '';
+  let characters = '0123456789';
   let charactersLength = characters.length;
-  for ( let i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() *
-        charactersLength));
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
 }
@@ -95,6 +100,9 @@ function Prescriptions() {
       shareWithPharmacyId = sharingSelectedPharmacy.idPharmacy
     }
 
+    // close modal
+    setOpenCreateModal(false)
+
     // generate code
     await addSharingCode(
         userContext.userId as string,
@@ -102,8 +110,6 @@ function Prescriptions() {
         makeid(10),
         shareWithPharmacyId ? [{ idPharmacy: shareWithPharmacyId }] : []
     )
-
-    setOpenCreateModal(false)
   }
 
   return (
@@ -148,24 +154,48 @@ function Prescriptions() {
               { selectedPrescription ?
                   <>
                     <Container sx={{ margin: 2, textAlign: 'left' }}>
-                      <Typography variant='h4'>Rédigée par :</Typography>
-                      <Typography>{ selectedPrescription.doctorFirstName }  { selectedPrescription.doctorLastName }</Typography>
-                      <br />
-                      <Typography variant='h4'>Date :</Typography>
-                      <Typography>{ moment(selectedPrescription.date.seconds * 1000).format("[Le] DD/MM/YYYY [à] HH:mm") }</Typography>
-                      <br />
-                      <Typography variant='h4'>Location :</Typography>
-                      <Typography>{ selectedPrescription.location }</Typography>
-                      <br />
-                      <Typography variant='h4'>Utilisations :</Typography>
-                      <Typography>{ selectedPrescription.currentUses } / { selectedPrescription.maxUses }</Typography>
-                      <br />
-                      <Typography variant='h4'>Liste de médicaments :</Typography>
-                      { selectedPrescription.medications.map(medication => (
-                          <React.Fragment key={medication.idMedication}>
-                            <Typography>- { medication.name } x{ medication.quantity }</Typography>
-                          </React.Fragment>
-                      )) }
+                      {/*---------- INFORMATIONS GENERALES ----------*/}
+                      <Box sx={prescriptionPropsStyle}>
+                        <Typography variant='h4'>Rédigée par : </Typography>
+                        <Typography variant='h5'>&nbsp;{ selectedPrescription.doctorFirstName } { selectedPrescription.doctorLastName }</Typography>
+                      </Box>
+                      <Box sx={prescriptionPropsStyle}>
+                        <Typography variant='h4'>Date : </Typography>
+                        <Typography variant='h5'>&nbsp;{ moment(selectedPrescription.date.seconds * 1000).format("[le] DD/MM/YYYY [à] HH:mm") }</Typography>
+                      </Box>
+                      <Box sx={prescriptionPropsStyle}>
+                        <Typography variant='h4'>Lieu : </Typography>
+                        <Typography variant='h5'>&nbsp;{ selectedPrescription.location }</Typography>
+                      </Box>
+                      <Box sx={prescriptionPropsStyle}>
+                        <Typography variant='h4'>Utilisations : </Typography>
+                        <Typography variant='h5'>&nbsp;{ selectedPrescription.currentUses } / { selectedPrescription.maxUses }</Typography>
+                      </Box>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant='h4'>Liste de médicaments : </Typography>
+                        { selectedPrescription.medications.map(medication => (
+                            <React.Fragment key={medication.idMedication}>
+                              <Typography variant='h5'>- { medication.name } x{ medication.quantity }</Typography>
+                            </React.Fragment>
+                        )) }
+                      </Box>
+                      { selectedPrescription.sharingCodes.length != 0 ?
+                          <Box>
+                            <Typography variant='h4'>Codes de partage : </Typography>
+                            { selectedPrescription.sharingCodes.map(sharingCode => (
+                                <React.Fragment key={sharingCode.idSharingCode}>
+                                  <Typography variant='h5' component='div'>- { sharingCode.code },&nbsp;
+                                    {
+                                    sharingCode.sharedWith.length != 0 ?
+                                        <>partagé avec { sharingCode.sharedWith.map(shared => <span>{ shared.pharmacyName || (shared.doctorFirstName + ' ' + shared.doctorLastName) }</span>) }</>
+                                        : "non partagé"
+                                  }
+                                  </Typography>
+                                </React.Fragment>
+                            )) }
+                          </Box>
+                          : <></>
+                      }
                     </Container>
                   </>
                   :
