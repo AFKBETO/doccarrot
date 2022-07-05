@@ -26,7 +26,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     idPrescription: doc.idPrescription,
                     location: doc.location,
                     maxUses: doc.maxUses,
-                    medications: []  // to be fetched below
+                    medications: [],  // to be fetched below,
+                    sharingCodes: []  // to be fetched below,
                 }
                 await fetchPrescriptionDetails(prescription)
                 prescriptions.push(prescription)

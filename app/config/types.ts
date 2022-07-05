@@ -59,4 +59,21 @@ export interface PrescriptionData {
   currentUses: number
   maxUses: number
   medications: MedicationData[]
+  sharingCodes: SharingCodeData[]
+}
+
+export interface SharingCodeData {
+  idSharingCode: string
+  idPatient: string
+  idPrescription: string
+  code: string
+  sharedWith: SharedWithData[]
+}
+
+export interface SharedWithData {
+  idDoctor?: string
+  doctorFirstName?: string
+  doctorLastName?: string
+  idPharmacy?: string
+  pharmacyName?: string
 }
