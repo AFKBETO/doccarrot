@@ -23,7 +23,7 @@ import {
   addSharingCodeSharedWith,
   getPharmacyById,
   getPharmacyByPublicId,
-  getSharingCodeByPublicID
+  getSharingCodeByPublicID, setPrescriptionUses
 } from "../../../../config/api";
 import toast from "react-hot-toast";
 import QrCodeIcon from "@mui/icons-material/QrCode";
@@ -78,7 +78,17 @@ function Prescriptions() {
   }, [userContext.pharmacistPrescriptions]);
 
   const usePrescription = async () => {
-    alert('Use prescription')
+    if (selectedPrescription!.currentUses < selectedPrescription!.maxUses) {
+      await setPrescriptionUses(selectedPrescription!.idPrescription, selectedPrescription!.currentUses + 1)
+      userContext.refreshUserData()
+      if (selectedPrescription!.currentUses + 1 < selectedPrescription!.maxUses) {
+        toast.success(`Vous avez ajouté une utilisation à cette prescription.`)
+      } else {
+        toast.success(`Vous avez marqué cette prescription comme utilisée.`)
+      }
+    } else {
+      toast.error(`Cette prescription ne peut plus être utilisée.`)
+    }
   }
 
   const shareWithMyPharmacy = async () => {
