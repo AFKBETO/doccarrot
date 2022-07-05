@@ -13,7 +13,7 @@ import {
   Container,
   Box,
   Modal,
-  FormControl, Select, MenuItem, InputLabel, TextField, Button
+  FormControl, Select, MenuItem, InputLabel, TextField, Button, FormLabel, FormControlLabel, SelectChangeEvent
 } from '@mui/material'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -39,7 +39,7 @@ const modalStyle = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  minWidth: 400,
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -89,9 +89,13 @@ function Prescriptions() {
   const userContext = React.useContext(USER_CONTEXT)
 
   const [selectedPrescription, setSelectedPrescription] = useState<PrescriptionData | null | undefined>(null);
-  const [sharingSelectedPharmacy, setSharingSelectedPharmacy] = useState<PharmacyData | null>(null);
+  const [sharingSelectedPharmacyIndex, setSharingSelectedPharmacyIndex] = useState<string>('');
   const [sharingPharmacyID, setSharingPharmacyID] = useState<string>('');
   const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
+
+  const selectOtherPharmacy = (event: SelectChangeEvent<string>) => {
+    setSharingSelectedPharmacyIndex(event.target.value as string)
+  }
 
   useEffect(() => {
     setSelectedPrescription(userContext.patientPrescriptions.find(p => p.idPrescription == selectedPrescription?.idPrescription))
@@ -101,7 +105,7 @@ function Prescriptions() {
     let shareWithPharmacyId = null
 
     // find pharmacy to share with
-    if (sharingPharmacyID != null) {
+    if (sharingPharmacyID !== '') {
       try {
         const pharmacy = await getPharmacyByPublicId(sharingPharmacyID);
         shareWithPharmacyId = pharmacy.idPharmacy
@@ -109,12 +113,13 @@ function Prescriptions() {
         toast.error(`Aucune pharmacie n'a été trouvée avec l'ID ${sharingPharmacyID}.`)
         return
       }
-    } else if (sharingSelectedPharmacy) {
-      shareWithPharmacyId = sharingSelectedPharmacy.idPharmacy
+    } else if (sharingSelectedPharmacyIndex !== '') {
+      shareWithPharmacyId = userContext.patientPharmacies[parseInt(sharingSelectedPharmacyIndex)]?.idPharmacy
     }
 
     // close modal
     setOpenCreateModal(false)
+    setSharingSelectedPharmacyIndex('')
 
     // generate code
     await addSharingCode(
@@ -231,40 +236,45 @@ function Prescriptions() {
                       <IconButton component="span" onClick={ () => { if (selectedPrescription != null) setOpenCreateModal(true) } }>
                         <QrCodeIcon />
                       </IconButton>
+
                       <Modal open={openCreateModal} onClose={ () => setOpenCreateModal(false) }>
                         <Box sx={modalStyle}>
                           <Typography id="modal-modal-title" variant="h3">Partager la prescription</Typography>
                           <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
 
-                            <FormControl fullWidth>
-                            </FormControl>
-
                             {/*---------- ... WITH KNOWN PHARMACY ... ----------*/}
                             { userContext.patientPharmacies.length != 0 ?
-                                <>
-                                  <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                                  <Select labelId="select-pharmacy-label" id="select-pharmacy" label="Avec votre pharmacie"
-                                          value={ 0 }
-                                          onChange={ event => setSharingSelectedPharmacy(userContext.patientPharmacies[event.target.value as number]) }
+                                <FormControl fullWidth>
+                                  <Typography variant="h5" id="id-pharmacy-label">Partager directement avec votre pharmacie (optionnel)</Typography>
+                                  <Typography variant="h6" id="id-pharmacy-label">Pratique : vous n'aurez pas besoin d'indiquer le code au pharmacien.</Typography>
+                                  <Select id="select-pharmacy"
+                                          value={ sharingSelectedPharmacyIndex }
+                                          onChange={ event => selectOtherPharmacy(event) }
                                   >
                                     { userContext.patientPharmacies.map((pharmacy, idx) => (
                                         <MenuItem value={idx} key={idx}>{ pharmacy.name }</MenuItem>
                                     )) }
                                   </Select>
-                                </>
+                                </FormControl>
                                 : <></>
                             }
 
                             {/*---------- ... WITH NEW PHARMACY ... ----------*/}
-                            <TextField id="id-pharmacy" label="Avec une nouvelle pharmacie" variant="outlined"
-                                       value={sharingPharmacyID}
-                                       onChange={ event => setSharingPharmacyID(event.target.value) }
-                            />
+                            <FormControl fullWidth sx={{ marginTop: 5 }}>
+                              <Typography variant="h5" id="id-pharmacy-label">Partager directement avec une nouvelle pharmacie (optionnel)</Typography>
+                              <Typography variant="h6" id="id-pharmacy-label">Pour vous faciliter la tâche, demandez le code pharmacie à votre pharmacien. Dans le futur, vous pourrez directement partager vos prescriptions à cette pharmacie.</Typography>
+                              <TextField id="id-pharmacy" variant="outlined"
+                                         value={sharingPharmacyID}
+                                         onChange={ event => setSharingPharmacyID(event.target.value) }
+                              />
+                            </FormControl>
 
                             {/*---------- ... VALIDATE BUTTON ... ----------*/}
-                            <Button variant='contained' sx={{ bgcolor: 'primary.dark', marginTop: 5 }} focusRipple={false} onClick={ shareToPharmacy }>
-                              <Typography sx={{ color: 'text.primary' }}>Générer code de partage</Typography>
-                            </Button>
+                            <FormControl fullWidth>
+                              <Button variant='contained' sx={{ bgcolor: 'primary.dark', marginTop: 5 }} focusRipple={false} onClick={ shareToPharmacy }>
+                                <Typography sx={{ color: 'text.secondary' }}>Partager</Typography>
+                              </Button>
+                            </FormControl>
 
                           </Typography>
                         </Box>

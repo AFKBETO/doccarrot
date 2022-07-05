@@ -47,6 +47,11 @@ export default function theme () {
                 color: 'black',
                 fontWeight: 'bold'
             },
+            h6: {
+                fontSize: 15,
+                color: 'black',
+                fontStyle: 'italic'
+            },
             body1: {
                 fontSize: 17,
                 color: 'black'
