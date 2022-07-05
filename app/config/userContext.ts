@@ -16,6 +16,8 @@ export class UserContext {
     patientDoctors: UserData[] = []
     patientPharmacies: PharmacyData[] = []
 
+    pharmacistPrescriptions: PrescriptionData[] = []
+
     refreshUserData: Function
 
     updateFirebase(user: User | null | undefined, loading: boolean, error: Error | undefined) {
@@ -42,6 +44,10 @@ export class UserContext {
     }
     updatePatientPharmacies(value: PharmacyData[]) {
         this.patientPharmacies = value
+    }
+
+    updatePharmacistPrescriptions(value: PrescriptionData[]) {
+        this.pharmacistPrescriptions = value
     }
 
     updateRefreshUserDataFunction(value: Function) {
