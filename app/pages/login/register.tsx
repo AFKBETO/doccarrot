@@ -45,7 +45,7 @@ function TabPanel(props: TabPanelProps) {
 function labelProps (index: number) {
   return {
     id: `tab-${index}`,
-    'aria-control': `tabpanel-${index}` 
+    //'aria-control': `tabpanel-${index}`
   }
 }
 
@@ -138,7 +138,7 @@ function Register ({ closeModal }: RegisterProps) {
     <Box sx={{ margin: 'auto', mt: 4, pt: 2, border: 1, borderRadius: '20px', backgroundColor: 'primary.dark' }}>
       <Typography variant='h4' align='center'>Inscription</Typography>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs textColor='secondary' indicatorColor='secondary' value={tabValue} onChange={changeTab} aria-label='basic tabs example' variant='scrollable' centered selectionFollowsFocus>
+        <Tabs textColor='secondary' indicatorColor='secondary' value={tabValue} onChange={changeTab} aria-label='basic tabs example' variant='scrollable' selectionFollowsFocus>
           <Tab label='Patient' {...labelProps(0)} />
           <Tab label='Médecin Pharmacien' {...labelProps(1)} />
         </Tabs>

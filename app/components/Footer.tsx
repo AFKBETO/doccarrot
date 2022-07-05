@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Modal, AppBar, Box, Toolbar, Typography, Button, Grid } from '@mui/material'
 
 const style = {
-  position: 'absolute',
+  /*position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -12,7 +12,14 @@ const style = {
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
-  background: '#ABBD98'
+  background: '#ABBD98'*/
+
+  color: 'white',
+  backgroundColor: '#dc3545',
+  paddingTop: '3em',
+  position: 'relative',
+  bottom: 0,
+  width: '100%'
 }
 
 function Footer() {

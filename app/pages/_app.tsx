@@ -12,10 +12,13 @@ import { Box } from "@mui/material"
 import { useHooks } from "../config/dataHooks";
 
 const bodyStyle = {
-  'maxHeight': '90vh',
-  'margin': 0,
-  'display': 'flex',
-  'flexDirection': 'column'
+  display: 'flex',
+  flexDirection: 'column',
+  minHeight: '100vh'
+}
+const contentWrapStyle = {
+  flex: 1,
+  minHeight: '90vh'
 }
 
 function MyApp ({ Component, pageProps }: AppProps) {
@@ -37,11 +40,8 @@ function MyApp ({ Component, pageProps }: AppProps) {
 
   return (
       <ThemeProvider theme={theme()}>
-        <Box sx={{
-          position:'relative',
-          maxHeight: '70vh'
-        }}>
-          <Box sx={bodyStyle}>
+        <Box sx={bodyStyle}>
+          <Box sx={contentWrapStyle}>
             <USER_CONTEXT.Provider value={userContext}>
               <Navbar />
               <Component {...pageProps} />
