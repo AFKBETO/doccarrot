@@ -1,5 +1,14 @@
 import axios from 'axios'
-import {DoctorData, MedicationData, PatientData, PharmacistData, PrescriptionData, UserData, UserType} from './types'
+import {
+    DoctorData,
+    MedicationData,
+    PatientData,
+    PharmacistData,
+    PharmacyData,
+    PrescriptionData,
+    UserData,
+    UserType
+} from './types'
 
 export async function getUser (uid: string): Promise<UserData> {
     try {
@@ -33,63 +42,65 @@ export async function addUser (uid: string, userData: UserData): Promise<void> {
 export async function getPrescriptionsByPatient (idUser: string): Promise<PrescriptionData[]> {
     try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/prescriptions/bypatient/${idUser}`)
-        let prescriptions: PrescriptionData[] = []
-
-        for (let p of res.data.prescriptions) {
-            let medications: MedicationData[] = []
-            let prescription: PrescriptionData = {
-                currentUses: p.currentUses,
-                date: p.date,
-                idDoctor: p.idDoctor,
-                doctorFirstName: p.doctorFirstName,
-                doctorLastName: p.doctorLastName,
-                idPatient: p.idPatient,
-                idPrescription: p.idPrescription,
-                location: p.location,
-                maxUses: p.maxUses,
-                medications: medications
-            };
-
-            for (let m of p.medications) {
-                medications.push({
-                    idMedication: m.idMedication,
-                    name: m.name,
-                    quantity: m.quantity
-                })
-            }
-
-            prescriptions.push(prescription);
-        }
-
-        return prescriptions;
+        return res.data.prescriptions as PrescriptionData[];
     } catch (error) {
         console.log(error);
         throw error
     }
 }
-
 
 export async function getDoctorsByPatient (idUser: string): Promise<UserData[]> {
     try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/doctors/bypatient/${idUser}`)
-        let doctors: UserData[] = []
-
-        for (let p of res.data.doctors) {
-            doctors.push({
-                idUser: p.idUser,
-                firstName: p.firstName,
-                lastName: p.lastName,
-                userType: UserType.doctor
-            });
-        }
-
-        return doctors;
+        return res.data.doctors as UserData[];
     } catch (error) {
         console.log(error);
         throw error
     }
 }
 
+export async function getPharmacyById (idPharmacy: string): Promise<PharmacyData> {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/pharmacies/${idPharmacy}`)
+        return res.data.pharmacy as PharmacyData;
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+export async function getPharmacyByPublicId (publicID: string): Promise<PharmacyData> {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/pharmacies/bypublicid/${publicID}`)
+        return res.data.pharmacy as PharmacyData;
+    } catch (error) {
+        if (error?.response?.status != 404) console.log(error);
+        throw error
+    }
+}
+
+export async function getPharmaciesByPatient (idUser: string): Promise<PharmacyData[]> {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/pharmacies/bypatient/${idUser}`)
+        return res.data.pharmacies as PharmacyData[];
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+export async function addSharingCode(idPatient: string, idPrescription: string, code: string, sharedWith: { idPharmacy: string }[]): Promise<void> {
+    try {
+        await axios.put(`${process.env.NEXT_PUBLIC_URL}/api/sharingCodes/`,{
+            idPatient,
+            idPrescription,
+            code,
+            sharedWith
+        })
+    } catch (error) {
+        throw error
+    }
+}
 
 export async function getMedicines () {
     return await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/medicine/`)

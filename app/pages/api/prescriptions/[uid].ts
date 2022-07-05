@@ -14,14 +14,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 let prescription: PrescriptionData = {
                     currentUses: data.currentUses,
                     date: data.date,
-                    doctorFirstName: "?",
-                    doctorLastName: "?",
+                    doctorFirstName: "?",  // to be fetched below,
+                    doctorLastName: "?",  // to be fetched below,
                     idDoctor: data.idDoctor,
                     idPatient: data.idPatient,
                     idPrescription: data.idPrescription,
                     location: data.location,
                     maxUses: data.maxUses,
-                    medications: []
+                    medications: [],  // to be fetched below,
+                    sharingCodes: []  // to be fetched below,
                 }
                 await fetchPrescriptionDetails(prescription)
                 res.status(200).json({ prescription })
