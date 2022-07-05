@@ -77,7 +77,6 @@ export async function getPrescriptionsByPatient (idUser: string): Promise<Prescr
     }
 }
 
-
 export async function getDoctorsByPatient (idUser: string): Promise<UserData[]> {
     try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/doctors/bypatient/${idUser}`)
@@ -99,6 +98,44 @@ export async function getDoctorsByPatient (idUser: string): Promise<UserData[]> 
     }
 }
 
+export async function getPharmacyById (idPharmacy: string): Promise<PharmacyData> {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/pharmacies/${idPharmacy}`)
+        const p = res.data.pharmacy
+
+        let pharmacy: PharmacyData = {
+            idPharmacy: p.idPharmacy,
+            name: p.name,
+            address: p.address,
+            publicID: p.publicID
+        }
+
+        return pharmacy;
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+export async function getPharmacyByPublicId (publicID: string): Promise<PharmacyData> {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/pharmacies/bypublicid/${publicID}`)
+        const p = res.data.pharmacy
+
+        let pharmacy: PharmacyData = {
+            idPharmacy: p.idPharmacy,
+            name: p.name,
+            address: p.address,
+            publicID: p.publicID
+        }
+
+        return pharmacy;
+    } catch (error) {
+        if (error?.response?.status != 404) console.log(error);
+        throw error
+    }
+}
+
 export async function getPharmaciesByPatient (idUser: string): Promise<PharmacyData[]> {
     try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/pharmacies/bypatient/${idUser}`)
@@ -116,6 +153,19 @@ export async function getPharmaciesByPatient (idUser: string): Promise<PharmacyD
         return pharmacies;
     } catch (error) {
         console.log(error);
+        throw error
+    }
+}
+
+export async function addSharingCode(idPatient: string, idPrescription: string, code: string, sharedWith: { idPharmacy: string }[]): Promise<void> {
+    try {
+        await axios.put(`${process.env.NEXT_PUBLIC_URL}/api/sharingCodes/`,{
+            idPatient,
+            idPrescription,
+            code,
+            sharedWith
+        })
+    } catch (error) {
         throw error
     }
 }

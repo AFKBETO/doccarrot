@@ -2,15 +2,29 @@ import React, {useState} from 'react'
 import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import { styled } from '@mui/material/styles';
-import {Paper, Typography, Grid, ListItem, ListItemText, List, IconButton, Container, Box, Modal} from '@mui/material'
+import {
+  Paper,
+  Typography,
+  Grid,
+  ListItem,
+  ListItemText,
+  List,
+  IconButton,
+  Container,
+  Box,
+  Modal,
+  FormControl, Select, MenuItem, InputLabel, OutlinedInput, TextField, Button
+} from '@mui/material'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import moment from "moment";
-import {PrescriptionData, UserType} from "../../../../config/types";
+import {PharmacyData, PrescriptionData, UserType} from "../../../../config/types";
 import { USER_CONTEXT } from "../../../../config/userContext";
+import {addSharingCode, getPharmacyById, getPharmacyByPublicId} from "../../../../config/api";
+import toast from "react-hot-toast";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -44,13 +58,53 @@ const deletePrescri = () => {
   alert('Supprimer la prescription')
 }
 
+function makeid(length) {  // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+  let result           = '';
+  let characters       = '0123456789';
+  let charactersLength = characters.length;
+  for ( let i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() *
+        charactersLength));
+  }
+  return result;
+}
+
 function Prescriptions() {
   const router = useRouter()
   const { userid } = router.query
   const userContext = React.useContext(USER_CONTEXT)
 
   const [selectedPrescription, setSelectedPrescription] = useState<PrescriptionData | null>(null);
+  const [sharingSelectedPharmacy, setSharingSelectedPharmacy] = useState<PharmacyData | null>(null);
+  const [sharingPharmacyID, setSharingPharmacyID] = useState<string>('');
   const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
+
+  const shareToPharmacy = async () => {
+    let shareWithPharmacyId = null
+
+    // find pharmacy to share with
+    if (sharingPharmacyID) {
+      try {
+        const pharmacy = await getPharmacyByPublicId(sharingPharmacyID);
+        shareWithPharmacyId = pharmacy.idPharmacy
+      } catch (error) {
+        toast.error(`Aucune pharmacie n'a été trouvée avec l'ID ${sharingPharmacyID}.`)
+        return
+      }
+    } else if (sharingSelectedPharmacy) {
+      shareWithPharmacyId = sharingSelectedPharmacy.idPharmacy
+    }
+
+    // generate code
+    await addSharingCode(
+        userContext.userId as string,
+        selectedPrescription?.idPrescription as string,
+        makeid(10),
+        shareWithPharmacyId ? [{ idPharmacy: shareWithPharmacyId }] : []
+    )
+
+    setOpenCreateModal(false)
+  }
 
   return (
       <RouteGuard userId={userid as string} userType={UserType.patient}>
@@ -132,12 +186,7 @@ function Prescriptions() {
                 <Item sx={{background: '#ABBD98', borderRadius: 5}}>
                   <Grid container spacing={2} direction='column'>
 
-                    <Grid item xs={1}>
-                      <IconButton component="span" onClick={downloadPrescri}>
-                        <FileDownloadIcon />
-                      </IconButton>
-                    </Grid>
-
+                    {/*---------- SHARE PRESCRIPTION ----------*/}
                     <Grid item xs={1}>
                       <IconButton component="span" onClick={ () => { if (selectedPrescription) setOpenCreateModal(true) } }>
                         <QrCodeIcon />
@@ -145,19 +194,58 @@ function Prescriptions() {
                       <Modal open={openCreateModal} onClose={ () => setOpenCreateModal(false) }>
                         <Box sx={modalStyle}>
                           <Typography id="modal-modal-title" variant="h3">Partager la prescription</Typography>
-                          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            ici
+                          <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
+
+                            <FormControl fullWidth>
+                            </FormControl>
+
+                            {/*---------- ... WITH KNOWN PHARMACY ... ----------*/}
+                            { userContext.patientPharmacies.length != 0 ?
+                                <>
+                                  <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                                  <Select labelId="select-pharmacy-label" id="select-pharmacy" label="Partager aussi avec votre pharmacie"
+                                          value={ 0 }
+                                          onChange={ event => setSharingSelectedPharmacy(userContext.patientPharmacies[event.target.value as number]) }
+                                  >
+                                    { userContext.patientPharmacies.map((pharmacy, idx) => (
+                                        <MenuItem value={idx}>{ pharmacy.name }</MenuItem>
+                                    )) }
+                                  </Select>
+                                </>
+                                : <></>
+                            }
+
+                            {/*---------- ... WITH NEW PHARMACY ... ----------*/}
+                            <TextField id="id-pharmacy" label="Partager aussi avec une nouvelle pharmacie" variant="outlined"
+                                       value={sharingPharmacyID}
+                                       onChange={ event => setSharingPharmacyID(event.target.value) }
+                            />
+
+                            {/*---------- ... VALIDATE BUTTON ... ----------*/}
+                            <Button variant='contained' sx={{ bgcolor: 'primary.dark', marginTop: 5 }} focusRipple={false} onClick={ shareToPharmacy }>
+                              <Typography sx={{ color: 'text.primary' }}>Générer code de partage</Typography>
+                            </Button>
+
                           </Typography>
                         </Box>
                       </Modal>
                     </Grid>
 
+                    {/*---------- DOWNLOAD PRESCRIPTION ----------*/}
+                    <Grid item xs={1}>
+                      <IconButton component="span" onClick={downloadPrescri}>
+                        <FileDownloadIcon />
+                      </IconButton>
+                    </Grid>
+
+                    {/*---------- HIDE PRESCRIPTION ----------*/}
                     <Grid item xs={1}>
                       <IconButton component="span" onClick={hidePrescri}>
                         <VisibilityOffIcon />
                       </IconButton>
                     </Grid>
 
+                    {/*---------- DELETE PRESCRIPTION ----------*/}
                     <Grid item xs={1}>
                       <IconButton component="span" onClick={deletePrescri}>
                         <DeleteIcon />
