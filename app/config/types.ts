@@ -27,6 +27,13 @@ export interface DoctorData {
 
 export interface PharmacistData {
   rpps?: string
+  idPharmacy?: string
+}
+
+export interface PharmacyData {
+  idPharmacy: string
+  name: string
+  address: string
 }
 
 export interface MedicationTypes {
