@@ -34,6 +34,7 @@ export interface PharmacyData {
   idPharmacy: string
   name: string
   address: string
+  publicID: number
 }
 
 export interface MedicationTypes {

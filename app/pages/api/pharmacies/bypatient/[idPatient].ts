@@ -35,12 +35,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     pharmacies.push({
                         idPharmacy: pharmacyId,
                         address: pharmacy.address,
-                        name: pharmacy.name
+                        name: pharmacy.name,
+                        publicID: pharmacy.publicID
                     })
                 }
             }
 
-            res.status(201).json({ doctors: pharmacies })
+            res.status(201).json({ pharmacies })
         } catch (error) {
             res.status(404).json({ error: error.message + req.body.uid })
         }

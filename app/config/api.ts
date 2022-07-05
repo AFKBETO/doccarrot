@@ -108,7 +108,8 @@ export async function getPharmaciesByPatient (idUser: string): Promise<PharmacyD
             pharmacies.push({
                 idPharmacy: p.idPharmacy,
                 name: p.name,
-                address: p.address
+                address: p.address,
+                publicID: p.publicID
             });
         }
 
