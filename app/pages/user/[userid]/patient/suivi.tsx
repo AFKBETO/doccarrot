@@ -97,7 +97,7 @@ function Suivi() {
               {/*---------- MEDECINS ----------*/}
               <Grid item xs={10}>
                 <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-                  <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes médecins</Typography>
+                  <Typography variant="h3">Mes médecins</Typography>
                   <List sx={{ mb: 2 }}>
                     { userContext.patientDoctors
                         .filter(doctor => searchDoc.length == 0 || doctor.firstName.toLowerCase().includes(searchDoc) || doctor.lastName.toLowerCase().includes(searchDoc))
@@ -128,7 +128,7 @@ function Suivi() {
               {/*---------- PHARMACIES ----------*/}
               <Grid item xs={10}>
                 <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-                  <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes pharmacies</Typography>
+                  <Typography variant="h3">Mes pharmacies</Typography>
                   <List sx={{ mb: 2 }}>
                     { userContext.patientPharmacies
                         .filter(pharmacy => searchPhar.length == 0 || pharmacy.name.toLowerCase().includes(searchPhar) || pharmacy.address.toLowerCase().includes(searchPhar))

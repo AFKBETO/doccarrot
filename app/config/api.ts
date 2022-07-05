@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {
+    MedicationType,
     PharmacyData,
     PrescriptionData, SharingCodeData,
     UserData,
@@ -137,6 +138,10 @@ export async function addSharingCodeSharedWith(idSharingCode: string, sharedWith
     }
 }
 
-export async function getMedicines () {
-    return await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/medicine/`)
+export async function getMedicationTypes (): Promise<MedicationType[]> {
+    try {
+        return (await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/medicationTypes/`)).data.medicationTypes as MedicationType[]
+    } catch (error) {
+        throw error
+    }
 }

@@ -31,8 +31,8 @@ export interface PharmacyData {
   publicID: number
 }
 
-export interface MedicationTypes {
-  id: string,
+export interface MedicationType {
+  idMedicationType: string,
   name: string
 }
 
