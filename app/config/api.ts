@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {
     PharmacyData,
-    PrescriptionData,
+    PrescriptionData, SharingCodeData,
     UserData,
     UserType
 } from './types'
@@ -95,12 +95,33 @@ export async function getPharmaciesByPatient (idUser: string): Promise<PharmacyD
     }
 }
 
+export async function getSharingCodeByPublicID (publicID: string): Promise<SharingCodeData> {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/sharingCodes/bypublicid/${publicID}`)
+        return res.data.sharingCode as SharingCodeData;
+    } catch (error) {
+        if (error?.response?.status != 404) console.log(error);
+        throw error
+    }
+}
+
 export async function addSharingCode(idPatient: string, idPrescription: string, code: string, sharedWith: { idPharmacy: string }[]): Promise<void> {
     try {
         await axios.put(`${process.env.NEXT_PUBLIC_URL}/api/sharingCodes/`,{
             idPatient,
             idPrescription,
             code,
+            sharedWith
+        })
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function addSharingCodeSharedWith(idSharingCode: string, sharedWith: { idPharmacy?: string | null, idDoctor?:string | null }[]): Promise<void> {
+    try {
+        await axios.put(`${process.env.NEXT_PUBLIC_URL}/api/sharingCodes/sharedWith/`,{
+            idSharingCode,
             sharedWith
         })
     } catch (error) {

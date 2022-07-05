@@ -117,6 +117,13 @@ function Navbar() {
                         /*---------- Navbar pharmacien ----------*/
                         :
                         <>
+                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                            <Link href={`/user/${userContext.userId}/pharmacist/prescriptions`}>
+                              <Button color='primary'>
+                                <Typography variant="h4" noWrap={true}>Prescriptions</Typography>
+                              </Button>
+                            </Link>
+                          </Box>
                         </>
                       }
                       <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>

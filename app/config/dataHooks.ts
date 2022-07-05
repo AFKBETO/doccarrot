@@ -21,6 +21,7 @@ export function useHooks () {
     const [patientDoctors, setPatientDoctors] = useState<UserData[]>([])
     const [patientPharmacies, setPatientPharmacies] = useState<PharmacyData[]>([])
 
+    const [pharmacistPharmacyId, setPharmacistPharmacyId] = useState<string | null>(null)
     const [pharmacistPrescriptions, setPharmacistPrescriptions] = useState<PrescriptionData[]>([])
 
     const [refetchUserData, setRefetchUserData] = useState<number>(0)
@@ -49,9 +50,12 @@ export function useHooks () {
                     setPharmacistPrescriptions([])
                 } else if (userData.userType == UserType.pharmacist) {
                     if (userData.idPharmacy) {
+                        setPharmacistPharmacyId(userData.idPharmacy)
+
                         const pharmacistPrescriptions = await getPrescriptionsByPharmacy(userData.idPharmacy)
                         setPharmacistPrescriptions(pharmacistPrescriptions)
                     } else {
+                        setPharmacistPharmacyId(null)
                         setPharmacistPrescriptions([])
                     }
 
@@ -59,6 +63,8 @@ export function useHooks () {
                     setPatientDoctors([])
                     setPatientPharmacies([])
                 } else {
+                    setPharmacistPharmacyId(null)
+                    setPharmacistPrescriptions([])
                     setPatientPrescriptions([])
                     setPatientDoctors([])
                     setPatientPharmacies([])
@@ -75,7 +81,9 @@ export function useHooks () {
         setPatientPrescriptions([])
         setPatientDoctors([])
         setPatientPharmacies([])
+        setPharmacistPharmacyId(null)
+        setPharmacistPrescriptions([])
     }
 
-    return { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors, patientPharmacies, refreshUserData }
+    return { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors, patientPharmacies, pharmacistPharmacyId, pharmacistPrescriptions, refreshUserData }
 }

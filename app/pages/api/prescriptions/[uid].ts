@@ -14,6 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 let prescription: PrescriptionData = {
                     currentUses: data.currentUses,
                     date: data.date,
+                    patientFirstName: "?",  // to be fetched below
+                    patientLastName: "?",  // to be fetched below
                     doctorFirstName: "?",  // to be fetched below,
                     doctorLastName: "?",  // to be fetched below,
                     idDoctor: data.idDoctor,

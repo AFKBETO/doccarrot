@@ -46,6 +46,8 @@ export interface PrescriptionData {
   idPrescription: string
   idPatient: string
   idDoctor: string
+  patientFirstName: string
+  patientLastName: string
   doctorFirstName: string
   doctorLastName: string
   date: Timestamp

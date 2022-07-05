@@ -34,7 +34,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 }
 
-export async function fetchPrescriptionDetails(prescription: PrescriptionData) {
+export async function fetchPrescriptionDetails(prescription: PrescriptionData, withSharingCodes: boolean = true) {
+
+    // fetch patient name
+    const patientData = (await getDoc(doc(firestore, 'users', prescription.idPatient))).data()
+    if (patientData) {
+        prescription.patientFirstName = patientData.firstName
+        prescription.patientLastName = patientData.lastName
+    }
 
     // fetch doctor name
     const doctorData = (await getDoc(doc(firestore, 'users', prescription.idDoctor))).data()
@@ -55,41 +62,43 @@ export async function fetchPrescriptionDetails(prescription: PrescriptionData) {
     }
 
     // fetch sharing codes
-    const codes = (await getDocs(query(collection(firestore, 'sharingCodes'),where('idPrescription', '==', prescription.idPrescription)))).docs.map(d => d.data())
+    if (withSharingCodes) {
+        const codes = (await getDocs(query(collection(firestore, 'sharingCodes'),where('idPrescription', '==', prescription.idPrescription)))).docs.map(d => d.data())
 
-    for (let code of codes) {
-        let sharedWith: SharedWithData[] = []
+        for (let code of codes) {
+            let sharedWith: SharedWithData[] = []
 
-        // fetch shared with
-        let swith = (await getDocs(collection(firestore, 'sharingCodes', code.idSharingCode, 'sharedWith'))).docs.map(d => d.data())
-        for (let sw of swith) {
-            let shared: SharedWithData = {
-                idSharedWith: sw.idSharedWith
+            // fetch shared with
+            let swith = (await getDocs(collection(firestore, 'sharingCodes', code.idSharingCode, 'sharedWith'))).docs.map(d => d.data())
+            for (let sw of swith) {
+                let shared: SharedWithData = {
+                    idSharedWith: sw.idSharedWith
+                }
+
+                if (sw.idDoctor) {
+                    const sharedWithDoctorData = (await getDoc(doc(firestore, 'users', sw.idDoctor))).data()
+                    if (sharedWithDoctorData) {
+                        shared.doctorFirstName = sharedWithDoctorData.firstName
+                        shared.doctorLastName = sharedWithDoctorData.lastName
+                    }
+                } else if (sw.idPharmacy) {
+                    const sharedWithPharmacyData = (await getDoc(doc(firestore, 'pharmacies', sw.idPharmacy))).data()
+                    if (sharedWithPharmacyData) {
+                        shared.pharmacyName = sharedWithPharmacyData.name
+                    }
+                } else continue;
+
+                sharedWith.push(shared)
             }
 
-            if (sw.idDoctor) {
-                const sharedWithDoctorData = (await getDoc(doc(firestore, 'users', sw.idDoctor))).data()
-                if (sharedWithDoctorData) {
-                    shared.doctorFirstName = sharedWithDoctorData.firstName
-                    shared.doctorLastName = sharedWithDoctorData.lastName
-                }
-            } else if (sw.idPharmacy) {
-                const sharedWithPharmacyData = (await getDoc(doc(firestore, 'pharmacies', sw.idPharmacy))).data()
-                if (sharedWithPharmacyData) {
-                    shared.pharmacyName = sharedWithPharmacyData.name
-                }
-            } else continue;
-
-            sharedWith.push(shared)
+            prescription.sharingCodes.push({
+                code: code.code,
+                idPatient: code.idPatient,
+                idPrescription: code.idPrescription,
+                idSharingCode: code.idSharingCode,
+                sharedWith
+            })
         }
-
-        prescription.sharingCodes.push({
-            code: code.code,
-            idPatient: code.idPatient,
-            idPrescription: code.idPrescription,
-            idSharingCode: code.idSharingCode,
-            sharedWith
-        })
     }
 
 }
