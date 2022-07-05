@@ -13,7 +13,7 @@ import {
   Container,
   Box,
   Modal,
-  FormControl, Select, MenuItem, InputLabel, OutlinedInput, TextField, Button
+  FormControl, Select, MenuItem, InputLabel, TextField, Button
 } from '@mui/material'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -23,7 +23,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import moment from "moment";
 import {PharmacyData, PrescriptionData, SharedWithData, UserType} from "../../../../config/types";
 import { USER_CONTEXT } from "../../../../config/userContext";
-import {addSharingCode, getPharmacyById, getPharmacyByPublicId} from "../../../../config/api";
+import {addSharingCode, getPharmacyByPublicId} from "../../../../config/api";
 import toast from "react-hot-toast";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -66,10 +66,9 @@ const deletePrescri = () => {
 
 function makeid(length: number) {  // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
   let result = '';
-  let characters = '0123456789';
-  let charactersLength = characters.length;
+  const characters = '0123456789';
   for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return result;
 }
@@ -78,7 +77,7 @@ function describeSharedWith(sharedWith: SharedWithData[]) {
   if (sharedWith.length == 0) return "non partagé"
   let shared = "partagé avec "
   for (let i = 0; i < sharedWith.length; ++i) {
-    shared += sharedWith[i].pharmacyName || (sharedWith[i].doctorFirstName + ' ' + sharedWith[i].doctorLastName)
+    shared += sharedWith[i].pharmacyName != null ? sharedWith[i].pharmacyName : (sharedWith[i].doctorFirstName + ' ' + sharedWith[i].doctorLastName)
     if (i + 1 < sharedWith.length) shared += ", "
   }
   return shared
@@ -102,7 +101,7 @@ function Prescriptions() {
     let shareWithPharmacyId = null
 
     // find pharmacy to share with
-    if (sharingPharmacyID) {
+    if (sharingPharmacyID != null) {
       try {
         const pharmacy = await getPharmacyByPublicId(sharingPharmacyID);
         shareWithPharmacyId = pharmacy.idPharmacy
@@ -122,7 +121,7 @@ function Prescriptions() {
         userContext.userId as string,
         selectedPrescription?.idPrescription as string,
         makeid(10),
-        shareWithPharmacyId ? [{ idPharmacy: shareWithPharmacyId }] : []
+        shareWithPharmacyId != null ? [{ idPharmacy: shareWithPharmacyId }] : []
     )
 
     // refresh user data
@@ -229,7 +228,7 @@ function Prescriptions() {
 
                     {/*---------- SHARE PRESCRIPTION ----------*/}
                     <Grid item xs={1}>
-                      <IconButton component="span" onClick={ () => { if (selectedPrescription) setOpenCreateModal(true) } }>
+                      <IconButton component="span" onClick={ () => { if (selectedPrescription != null) setOpenCreateModal(true) } }>
                         <QrCodeIcon />
                       </IconButton>
                       <Modal open={openCreateModal} onClose={ () => setOpenCreateModal(false) }>
@@ -249,7 +248,7 @@ function Prescriptions() {
                                           onChange={ event => setSharingSelectedPharmacy(userContext.patientPharmacies[event.target.value as number]) }
                                   >
                                     { userContext.patientPharmacies.map((pharmacy, idx) => (
-                                        <MenuItem value={idx}>{ pharmacy.name }</MenuItem>
+                                        <MenuItem value={idx} key={idx}>{ pharmacy.name }</MenuItem>
                                     )) }
                                   </Select>
                                 </>

@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { firestore } from '../../../config/firebase'
 import {collection, doc, getDoc, getDocs, query, setDoc, where} from 'firebase/firestore'
-import {PrescriptionData, SharedWithData, SharingCodeData} from "../../../config/types";
+import {PrescriptionData, SharedWithData } from "../../../config/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'PUT') {
@@ -34,18 +34,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 }
 
-export async function fetchPrescriptionDetails(prescription: PrescriptionData, withSharingCodes: boolean = true) {
+export async function fetchPrescriptionDetails(prescription: PrescriptionData, withSharingCodes = true) {
 
     // fetch patient name
     const patientData = (await getDoc(doc(firestore, 'users', prescription.idPatient))).data()
-    if (patientData) {
+    if (patientData != null) {
         prescription.patientFirstName = patientData.firstName
         prescription.patientLastName = patientData.lastName
     }
 
     // fetch doctor name
     const doctorData = (await getDoc(doc(firestore, 'users', prescription.idDoctor))).data()
-    if (doctorData) {
+    if (doctorData != null) {
         prescription.doctorFirstName = doctorData.firstName
         prescription.doctorLastName = doctorData.lastName
     }
@@ -65,23 +65,23 @@ export async function fetchPrescriptionDetails(prescription: PrescriptionData, w
     if (withSharingCodes) {
         const codes = (await getDocs(query(collection(firestore, 'sharingCodes'),where('idPrescription', '==', prescription.idPrescription)))).docs.map(d => d.data())
 
-        for (let code of codes) {
-            let sharedWith: SharedWithData[] = []
+        for (const code of codes) {
+            const sharedWith: SharedWithData[] = []
 
             // fetch shared with
-            let swith = (await getDocs(collection(firestore, 'sharingCodes', code.idSharingCode, 'sharedWith'))).docs.map(d => d.data())
-            for (let sw of swith) {
-                let shared: SharedWithData = {
+            const swith = (await getDocs(collection(firestore, 'sharingCodes', code.idSharingCode, 'sharedWith'))).docs.map(d => d.data())
+            for (const sw of swith) {
+                const shared: SharedWithData = {
                     idSharedWith: sw.idSharedWith
                 }
 
-                if (sw.idDoctor) {
+                if (sw.idDoctor != null) {
                     const sharedWithDoctorData = (await getDoc(doc(firestore, 'users', sw.idDoctor))).data()
                     if (sharedWithDoctorData) {
                         shared.doctorFirstName = sharedWithDoctorData.firstName
                         shared.doctorLastName = sharedWithDoctorData.lastName
                     }
-                } else if (sw.idPharmacy) {
+                } else if (sw.idPharmacy != null) {
                     const sharedWithPharmacyData = (await getDoc(doc(firestore, 'pharmacies', sw.idPharmacy))).data()
                     if (sharedWithPharmacyData) {
                         shared.pharmacyName = sharedWithPharmacyData.name

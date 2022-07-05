@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const snapCode = await getDoc(doc(firestore, 'sharingCodes', uid as string))
       if (!snapCode.exists()) throw new Error()
-      let prescription = snapCode.data();
+      const prescription = snapCode.data();
 
       const snapSharedWith = await getDocs(collection(firestore, 'sharingCodes/' + (uid as string) + '/sharedWith'));
       prescription.sharedWith = [];

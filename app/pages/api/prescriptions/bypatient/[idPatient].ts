@@ -13,10 +13,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 .docs
                 .map(d => d.data())
 
-            let prescriptions: PrescriptionData[] = []
+            const prescriptions: PrescriptionData[] = []
 
-            for (let doc of docs) {
-                let prescription: PrescriptionData = {
+            for (const doc of docs) {
+                const prescription: PrescriptionData = {
                     currentUses: doc.currentUses,
                     date: doc.date,
                     patientFirstName: "?",  // to be fetched below

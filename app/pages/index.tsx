@@ -3,8 +3,6 @@ import {Box, Grid, Typography} from '@mui/material'
 import React from 'react'
 import { USER_CONTEXT } from "../config/userContext";
 import Loader from "../components/Loader";
-import {useHooks} from "../config/dataHooks";
-
 
 function Home() {
     const userContext = React.useContext(USER_CONTEXT)

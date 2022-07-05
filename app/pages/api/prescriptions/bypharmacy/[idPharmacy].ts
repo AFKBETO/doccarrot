@@ -13,19 +13,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 .docs
                 .map(d => d.data())
 
-            let sharedPrescriptionsIds = []
-            for (let code of allCodes) {
+            const sharedPrescriptionsIds = []
+            for (const code of allCodes) {
                 const sharedWithPharmacies = (await getDocs(query(collection(firestore, 'sharingCodes', code.idSharingCode, 'sharedWith'), where('idPharmacy', '==', idPharmacy)))).docs
                 if (sharedWithPharmacies.length != 0) {
                     sharedPrescriptionsIds.push(code.idPrescription)
                 }
             }
 
-            let prescriptions: PrescriptionData[] = []
-            for (let prescriptionId of [...new Set(sharedPrescriptionsIds)]) {
-                let doc = (await getDocs(query(collection(firestore, 'prescriptions'), where('idPrescription', '==', prescriptionId)))).docs.map(d => d.data()).find(() => true)
+            const prescriptions: PrescriptionData[] = []
+            for (const prescriptionId of [...new Set(sharedPrescriptionsIds)]) {
+                const doc = (await getDocs(query(collection(firestore, 'prescriptions'), where('idPrescription', '==', prescriptionId)))).docs.map(d => d.data()).find(() => true)
                 if (doc) {
-                    let prescription: PrescriptionData = {
+                    const prescription: PrescriptionData = {
                         currentUses: doc.currentUses,
                         date: doc.date,
                         patientFirstName: "?",  // to be fetched below

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { firestore } from '../../../config/firebase'
-import { addDoc, collection, doc, setDoc, updateDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore'
 import {putSharedWith} from "./sharedWith";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

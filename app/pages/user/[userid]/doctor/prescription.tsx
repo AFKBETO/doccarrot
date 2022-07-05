@@ -6,10 +6,7 @@ import { styled } from '@mui/material/styles'
 import { Paper, Button, Typography, IconButton, Grid, TextField, FormControl,FormControlLabel,FormLabel,RadioGroup,Radio } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import SendIcon from '@mui/icons-material/Send'
-import AddIcon from '@mui/icons-material/Add';
-import { getMedicines } from '../../../../config/api'
 import { MedicationTypes } from '../../../../config/types'
-
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -19,16 +16,6 @@ const Item = styled(Paper)(({ theme }) => ({
   color: 'black',
 }));
 
-const editPrescri = () => {
-}
-
-const sharePrescri = () => {
-}
-
-const addMedicament = () => {
-
-}
-
 
 function Prescription() {
   const [ medicines, setMedicines ] = React.useState<MedicationTypes>({id:'', name: ''})
@@ -37,17 +24,19 @@ function Prescription() {
   const { userid } = router.query
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    
+    alert('handle input change')
   }
 
   const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
   };
 
-  const handleChangeSub = () => {}
+  const handleChangeSub = () => {
+    alert('handle change sub')
+  }
 
   React.useEffect(() => {
-
+    alert('reload effect')
   }, [reload])
 
   return (
@@ -153,7 +142,7 @@ function Prescription() {
                       </RadioGroup>
                     </Grid>
                     <Grid item>
-                    <Button onClick={addMedicament}>Ajouter médicament</Button>
+                    <Button >Ajouter médicament</Button>
                     </Grid>
                     <Grid item>
                     <FormLabel id="information">Informations complémentaires</FormLabel>
@@ -188,12 +177,12 @@ function Prescription() {
           <Item sx={{background: '#ABBD98', borderRadius: 5}}>
             <Grid container spacing={2} direction='column'>
               <Grid item xs={1}>
-                <IconButton component="span" onClick={editPrescri}>
+                <IconButton component="span" >
                   <EditIcon />
                 </IconButton>
               </Grid>
               <Grid item xs={1}>
-                <IconButton component="span" onClick={sharePrescri}>
+                <IconButton component="span" >
                   <SendIcon />
                 </IconButton>
               </Grid>

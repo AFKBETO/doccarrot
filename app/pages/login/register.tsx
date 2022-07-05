@@ -5,7 +5,6 @@ import { AuthData, UserData, UserType } from '../../config/types'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { auth } from '../../config/firebase'
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/router'
 import { addUser } from '../../config/api'
 
 interface TabPanelProps {

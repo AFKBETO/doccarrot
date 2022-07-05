@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { addDoc, collection, doc, setDoc, updateDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore'
 import {firestore} from "../../../../config/firebase";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -19,9 +19,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 export async function putSharedWith(idSharingCode: string, sharedWith: { idPharmacy?: string, idDoctor?: string }[]) {
   for (const shared of sharedWith) {
     let sharedDoc;
-    if (shared.idPharmacy) {
+    if (shared.idPharmacy != null) {
       sharedDoc = { idPharmacy: shared.idPharmacy }
-    } else if (shared.idDoctor) {
+    } else if (shared.idDoctor != null) {
       sharedDoc = { idDoctor: shared.idDoctor }
     } else continue;
 

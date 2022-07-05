@@ -9,15 +9,6 @@ import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import { UserType } from '../../../../config/types'
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: 'black',
-}));
-
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: 20,
@@ -61,10 +52,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-const removePatient = () => {
-}
-
 const newPrescription = () => {
+  alert("new prescription")
 }
 
 let id_patient: number

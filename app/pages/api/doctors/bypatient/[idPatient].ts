@@ -2,7 +2,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {firestore} from '../../../../config/firebase'
 import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
-import {PrescriptionData, UserData, UserType} from "../../../../config/types";
+import { UserData, UserType} from "../../../../config/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
@@ -14,8 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const doctorsIds = [...new Set(prescriptions.map(p => p.idDoctor))]
 
-            let doctors: UserData[] = []
-            for (let doctorId of doctorsIds) {
+            const doctors: UserData[] = []
+            for (const doctorId of doctorsIds) {
                 const doctor = (await getDoc(doc(firestore, 'users', doctorId))).data()
                 if (doctor) {
                     doctors.push({

@@ -47,7 +47,7 @@ export class UserContext {
         this.patientPharmacies = value
     }
 
-    updatePharmacistPharmacyId(value: string) {
+    updatePharmacistPharmacyId(value: string | null) {
         this.pharmacistPharmacyId = value
     }
     updatePharmacistPrescriptions(value: PrescriptionData[]) {

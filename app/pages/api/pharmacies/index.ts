@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
     try {
       const snapshot = await getDocs(collection(firestore, 'pharmacies'));
-      let docs = snapshot.docs.map(doc => doc.data());
+      const docs = snapshot.docs.map(doc => doc.data());
       res.status(200).json({ pharmacies: docs })
     } catch {
       res.status(400).json({ error: 'Cannot get pharmacy' })

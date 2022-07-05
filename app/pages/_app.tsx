@@ -1,6 +1,5 @@
 import '../styles/globals.css'
-import React, {useState} from 'react'
-//import useMediaQuery from '@mui/material/useMediaQuery'
+import React from 'react'
 import theme from '../styles/theme'
 import { AppProps } from 'next/app'
 import { ThemeProvider } from '@mui/material/styles'

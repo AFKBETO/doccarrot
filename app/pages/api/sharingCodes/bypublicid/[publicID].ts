@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {firestore} from '../../../../config/firebase'
-import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
-import {PharmacyData, PrescriptionData, SharingCodeData, UserData, UserType} from "../../../../config/types";
+import {collection, getDocs, query, where} from "firebase/firestore";
+import { SharingCodeData } from "../../../../config/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 .find(() => true)
             if (!p) throw new Error();
 
-            let sharingCode: SharingCodeData = {
+            const sharingCode: SharingCodeData = {
                 code: p.code,
                 idPatient: p.idPatient,
                 idPrescription: p.idPrescription,

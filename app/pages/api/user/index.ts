@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         lastName: lastName,
         userType: userType
       }, { merge: true })
-      await addUserType(req, res)
+      await addUserType(req)
       res.status(201).json({ message: 'Data added successfully'})
     } catch {
       res.status(400).json({ error: 'Cannot add user' })
@@ -20,25 +20,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 }
 
-async function addUserType(req: NextApiRequest, res: NextApiResponse) {
+async function addUserType(req: NextApiRequest) {
   if (req.method === 'PUT') {
-    try {
-      const { uid, userType } = req.body
-      switch(userType) {
-        case 'patient': {
-          const { nss } = req.body
-          await setDoc(doc(firestore,`${userType}s`, uid), { nss: nss})
-          break
-        }
-        case 'doctor':
-        case 'pharmacist': {
-          const { rpps } = req.body
-          await setDoc(doc(firestore,`${userType}s`, uid), { rpps: rpps})
+    const { uid, userType } = req.body
+    switch(userType) {
+      case 'patient': {
+        const { nss } = req.body
+        await setDoc(doc(firestore,`${userType}s`, uid), { nss: nss})
         break
-        }
       }
-    } catch (error) {
-      throw error
+      case 'doctor':
+      case 'pharmacist': {
+        const { rpps } = req.body
+        await setDoc(doc(firestore,`${userType}s`, uid), { rpps: rpps})
+        break
+      }
     }
   }
 }
