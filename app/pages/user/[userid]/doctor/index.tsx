@@ -60,9 +60,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const searchPatient = () => {
-  console.log('search')
-}
 
 const removePatient = () => {
   console.log('remove')
@@ -99,63 +96,70 @@ const patients = [
     nom: 'Levalois',
     prenom: 'Monique',
   },
+  {
+    id: 4,
+    nom: 'Levalois',
+    prenom: 'Monique',
+  },
+  {
+    id: 4,
+    nom: 'Levalois',
+    prenom: 'Monique',
+  },
 ]
 
 
 function IndexMedecin() {
+  const [searchPat, setSearchPat] = React.useState<string>('')
   const userContext = React.useContext(USER_CONTEXT)
   const router = useRouter()
   const { userid } = router.query
 
+  const searchPatient = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchPat(event.target.value.toLowerCase())
+  }
+  
   return (
     <RouteGuard userId={userid as string} userType={UserType.doctor}>
-      <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
+      <Grid container spacing={2} sx={{px: 5, pb: 10}}>
         <Grid item xs={10}>
           <Typography><h1>Mon espace médecin</h1></Typography>
         </Grid>
-        <Grid item xs={5}>
-          <Grid container spacing={2}>
-            <Grid item xs={10}>
-              <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-                <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes patients</Typography>
-                <List sx={{ mb: 2 }}>
-                  {patients.map(({ id, nom, prenom}) => (
-                    <React.Fragment key={id}>
-                      <ListItem button onClick={event => seePatient(event, id)}>
-                        <ListItemText primary={nom} secondary={prenom} />
-                      </ListItem>
-                    </React.Fragment>
-                  ))}
-                </List>
-                <Search>
-                  <SearchIconWrapper>
-                    <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    placeholder="Type in patient"
-                    inputProps={{ 'aria-label': 'search' }}
-                    onChange={searchPatient}
-                  />
-                </Search>
-              </Item>
-            </Grid>
+        <Grid item container xs={5} spacing={2} sx={{p: 2}}>
+          <Grid item xs={12} sx={{background: '#ABBD98', borderRadius: 5, px: 2, pb: 2}}>
+            <Typography sx={{color: 'white', fontSize: 25 }}>Mes patients</Typography>
+            <List component='div' sx={{ minHeight: '300px', maxHeight: '300px', overflow: 'auto'}}>
+              {patients.map(({ id, nom, prenom}) => (((searchPat.length > 0) && !(`${nom.toLowerCase()} ${prenom.toLowerCase()}`.includes(searchPat))) ? <></> :
+                <ListItem button onClick={event => seePatient(event, id)}>
+                  <ListItemText primary={nom} secondary={prenom} />
+                </ListItem>
+              ))}
+            </List>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Type in patient"
+                inputProps={{ 'aria-label': 'search' }}
+                onInput={searchPatient}
+              />
+            </Search>
           </Grid>
         </Grid>
         <Grid item xs={7}>
-          <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-            <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <Typography><h1>Patient X</h1></Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Link href={`/user/${userContext.userId}/doctor/prescription`}>
-                  <IconButton component="span" onClick={newPrescription}>
-                    <AddIcon />
-                  </IconButton>
-                </Link>
-              </Grid>
+          <Grid container spacing={2} sx={{background: '#ABBD98', borderRadius: 5}}>
+            <Grid item xs={8}>
+              <Typography><h1>Patient X</h1></Typography>
             </Grid>
-          </Item>
+            <Grid item xs={2}>
+              <Link href={`/user/${userContext.userId}/doctor/prescription`}>
+                <IconButton component="span" onClick={newPrescription}>
+                  <AddIcon />
+                </IconButton>
+              </Link>
+            </Grid>
+          </Grid>
           <Grid item xs={10}>
             <List sx={{ mb: 2 }}>
               {patients.map(({ id, nom, prenom}) => (
