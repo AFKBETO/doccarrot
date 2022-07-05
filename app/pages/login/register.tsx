@@ -53,6 +53,8 @@ function labelProps (index: number) {
 function Register ({ closeModal }: RegisterProps) {
   const [tabValue, setTabValue] = React.useState<number>(0)
   const [userData, setUserData] = React.useState<AuthData & UserData & PatientData & DoctorData & PharmacistData>({
+    idUser: "",
+    tokenCarteVitale: "",
     email: '',
     password: '',
     firstName: '',
