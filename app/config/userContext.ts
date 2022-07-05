@@ -16,6 +16,8 @@ export class UserContext {
     patientDoctors: UserData[] = []
     patientPharmacies: PharmacyData[] = []
 
+    refreshUserData: Function
+
     updateFirebase(user: User | null | undefined, loading: boolean, error: Error | undefined) {
         this.firebaseUser = user
         this.firebaseLoading = loading
@@ -40,6 +42,10 @@ export class UserContext {
     }
     updatePatientPharmacies(value: PharmacyData[]) {
         this.patientPharmacies = value
+    }
+
+    updateRefreshUserDataFunction(value: Function) {
+        this.refreshUserData = value
     }
 
     toString() {

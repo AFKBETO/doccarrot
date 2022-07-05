@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import { styled } from '@mui/material/styles';
@@ -79,10 +79,14 @@ function Prescriptions() {
   const { userid } = router.query
   const userContext = React.useContext(USER_CONTEXT)
 
-  const [selectedPrescription, setSelectedPrescription] = useState<PrescriptionData | null>(null);
+  const [selectedPrescription, setSelectedPrescription] = useState<PrescriptionData | null | undefined>(null);
   const [sharingSelectedPharmacy, setSharingSelectedPharmacy] = useState<PharmacyData | null>(null);
   const [sharingPharmacyID, setSharingPharmacyID] = useState<string>('');
   const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    setSelectedPrescription(userContext.patientPrescriptions.find(p => p.idPrescription == selectedPrescription?.idPrescription))
+  }, [userContext.patientPrescriptions]);
 
   const shareToPharmacy = async () => {
     let shareWithPharmacyId = null
@@ -110,6 +114,9 @@ function Prescriptions() {
         makeid(10),
         shareWithPharmacyId ? [{ idPharmacy: shareWithPharmacyId }] : []
     )
+
+    // refresh user data
+    userContext.refreshUserData()
   }
 
   return (
@@ -186,10 +193,10 @@ function Prescriptions() {
                                 <React.Fragment key={sharingCode.idSharingCode}>
                                   <Typography variant='h5' component='div'>- { sharingCode.code },&nbsp;
                                     {
-                                    sharingCode.sharedWith.length != 0 ?
-                                        <>partagé avec { sharingCode.sharedWith.map(shared => <span>{ shared.pharmacyName || (shared.doctorFirstName + ' ' + shared.doctorLastName) }</span>) }</>
-                                        : "non partagé"
-                                  }
+                                      sharingCode.sharedWith.length != 0 ?
+                                          <>partagé avec { sharingCode.sharedWith.map(shared => <span>{ shared.pharmacyName || (shared.doctorFirstName + ' ' + shared.doctorLastName) }</span>) }</>
+                                          : "non partagé"
+                                    }
                                   </Typography>
                                 </React.Fragment>
                             )) }
@@ -233,7 +240,7 @@ function Prescriptions() {
                             { userContext.patientPharmacies.length != 0 ?
                                 <>
                                   <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                                  <Select labelId="select-pharmacy-label" id="select-pharmacy" label="Partager aussi avec votre pharmacie"
+                                  <Select labelId="select-pharmacy-label" id="select-pharmacy" label="Avec votre pharmacie"
                                           value={ 0 }
                                           onChange={ event => setSharingSelectedPharmacy(userContext.patientPharmacies[event.target.value as number]) }
                                   >
@@ -246,7 +253,7 @@ function Prescriptions() {
                             }
 
                             {/*---------- ... WITH NEW PHARMACY ... ----------*/}
-                            <TextField id="id-pharmacy" label="Partager aussi avec une nouvelle pharmacie" variant="outlined"
+                            <TextField id="id-pharmacy" label="Avec une nouvelle pharmacie" variant="outlined"
                                        value={sharingPharmacyID}
                                        onChange={ event => setSharingPharmacyID(event.target.value) }
                             />

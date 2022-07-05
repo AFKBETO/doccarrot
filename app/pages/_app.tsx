@@ -23,7 +23,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
   //const lightMode = useMediaQuery('(prefers-color-scheme: light)');
 
   const userContext = React.useContext(USER_CONTEXT)
-  const { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors, patientPharmacies } = useHooks();
+  const { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors, patientPharmacies, refreshUserData } = useHooks();
 
   userContext.updateFirebase(firebaseUser, firebaseLoading, firebaseError)
   userContext.updateUserId(userId)
@@ -32,6 +32,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
   userContext.updatePatientPrescriptions(patientPrescriptions)
   userContext.updatePatientDoctors(patientDoctors)
   userContext.updatePatientPharmacies(patientPharmacies)
+  userContext.updateRefreshUserDataFunction(refreshUserData)
 
   return (
       <ThemeProvider theme={theme()}>

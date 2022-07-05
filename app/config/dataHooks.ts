@@ -15,9 +15,12 @@ export function useHooks () {
     const [patientDoctors, setPatientDoctors] = useState<UserData[]>([])
     const [patientPharmacies, setPatientPharmacies] = useState<PharmacyData[]>([])
 
-    useEffect(() => { refreshUserData() }, [ firebaseUser ])
+    const [refetchUserData, setRefetchUserData] = useState<number>(0)
+    const refreshUserData = () => setRefetchUserData(refetchUserData + 1);
 
-    const refreshUserData = async () => {
+    useEffect(() => { fetchUserData() }, [ firebaseUser, refetchUserData ])
+
+    const fetchUserData = async () => {
         try {
             if (firebaseUser) {
                 const res = await getUser(firebaseUser.uid)
@@ -53,5 +56,5 @@ export function useHooks () {
         setPatientPharmacies([])
     }
 
-    return { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors, patientPharmacies }
+    return { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors, patientPharmacies, refreshUserData }
 }
