@@ -131,7 +131,9 @@ function Suivi() {
                 <Item sx={{background: '#ABBD98', borderRadius: 5}}>
                   <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes médecins</Typography>
                   <List sx={{ mb: 2 }}>
-                    { userContext.patientDoctors.map((doctor) => (((searchDoc.length > 0) && !(`${doctor.firstName.toLowerCase()} ${doctor.lastName.toLowerCase()}`.includes(searchDoc))) ? <></> :
+                    { userContext.patientDoctors
+                        .filter(doctor => searchDoc.length == 0 || `${doctor.firstName.toLowerCase()} ${doctor.lastName.toLowerCase()}`.includes(searchDoc))
+                        .map((doctor) => (
                             <React.Fragment key={doctor.idUser}>
                               <ListItem button>
                                 <ListItemText primary={doctor.firstName} secondary={doctor.lastName} />
@@ -140,7 +142,7 @@ function Suivi() {
                                 </IconButton>
                               </ListItem>
                             </React.Fragment>
-                    )) }
+                        )) }
                   </List>
                   <Search>
                     <SearchIconWrapper>
@@ -190,7 +192,7 @@ function Suivi() {
           <Grid item xs={7}>
             <Item sx={{borderRadius: 5}}>
               <Typography sx={{fontSize: 25, textAlign:'left'}}>Mes informations</Typography>
-              <Grid direction='row' display='flex'>
+              <Grid container direction='row' display='flex'>
                 <label htmlFor="contained-button-file">
                   <Input accept="image/*" id="contained-button-file" multiple type="file" />
                   <IconButton component="span" onClick={handleSubmission}>
@@ -200,7 +202,7 @@ function Suivi() {
                 <Typography sx={{fontSize: 20, textAlign: 'left'}}>Carte vitale</Typography>
               </Grid>
               <Image src='/carotte_assistant.png' width='100%' height='100%' alt='carte-vitale'></Image>
-              <Grid direction='row' display='flex'>
+              <Grid container direction='row' display='flex'>
                 <label htmlFor="contained-button-file">
                   <Input accept="image/*" id="contained-button-file" multiple type="file" />
                   <IconButton component="span" onClick={handleSubmission}>
