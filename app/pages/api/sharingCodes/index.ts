@@ -19,7 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       for (const shared of sharedWith) {
         let sharedDoc = {
-          idSharedWith: shared.idSharedWith,
           idPharmacy: undefined,
           idDoctor: undefined
         }
@@ -28,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         } else if (shared.idDoctor) {
           sharedDoc.idDoctor = shared.idDoctor
         }
-        await setDoc(doc(firestore, 'sharingCodes/' + (idSharingCode as string) + '/sharedWith', shared.idSharedWith), sharedDoc, { merge: true });
+        await addDoc(collection(firestore, 'sharingCodes', idSharingCode, 'sharedWith'), sharedDoc);
       }
 
       res.status(201).json({ message: 'Data added successfully'})
