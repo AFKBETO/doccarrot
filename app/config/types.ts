@@ -1,3 +1,5 @@
+import {Timestamp} from "@firebase/firestore";
+
 export enum UserType {
   patient,
   doctor,
@@ -27,6 +29,14 @@ export interface DoctorData {
 
 export interface PharmacistData {
   rpps?: string
+  idPharmacy?: string
+}
+
+export interface PharmacyData {
+  idPharmacy: string
+  name: string
+  address: string
+  publicID: number
 }
 
 export interface MedicationTypes {
@@ -46,9 +56,26 @@ export interface PrescriptionData {
   idDoctor: string
   doctorFirstName: string
   doctorLastName: string
-  date: { seconds: number }
+  date: Timestamp
   location: string
   currentUses: number
   maxUses: number
   medications: MedicationData[]
+  sharingCodes: SharingCodeData[]
+}
+
+export interface SharingCodeData {
+  idSharingCode: string
+  idPatient: string
+  idPrescription: string
+  code: string
+  sharedWith: SharedWithData[]
+}
+
+export interface SharedWithData {
+  idDoctor?: string
+  doctorFirstName?: string
+  doctorLastName?: string
+  idPharmacy?: string
+  pharmacyName?: string
 }

@@ -16,14 +16,14 @@ const bodyStyle = {
   'maxHeight': '90vh',
   'margin': 0,
   'display': 'flex',
-  'flex-direction': 'column'
+  'flexDirection': 'column'
 }
 
 function MyApp ({ Component, pageProps }: AppProps) {
   //const lightMode = useMediaQuery('(prefers-color-scheme: light)');
 
   const userContext = React.useContext(USER_CONTEXT)
-  const { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors } = useHooks();
+  const { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors, patientPharmacies } = useHooks();
 
   userContext.updateFirebase(firebaseUser, firebaseLoading, firebaseError)
   userContext.updateUserId(userId)
@@ -31,6 +31,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
   userContext.updateUserType(userType)
   userContext.updatePatientPrescriptions(patientPrescriptions)
   userContext.updatePatientDoctors(patientDoctors)
+  userContext.updatePatientPharmacies(patientPharmacies)
 
   return (
       <ThemeProvider theme={theme()}>

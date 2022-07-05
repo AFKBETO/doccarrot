@@ -1,6 +1,6 @@
 import React, { createContext } from 'react'
 import { User } from 'firebase/auth'
-import {PrescriptionData, UserData, UserType} from "./types"
+import {PharmacyData, PrescriptionData, UserData, UserType} from "./types"
 
 export class UserContext {
 
@@ -14,6 +14,7 @@ export class UserContext {
 
     patientPrescriptions: PrescriptionData[] = []
     patientDoctors: UserData[] = []
+    patientPharmacies: PharmacyData[] = []
 
     updateFirebase(user: User | null | undefined, loading: boolean, error: Error | undefined) {
         this.firebaseUser = user
@@ -36,6 +37,9 @@ export class UserContext {
     }
     updatePatientDoctors(value: UserData[]) {
         this.patientDoctors = value
+    }
+    updatePatientPharmacies(value: PharmacyData[]) {
+        this.patientPharmacies = value
     }
 
     toString() {
