@@ -10,6 +10,7 @@ export interface AuthData {
 }
 
 export interface UserData {
+  idUser: string
   firstName: string
   lastName: string
   userType: UserType | null
@@ -35,15 +36,17 @@ export interface MedicationTypes {
 
 export interface MedicationData {
   idMedication: string
-  idMedicationType: string
   quantity: number
+  name: string
 }
 
 export interface PrescriptionData {
   idPrescription: string
   idPatient: string
   idDoctor: string
-  date: number
+  doctorFirstName: string
+  doctorLastName: string
+  date: { seconds: number }
   location: string
   currentUses: number
   maxUses: number

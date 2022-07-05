@@ -12,6 +12,7 @@ const style = {
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
+  background: '#ABBD98'
 }
 
 function Footer() {
@@ -38,32 +39,38 @@ function Footer() {
         </Box>
 
         <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
+
+          {/*---------- BOUTON ET MODAL : MENTIONS LEGALES ----------*/}
           <Grid item xs={3}>
-            <Button onClick={event => handleOpen(event, 'modalMentions')}>Mentions légales</Button>
+            <Button onClick={event => handleOpen(event, 'modalMentions')}>
+              <Typography variant="h4">Mentions légales</Typography>
+            </Button>
             <Modal
               open={open.modalMentions}
               onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalMentions')}
             >
               <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
+                <Typography id="modal-modal-title" variant="h3">
                   Mentions légales
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  Mentions légales
+                  Mentions légales ici
                 </Typography>
               </Box>
             </Modal>
           </Grid>
+
+          {/*---------- BOUTON ET MODAL : CREDITS ----------*/}
           <Grid item xs={3}>
-            <Button onClick={event => handleOpen(event, 'modalCredits')}>Crédits</Button>
+            <Button onClick={event => handleOpen(event, 'modalCredits')}>
+              <Typography variant="h4">Crédits</Typography>
+            </Button>
             <Modal
               open={open.modalCredits}
               onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalCredits')}
             >
               <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Crédits
-                </Typography>
+                <Typography id="modal-modal-title" variant="h3">Crédits</Typography>
                 <Grid container direction='column'>
                   <Typography><h3>Notre équipe {'Doc\'Carrot'}</h3></Typography>
                   <Grid item xs={5}>
@@ -90,14 +97,18 @@ function Footer() {
               </Box>
             </Modal>
           </Grid>
+
+          {/*---------- BOUTON ET MODAL : A PROPOS ----------*/}
           <Grid item xs={3}>
-            <Button onClick={event => handleOpen(event, 'modalAbout')}>A propos</Button>
+            <Button onClick={event => handleOpen(event, 'modalAbout')}>
+              <Typography variant="h4">A propos</Typography>
+            </Button>
             <Modal
               open={open.modalAbout}
               onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalAbout')}
             >
               <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
+                <Typography id="modal-modal-title" variant="h3">
                   A propos
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
@@ -109,6 +120,7 @@ function Footer() {
               </Box>
             </Modal>
           </Grid>
+
         </Grid>
           <Box sx={{position: 'relative'}}>
             <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />

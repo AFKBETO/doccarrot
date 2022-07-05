@@ -61,21 +61,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const searchPatient = () => {
-  console.log('search')
 }
 
 const removePatient = () => {
-  console.log('remove')
 }
 
 const newPrescription = () => {
-  console.log('newPres')
 }
 
 let id_patient: number
 const seePatient = (event: React.MouseEvent, value: number) => {
   id_patient=value
-  console.log(value)
 }
 
 const patients = [
@@ -111,7 +107,7 @@ function IndexMedecin() {
     <RouteGuard userId={userid as string} userType={UserType.doctor}>
       <Grid container spacing={2} sx={{paddingLeft: 5, paddingRight:5, paddingBottom: 10}}>
         <Grid item xs={10}>
-          <Typography><h1>Mon espace médecin</h1></Typography>
+          <Typography variant="h2">Mon espace médecin</Typography>
         </Grid>
         <Grid item xs={5}>
           <Grid container spacing={2}>

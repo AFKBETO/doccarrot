@@ -42,17 +42,17 @@ function Navbar() {
               </IconButton>
             </Link>
             <Link href='/'>
-              <Typography variant='h4' component='div' sx={{color: 'text.secondary'}}>Ormeli</Typography>
+              <Typography variant='h1'>Ormeli</Typography>
             </Link>
           </Grid>
 
           {/*---------- PARTIE DROITE : LIENS DES PAGES + UTILISATEUR ----------*/}
           <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
             <Link href='/common/pourquoi'>
-              <Button color='inherit'><Typography noWrap={true}>Pourquoi Ormeli ?</Typography></Button>
+              <Button color='inherit'><Typography variant="h4" noWrap={true}>Pourquoi Ormeli ?</Typography></Button>
             </Link>
             <Link href='/common/solutions'>
-              <Button color='inherit'><Typography noWrap={true}>Solutions</Typography></Button>
+              <Button color='inherit'><Typography variant="h4" noWrap={true}>Solutions</Typography></Button>
             </Link>
 
             {/*---------- MENU CONNEXION OU UTILISATEUR ----------*/}
@@ -60,8 +60,8 @@ function Navbar() {
               /*---------- Utilisateur connecté ----------*/
               <ClickAwayListener onClickAway={handleClickAway}>
                 <Box sx={{ position: 'relative' }} zIndex='tooltip'>
-                  <Button color='inherit' type='button' onClick={handleClick}>
-                    <Typography noWrap={true}>Mon Espace</Typography>
+                  <Button color='primary' type='button' onClick={handleClick}>
+                    <Typography variant="h4" noWrap={true}>Mon Espace</Typography>
                   </Button>
 
                   {/*---------- Menu dropdown utilisateur ----------*/}
@@ -70,35 +70,35 @@ function Navbar() {
                       <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                         <Link href={`/user/${userContext.userId}`}>
                           <Button color='primary'>
-                            <Typography noWrap={true}>Mon Compte</Typography>
+                            <Typography variant="h4" noWrap={true}>Mon Compte</Typography>
                           </Button>
                         </Link>
                       </Box>
-                      { userContext.userType !== null ? 
+                      {/* userContext.userType !== null ?
                         <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                           <Link href={`/user/${userContext.userId}/${UserType[userContext.userType]}`}>
                             <Button color='primary'>
-                              <Typography noWrap={true}>Mon Espace {userContext.userType === 0 ? 'Patient' : userContext.userType === 1 ? 'Médecin' : 'Pharmacien'}</Typography>
+                              <Typography variant="h4" noWrap={true}>Mon Espace {userContext.userType === 0 ? 'Patient' : userContext.userType === 1 ? 'Médecin' : 'Pharmacien'}</Typography>
                             </Button>
                           </Link>
                         </Box>
                         :
                         <></>
-                      }
+                      */}
                       { userContext.userType == UserType.patient ?
                         /*---------- Navbar patient ----------*/
                         <>
                           <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                             <Link href={`/user/${userContext.userId}/patient/prescriptions`}>
                               <Button color='primary'>
-                                <Typography noWrap={true}>Prescriptions</Typography>
+                                <Typography variant="h4" noWrap={true}>Mes Prescriptions</Typography>
                               </Button>
                             </Link>
                           </Box>
                           <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                             <Link href={`/user/${userContext.userId}/patient/suivi`}>
                               <Button color='primary'>
-                                <Typography noWrap={true}>Suivi Santé</Typography>
+                                <Typography variant="h4" noWrap={true}>Mon Suivi de Santé</Typography>
                               </Button>
                             </Link>
                           </Box>
@@ -109,7 +109,7 @@ function Navbar() {
                           <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                             <Link href={`/user/${userContext.userId}/doctor/prescription`}>
                               <Button color='primary'>
-                                <Typography noWrap={true}>Prescription</Typography>
+                                <Typography variant="h4" noWrap={true}>Prescription</Typography>
                               </Button>
                             </Link>
                           </Box>
@@ -121,7 +121,7 @@ function Navbar() {
                       }
                       <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                           <Button color='inherit' onClick={logout}>
-                            <Typography noWrap={true}>Déconnecter</Typography>
+                            <Typography variant="h4" noWrap={true}>Déconnecter</Typography>
                           </Button>
                       </Box>
                     </Box>
@@ -131,7 +131,7 @@ function Navbar() {
             :
             <Link href='/login'>
               <Button color='inherit'>{/* navbar non-connecté */}
-                <Typography noWrap={true}>Connexion</Typography>
+                <Typography variant="h4" noWrap={true}>Connexion</Typography>
               </Button>
             </Link>
             }
