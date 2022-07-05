@@ -149,8 +149,8 @@ function Prescriptions() {
                     <React.Fragment key={prescription.idPrescription}>
                       <ListItem button onClick={() => setSelectedPrescription(prescription) }>
                         <ListItemText
-                            primary={ moment(prescription.date.seconds * 1000).format("[Le] DD/MM/YYYY [à] HH:mm") }
-                            secondary={ prescription.location }
+                            primary={ "Prescription pour " + prescription.patientFirstName + " " + prescription.patientLastName }
+                            secondary={ "Par Dr. " + prescription.doctorLastName + " " + moment(prescription.date.seconds * 1000).format("[le] DD/MM/YYYY [à] HH:mm") }
                         />
                         <IconButton component="span"><RemoveRedEyeIcon /></IconButton>
                       </ListItem>
