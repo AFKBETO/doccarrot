@@ -21,7 +21,7 @@ import QrCodeIcon from '@mui/icons-material/QrCode';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import moment from "moment";
-import {PharmacyData, PrescriptionData, UserType} from "../../../../config/types";
+import {PharmacyData, PrescriptionData, SharedWithData, UserType} from "../../../../config/types";
 import { USER_CONTEXT } from "../../../../config/userContext";
 import {addSharingCode, getPharmacyById, getPharmacyByPublicId} from "../../../../config/api";
 import toast from "react-hot-toast";
@@ -72,6 +72,16 @@ function makeid(length: number) {  // https://stackoverflow.com/questions/134940
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+function describeSharedWith(sharedWith: SharedWithData[]) {
+  if (sharedWith.length == 0) return "non partagé"
+  let shared = "partagé avec "
+  for (let i = 0; i < sharedWith.length; ++i) {
+    shared += sharedWith[i].pharmacyName || (sharedWith[i].doctorFirstName + ' ' + sharedWith[i].doctorLastName)
+    if (i + 1 < sharedWith.length) shared += ", "
+  }
+  return shared
 }
 
 function Prescriptions() {
@@ -191,13 +201,7 @@ function Prescriptions() {
                             <Typography variant='h4'>Codes de partage : </Typography>
                             { selectedPrescription.sharingCodes.map(sharingCode => (
                                 <React.Fragment key={sharingCode.idSharingCode}>
-                                  <Typography variant='h5' component='div'>- { sharingCode.code },&nbsp;
-                                    {
-                                      sharingCode.sharedWith.length != 0 ?
-                                          <>partagé avec { sharingCode.sharedWith.map(shared => <span>{ shared.pharmacyName || (shared.doctorFirstName + ' ' + shared.doctorLastName) }</span>) }</>
-                                          : "non partagé"
-                                    }
-                                  </Typography>
+                                  <Typography variant='h5' component='div'>- { sharingCode.code }, {describeSharedWith(sharingCode.sharedWith)}</Typography>
                                 </React.Fragment>
                             )) }
                           </Box>

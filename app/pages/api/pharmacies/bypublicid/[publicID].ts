@@ -14,15 +14,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 .find(() => true)
             if (!p) throw new Error();
 
-            let pharmacy: PharmacyData = {
-                idPharmacy: p.pharmacyID,
+            let pharmacy = p as PharmacyData;
+            /*let pharmacy: PharmacyData = {
+                idPharmacy: p.idPharmacy,
                 address: p.address,
                 name: p.name,
                 publicID: p.publicID
-            }
+            }*/
 
             res.status(201).json({ pharmacy })
         } catch (error) {
+            console.log(error);
             res.status(404).json({ error: error.message + req.body.uid })
         }
     }

@@ -73,6 +73,7 @@ export interface SharingCodeData {
 }
 
 export interface SharedWithData {
+  idSharedWith: string
   idDoctor?: string
   doctorFirstName?: string
   doctorLastName?: string
