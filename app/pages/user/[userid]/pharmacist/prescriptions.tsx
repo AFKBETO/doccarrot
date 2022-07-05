@@ -11,10 +11,10 @@ import {
   List,
   IconButton,
   Container,
-  Box,
+  Box, Modal, FormControl, Select, MenuItem, TextField, Button,
 } from '@mui/material'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import AddTaskIcon from '@mui/icons-material/AddTask';
 import moment from "moment";
 import { PrescriptionData, SharedWithData, UserType} from "../../../../config/types";
 import { USER_CONTEXT } from "../../../../config/userContext";
@@ -26,6 +26,7 @@ import {
   getSharingCodeByPublicID
 } from "../../../../config/api";
 import toast from "react-hot-toast";
+import QrCodeIcon from "@mui/icons-material/QrCode";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -53,15 +54,6 @@ const prescriptionPropsStyle = {
   marginBottom: 1
 }
 
-function makeid(length: number) {  // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-  let result = '';
-  const characters = '0123456789';
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
-}
-
 function describeSharedWith(sharedWith: SharedWithData[]) {
   if (sharedWith.length == 0) return "non partagé"
   let shared = "partagé avec "
@@ -85,10 +77,20 @@ function Prescriptions() {
     setSelectedPrescription(userContext.pharmacistPrescriptions.find(p => p.idPrescription == selectedPrescription?.idPrescription))
   }, [userContext.pharmacistPrescriptions]);
 
+  const usePrescription = async () => {
+    alert('Use prescription')
+  }
+
   const shareWithMyPharmacy = async () => {
     if (sharingCodeID != '') {
       try {
         const sharingCode = await getSharingCodeByPublicID(sharingCodeID);
+
+        // make sure it's not already known by us
+        if (userContext.pharmacistPrescriptions.find(p => p.idPrescription == sharingCode.idPrescription)) {
+          toast.error(`La prescription associée au code de partage ${sharingCodeID} est déjà dans votre système.`)
+          return
+        }
 
         // close modal
         setOpenScanModal(false)
@@ -102,13 +104,9 @@ function Prescriptions() {
         // refresh user data
         userContext.refreshUserData()
       } catch (error) {
-        toast.error(`Aucune prescription n'a été trouvé avec le code ${sharingCodeID}.`)
+        toast.error(`Aucune prescription n'a été trouvée avec le code de partage ${sharingCodeID}.`)
       }
     }
-  }
-
-  const usePrescription = async () => {
-    alert('Use prescription')
   }
 
   return (
@@ -125,6 +123,7 @@ function Prescriptions() {
             <Item sx={{ background: '#ABBD98', borderRadius: 5 }}>
               <Typography variant="h3" sx={{ textDecoration: 'underline' }}>Prescriptions partagées</Typography>
 
+              {/*---------- Liste de prescriptions ----------*/}
               <List sx={{ mb: 2, maxHeight: '100%', overflow: 'auto' }}>
                 { userContext.pharmacistPrescriptions.map((prescription) => (
 
@@ -141,6 +140,37 @@ function Prescriptions() {
 
                 )) }
               </List>
+
+              {/*---------- Bouton de scan ----------*/}
+              <IconButton component="span" onClick={ () => { if (selectedPrescription != null) setOpenScanModal(true) } }>
+                <QrCodeIcon />
+              </IconButton>
+
+              <Modal open={openScanModal} onClose={ () => setOpenScanModal(false) }>
+                <Box sx={modalStyle}>
+                  <Typography id="modal-modal-title" variant="h3">Récupérer une prescription</Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
+
+                    {/*---------- Entrer le code ----------*/}
+                    <FormControl fullWidth sx={{ marginTop: 5 }}>
+                      <Typography variant="h5" id="id-pharmacy-label">Code de la prescription</Typography>
+                      <Typography variant="h6" id="id-pharmacy-label">Demandez un code de partage à votre client.</Typography>
+                      <TextField id="id-pharmacy" variant="outlined"
+                                 value={sharingCodeID}
+                                 onChange={ event => setSharingCodeID(event.target.value) }
+                      />
+                    </FormControl>
+
+                    {/*---------- Valider ----------*/}
+                    <FormControl fullWidth>
+                      <Button variant='contained' sx={{ bgcolor: 'primary.dark', marginTop: 5 }} focusRipple={false} onClick={ shareWithMyPharmacy }>
+                        <Typography sx={{ color: 'text.secondary' }}>Partager</Typography>
+                      </Button>
+                    </FormControl>
+
+                  </Typography>
+                </Box>
+              </Modal>
             </Item>
           </Grid>
 
@@ -212,7 +242,7 @@ function Prescriptions() {
                     {/*---------- USE PRESCRIPTION ----------*/}
                     <Grid item xs={1}>
                       <IconButton component="span" onClick={usePrescription}>
-                        <FileDownloadIcon />
+                        <AddTaskIcon />
                       </IconButton>
                     </Grid>
 
