@@ -49,6 +49,16 @@ export async function getPrescriptionsByPatient (idUser: string): Promise<Prescr
     }
 }
 
+export async function getPrescriptionsByPharmacy (idPharmacy: string): Promise<PrescriptionData[]> {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/prescriptions/bypharmacy/${idPharmacy}`)
+        return res.data.prescriptions as PrescriptionData[];
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
 export async function getDoctorsByPatient (idUser: string): Promise<UserData[]> {
     try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/doctors/bypatient/${idUser}`)

@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../config/firebase'
-import {getDoctorsByPatient, getPharmaciesByPatient, getPrescriptionsByPatient, getUser} from './api'
+import {
+    getDoctorsByPatient,
+    getPharmaciesByPatient,
+    getPrescriptionsByPatient,
+    getPrescriptionsByPharmacy,
+    getUser
+} from './api'
 import {PharmacyData, PrescriptionData, UserData, UserType} from "./types";
 
 export function useHooks () {
@@ -14,6 +20,8 @@ export function useHooks () {
     const [patientPrescriptions, setPatientPrescriptions] = useState<PrescriptionData[]>([])
     const [patientDoctors, setPatientDoctors] = useState<UserData[]>([])
     const [patientPharmacies, setPatientPharmacies] = useState<PharmacyData[]>([])
+
+    const [pharmacistPrescriptions, setPharmacistPrescriptions] = useState<PrescriptionData[]>([])
 
     const [refetchUserData, setRefetchUserData] = useState<number>(0)
     const refreshUserData = () => setRefetchUserData(refetchUserData + 1);
@@ -37,6 +45,19 @@ export function useHooks () {
 
                     const patientPharmacies = await getPharmaciesByPatient(firebaseUser.uid)
                     setPatientPharmacies(patientPharmacies)
+
+                    setPharmacistPrescriptions([])
+                } else if (res.userType == UserType.pharmacist) {
+                    if (res.idPharmacy) {
+                        const pharmacistPrescriptions = await getPrescriptionsByPharmacy(res.idPharmacy)
+                        setPharmacistPrescriptions(pharmacistPrescriptions)
+                    } else {
+                        setPharmacistPrescriptions([])
+                    }
+
+                    setPatientPrescriptions([])
+                    setPatientDoctors([])
+                    setPatientPharmacies([])
                 } else {
                     setPatientPrescriptions([])
                     setPatientDoctors([])
