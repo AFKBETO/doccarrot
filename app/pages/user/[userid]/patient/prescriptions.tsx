@@ -21,15 +21,18 @@ const Item = styled(Paper)(({ theme }) => ({
 }))
 
 const downloadPrescri = () => {
+    alert('Téléchargement de la prescription')
 }
 
 const generateQRCode = () => {
 }
 
 const hidePrescri = () => {
+  alert('Masquer la prescription')
 }
 
 const deletePrescri = () => {
+  alert('Supprimer la prescription')
 }
 
 function Prescriptions() {
