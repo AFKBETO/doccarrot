@@ -6,6 +6,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { auth } from '../../config/firebase'
 import toast from 'react-hot-toast'
 import { addUser } from '../../config/api'
+import { validateEmail, validatePassword } from '../../config/validators'
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -269,41 +270,6 @@ function Register ({ closeModal }: RegisterProps) {
       </Box>
     </Box>
   )
-}
-
-function validateEmail (email: string) : boolean {
-  if (!/^[\w-.+]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) return true
-  return false
-}
-
-function validatePassword (password: string): React.ReactNode[] {
-  const errors: React.ReactNode[] = []
-  let index = 0
-  if (!/\d+/.test(password)) {
-    errors.push(<div key={index}>Le mot de passe doit avoir au moins une chiffre (0-9).</div>)
-    index++
-  }
-  if (!/[a-z]+/.test(password)) {
-    errors.push(<div key={index}>Le mot de passe doit avoir au moins une caractère minuscule.</div>)
-    index++
-  }
-  if (!/[A-Z]+/.test(password)) {
-    errors.push(<div key={index}>Le mot de passe doit avoir au moins une caractère majuscule.</div>)
-    index++
-  }
-  if (!/(\W)|(_)+/.test(password)) {
-    errors.push(<div key={index}>Le mot de passe doit avoir au moins une caractère spéciale.</div>)
-    index++
-  }
-  if (!/[\s\S]{8,32}/.test(password)) {
-    errors.push(<div key={index}>Le mot de passe doit avoir 8-32 caractères.</div>)
-    index++
-  }
-  if (!/^[^ ]+/.test(password)) {
-    errors.push(<div key={index}>Le mot de passe ne doit pas commencer avec une espace.</div>)
-    index++
-  }
-  return errors
 }
 
 export default Register
