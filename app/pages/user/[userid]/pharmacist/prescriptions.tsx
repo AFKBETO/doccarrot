@@ -152,7 +152,7 @@ function Prescriptions() {
               </List>
 
               {/*---------- Bouton de scan ----------*/}
-              <IconButton component="span" onClick={ () => { if (selectedPrescription != null) setOpenScanModal(true) } }>
+              <IconButton component="span" onClick={ () => setOpenScanModal(true) }>
                 <QrCodeIcon />
               </IconButton>
 
