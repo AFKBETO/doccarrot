@@ -44,17 +44,17 @@ function Footer() {
               {/*---------- BOUTON ET MODAL : MENTIONS LEGALES ----------*/}
               <Grid item xs={3}>
                 <Button onClick={event => handleOpen(event, 'modalMentions')}>
-                  <Typography variant="h4">Mentions légales</Typography>
+                  <Typography component='div' variant="h4">Mentions légales</Typography>
                 </Button>
                 <Modal
                     open={open.modalMentions}
                     onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalMentions')}
                 >
                   <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h3">
+                    <Typography component='div' id="modal-modal-title" variant="h3">
                       Mentions légales
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <Typography component='div' id="modal-modal-description" sx={{ mt: 2 }}>
                       Mentions légales ici
                     </Typography>
                   </Box>
@@ -64,35 +64,35 @@ function Footer() {
               {/*---------- BOUTON ET MODAL : CREDITS ----------*/}
               <Grid item xs={2}>
                 <Button onClick={event => handleOpen(event, 'modalCredits')}>
-                  <Typography variant="h4">Crédits</Typography>
+                  <Typography component='div' variant="h4">Crédits</Typography>
                 </Button>
                 <Modal
                     open={open.modalCredits}
                     onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalCredits')}
                 >
                   <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h3">Crédits</Typography>
+                    <Typography component='div' id="modal-modal-title" variant="h3">Crédits</Typography>
                     <Grid container direction='column'>
-                      <Typography><h3>Notre équipe {'Doc\'Carrot'}</h3></Typography>
+                      <Typography component='div' variant='h3'>Notre équipe {'Doc\'Carrot'}</Typography>
                       <Grid item xs={5}>
                         <Image src='/viet.jpg' width='100%' height='100%' alt='Ormeli' />
-                        <Typography>Quang Viet Nguyen</Typography>
+                        <Typography component='div'>Quang Viet Nguyen</Typography>
                       </Grid>
                       <Grid item xs={5}>
                         <Image src='/guillaume.jpeg' width='100%' height='100%' alt='Ormeli' />
-                        <Typography>Guillaume Vandenneucker</Typography>
+                        <Typography component='div'>Guillaume Vandenneucker</Typography>
                       </Grid>
                       <Grid item xs={5}>
                         <Image src='/maya.jpeg' width='100%' height='100%' alt='Ormeli' />
-                        <Typography>Maya Gawinowski</Typography>
+                        <Typography component='div'>Maya Gawinowski</Typography>
                       </Grid>
                       <Grid item xs={5}>
                         <Image src='/maxime.jpeg' width='100%' height='100%' alt='Ormeli' />
-                        <Typography>Maxime Larroze</Typography>
+                        <Typography component='div'>Maxime Larroze</Typography>
                       </Grid>
                       <Grid item xs={5}>
                         <Image src='/brahim.jpeg' width='100%' height='100%' alt='Ormeli' />
-                        <Typography>Brahim Hda</Typography>
+                        <Typography component='div'>Brahim Hda</Typography>
                       </Grid>
                     </Grid>
                   </Box>
@@ -102,20 +102,20 @@ function Footer() {
               {/*---------- BOUTON ET MODAL : A PROPOS ----------*/}
               <Grid item xs={2}>
                 <Button onClick={event => handleOpen(event, 'modalAbout')}>
-                  <Typography variant="h4">A propos</Typography>
+                  <Typography component='div' variant="h4">A propos</Typography>
                 </Button>
                 <Modal
                     open={open.modalAbout}
                     onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalAbout')}
                 >
                   <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h3">
+                    <Typography component='div' id="modal-modal-title" variant="h3">
                       A propos
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <Typography component='div' id="modal-modal-description" sx={{ mt: 2 }}>
                       Efrei Paris
                     </Typography>
-                    <Typography>
+                    <Typography component='div'>
                       Promotion 2024
                     </Typography>
                   </Box>
@@ -125,17 +125,17 @@ function Footer() {
               {/*---------- BOUTON ET MODAL : TUTORIEL ----------*/}
               <Grid item xs={3} >
                 <Button onClick={event => handleOpen(event, 'modalTutorial')}>
-                  <Typography variant="h4">Tutoriel</Typography>
+                  <Typography component='div' variant="h4">Tutoriel</Typography>
                 </Button>
                 <Modal
                     open={open.modalTutorial}
                     onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalTutorial')}
                 >
                   <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h3">
-                      Besoin d'aide ?
+                    <Typography component='div' id="modal-modal-title" variant="h3">
+                      Besoin d&apos;aide ?
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <Typography component='div' id="modal-modal-description" sx={{ mt: 2 }}>
                       Tutoriel ici
                     </Typography>
                   </Box>

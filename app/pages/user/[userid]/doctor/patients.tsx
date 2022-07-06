@@ -126,20 +126,20 @@ function Prescriptions() {
   const sendPrescription = async () => {
     try {
       await addPrescription(
-          selectedPatient!.idUser,
-          userContext.userId as string,
-          moment().valueOf(),
-          location,
-          signature,
-          maxUses,
-          medications.map(m => {
-            let med: MedicationData = {
-              idMedication: '' + m.index,
-              idMedicationType: userContext.doctorMedicationTypes[m.indexMedicationType].idMedicationType,
-              quantity: m.quantity
-            }
-            return med
-          })
+        selectedPatient!.idUser,
+        userContext.userId as string,
+        moment().valueOf(),
+        location,
+        signature,
+        maxUses,
+        medications.map(m => {
+          const med: MedicationData = {
+            idMedication: '' + m.index,
+            idMedicationType: userContext.doctorMedicationTypes[m.indexMedicationType].idMedicationType,
+            quantity: m.quantity
+          }
+          return med
+        })
       )
       setOpenPatientModal(false)
       toast.success(`La prescription a été créée.`)
@@ -187,7 +187,7 @@ function Prescriptions() {
               <Modal open={openPatientModal} onClose={ () => setOpenPatientModal(false) }>
                 <Box sx={modalStyle}>
                   <Typography id="modal-modal-title" variant="h3">Nouveau patient</Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
+                  <Box id="modal-modal-description" sx={{ mt: 2 }} component="div">
 
                     {/*---------- Entrer le code ----------*/}
                     <FormControl fullWidth sx={{ marginTop: 5 }}>
@@ -206,7 +206,7 @@ function Prescriptions() {
                       </Button>
                     </FormControl>
 
-                  </Typography>
+                  </Box>
                 </Box>
               </Modal>
 
@@ -243,7 +243,7 @@ function Prescriptions() {
                         />
                       </Box>
                       <Box sx={prescriptionPropsStyle}>
-                        <Typography variant='h4'>Nombre d'utilisations : </Typography>
+                        <Typography variant='h4'>Nombre d&apos;utilisations : </Typography>
                         <TextField id="quantity" type="number" variant="outlined" sx={{marginLeft: 1}}
                                    InputProps={{ inputProps: { min: 1} }}
                                    value={ maxUses }

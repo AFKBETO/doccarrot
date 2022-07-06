@@ -3,17 +3,9 @@ import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import { styled } from '@mui/material/styles';
 import {
-  Paper,
-  Typography,
-  Grid,
-  ListItem,
-  ListItemText,
-  List,
-  IconButton,
-  Container,
-  Box,
-  Modal,
-  FormControl, Select, MenuItem, InputLabel, TextField, Button, FormLabel, FormControlLabel, SelectChangeEvent
+  Typography, Box, Grid, Container,Paper, Modal,
+  ListItem, ListItemText, List,
+  FormControl, Select, MenuItem, TextField, Button, SelectChangeEvent, IconButton
 } from '@mui/material'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -21,9 +13,9 @@ import QrCodeIcon from '@mui/icons-material/QrCode';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import moment from "moment";
-import {PharmacyData, PrescriptionData, SharedWithData, UserType} from "../../../../config/types";
+import { PrescriptionData, SharedWithData, UserType } from "../../../../config/types";
 import { USER_CONTEXT } from "../../../../config/userContext";
-import {addSharingCode, getPharmacyByPublicId} from "../../../../config/api";
+import { addSharingCode, getPharmacyByPublicId } from "../../../../config/api";
 import toast from "react-hot-toast";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -240,13 +232,13 @@ function Prescriptions() {
                       <Modal open={openCreateModal} onClose={ () => setOpenCreateModal(false) }>
                         <Box sx={modalStyle}>
                           <Typography id="modal-modal-title" variant="h3">Partager la prescription</Typography>
-                          <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
+                          <Box id="modal-modal-description" sx={{ mt: 2 }} component="div">
 
                             {/*---------- ... WITH KNOWN PHARMACY ... ----------*/}
                             { userContext.patientPharmacies.length != 0 ?
                                 <FormControl fullWidth>
                                   <Typography variant="h5" id="id-pharmacy-label">Partager directement avec votre pharmacie (optionnel)</Typography>
-                                  <Typography variant="h6" id="id-pharmacy-label">Pratique : vous n'aurez pas besoin d'indiquer le code au pharmacien.</Typography>
+                                  <Typography variant="h6" id="id-pharmacy-label">Pratique : vous n&apos;aurez pas besoin d&apos;indiquer le code au pharmacien.</Typography>
                                   <Select id="select-pharmacy"
                                           value={ sharingSelectedPharmacyIndex }
                                           onChange={ event => selectOtherPharmacy(event) }
@@ -276,7 +268,7 @@ function Prescriptions() {
                               </Button>
                             </FormControl>
 
-                          </Typography>
+                          </Box>
                         </Box>
                       </Modal>
                     </Grid>
