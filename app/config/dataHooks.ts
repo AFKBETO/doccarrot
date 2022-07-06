@@ -15,6 +15,7 @@ export function useHooks () {
 
     const [userId, setUserId] = useState<string | null>(null)
     const [userName, setUserName] = useState<string | null>(null)
+    const [userPublicID, setUserPublicID] = useState<string | null>(null)
     const [userType, setUserType] = useState<UserType | null>(null)
 
     const [patientPrescriptions, setPatientPrescriptions] = useState<PrescriptionData[]>([])
@@ -38,6 +39,7 @@ export function useHooks () {
                 const userData = await getUser(firebaseUser.uid)
                 setUserId(firebaseUser.uid)
                 setUserName(userData.firstName + ' ' + userData.lastName)
+                setUserPublicID(userData.publicID)
                 setUserType(userData.userType)
 
                 if (userData.userType == UserType.patient) {
@@ -99,6 +101,7 @@ export function useHooks () {
         }
         setUserId(null)
         setUserName(null)
+        setUserPublicID(null)
         setUserType(null)
         setPatientPrescriptions([])
         setPatientDoctors([])
@@ -115,6 +118,7 @@ export function useHooks () {
         firebaseError,
         userId,
         userName,
+        userPublicID,
         userType,
         patientPrescriptions,
         patientDoctors,

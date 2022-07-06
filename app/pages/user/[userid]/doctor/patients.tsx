@@ -16,7 +16,7 @@ import {
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import {MedicationData, UserData, UserType} from "../../../../config/types";
 import { USER_CONTEXT } from "../../../../config/userContext";
-import {addPrescription, getUser} from "../../../../config/api";
+import {addPrescription, getUser, getUserByPublicID} from "../../../../config/api";
 import toast from "react-hot-toast";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
@@ -61,7 +61,7 @@ function Prescriptions() {
   const userContext = React.useContext(USER_CONTEXT)
 
   const [selectedPatient, setSelectedPatient] = useState<UserData | null>(null);
-  const [newPatientID, setNewPatientID] = useState<string>('');
+  const [newPatientPublicID, setNewPatientPublicID] = useState<string>('');
   const [openPatientModal, setOpenPatientModal] = useState<boolean>(false);
 
   const [medications, setMedications] = React.useState<PrescriptionMedication[]>([])
@@ -70,22 +70,23 @@ function Prescriptions() {
   const [maxUses, setMaxUses] = React.useState<number>(1)
 
   const selectPatientFromNewID = async () => {
-    if (newPatientID != '') {
+    if (newPatientPublicID != '') {
       try {
-        const patientData = await getUser(newPatientID)
-        if (userContext.doctorPatients.find(p => p.idUser == newPatientID)) {
-          toast.error(`Le patient au numéro ${newPatientID} est déjà dans votre système.`)
+        const patientData = await getUserByPublicID(newPatientPublicID)
+        if (userContext.doctorPatients.find(p => p.publicID == newPatientPublicID)) {
+          toast.error(`Le patient au numéro ${newPatientPublicID} est déjà dans votre système.`)
           return
         }
         setOpenPatientModal(false)
         setSelectedPatient({
-          idUser: newPatientID,
+          idUser: patientData.idUser,
+          publicID: patientData.publicID,
           firstName: patientData.firstName,
           lastName: patientData.lastName,
           userType: patientData.userType
         })
       } catch (error) {
-        toast.error(`Aucun patient n'a été trouvé avec le numéro ${newPatientID}.`)
+        toast.error(`Aucun patient n'a été trouvé avec le numéro ${newPatientPublicID}.`)
       }
     }
   }
@@ -194,8 +195,8 @@ function Prescriptions() {
                       <Typography variant="h5" id="id-pharmacy-label">Numéro du patient</Typography>
                       <Typography variant="h6" id="id-pharmacy-label">Demandez à votre patient son numéro dans le système.</Typography>
                       <TextField id="id-pharmacy" variant="outlined"
-                                 value={newPatientID}
-                                 onChange={ event => setNewPatientID(event.target.value) }
+                                 value={newPatientPublicID}
+                                 onChange={ event => setNewPatientPublicID(event.target.value) }
                       />
                     </FormControl>
 

@@ -39,6 +39,10 @@ function User () {
                             <Typography variant='h4'>Type de compte : </Typography>
                             <Typography variant='h5'>&nbsp;{ userTypeNames[userContext.userType as number] }</Typography>
                         </Box>
+                        <Box sx={propsStyle}>
+                            <Typography variant='h4'>Numéro utilisateur : </Typography>
+                            <Typography variant='h5'>&nbsp;{ userContext.userPublicID }</Typography>
+                        </Box>
                     </Item>
 
                     {/*---------- PARAMETRES UTILISATEUR ----------*/}
@@ -47,13 +51,13 @@ function User () {
                         <Box sx={propsStyle}>
                             <Typography variant='h4'>Prénom : </Typography>
                             <TextField id="location" type="text" variant="outlined" sx={{marginLeft: 1}}
-                                       value={ userContext.userName!.split(' ')[0] }
+                                       value={ userContext.userName?.split(' ')[0] }
                             />
                         </Box>
                         <Box sx={propsStyle}>
                             <Typography variant='h4'>Nom : </Typography>
                             <TextField id="location" type="text" variant="outlined" sx={{marginLeft: 1}}
-                                       value={ userContext.userName!.split(' ')[1] }
+                                       value={ userContext.userName?.split(' ')[1] }
                             />
                         </Box>
                     </Item>

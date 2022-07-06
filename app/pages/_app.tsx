@@ -31,6 +31,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
     firebaseError,
     userId,
     userName,
+    userPublicID,
     userType,
     patientPrescriptions,
     patientDoctors,
@@ -45,6 +46,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
   userContext.updateFirebase(firebaseUser, firebaseLoading, firebaseError)
   userContext.updateUserId(userId)
   userContext.updateUserName(userName)
+  userContext.updateUserPublicID(userPublicID)
   userContext.updateUserType(userType)
   userContext.updatePatientPrescriptions(patientPrescriptions)
   userContext.updatePatientDoctors(patientDoctors)
