@@ -16,12 +16,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const patients: UserData[] = []
             for (const patientId of patientsIds) {
-                const doctor = (await getDoc(doc(firestore, 'users', patientId))).data()
-                if (doctor) {
+                const patient = (await getDoc(doc(firestore, 'users', patientId))).data()
+                if (patient) {
                     patients.push({
                         idUser: patientId,
-                        firstName: doctor.firstName,
-                        lastName: doctor.lastName,
+                        publicID: patient.publicId,
+                        firstName: patient.firstName,
+                        lastName: patient.lastName,
                         userType: UserType.patient
                     })
                 }
@@ -29,6 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             res.status(201).json({ patients })
         } catch (error) {
+            console.log(error)
             res.status(404).json({ error: error.message + req.body.uid })
         }
     }

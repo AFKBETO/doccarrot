@@ -136,7 +136,7 @@ function Prescriptions() {
                       <ListItem button onClick={() => setSelectedPrescription(prescription) }>
                         <ListItemText
                             primary={ "Prescription pour " + prescription.patientFirstName + " " + prescription.patientLastName }
-                            secondary={ "Par Dr. " + prescription.doctorLastName + " " + moment(prescription.date.seconds * 1000).format("[le] DD/MM/YYYY [à] HH:mm") }
+                            secondary={ "Par Dr. " + prescription.doctorLastName + " " + moment(prescription.date).format("[le] DD/MM/YYYY [à] HH:mm") }
                         />
                         <IconButton component="span"><RemoveRedEyeIcon /></IconButton>
                       </ListItem>
@@ -146,7 +146,7 @@ function Prescriptions() {
               </List>
 
               {/*---------- Bouton de scan ----------*/}
-              <IconButton component="span" onClick={ () => { if (selectedPrescription != null) setOpenScanModal(true) } }>
+              <IconButton component="span" onClick={ () => setOpenScanModal(true) }>
                 <QrCodeIcon />
               </IconButton>
 
@@ -194,7 +194,7 @@ function Prescriptions() {
                       </Box>
                       <Box sx={prescriptionPropsStyle}>
                         <Typography variant='h4'>Date : </Typography>
-                        <Typography variant='h5'>&nbsp;{ moment(selectedPrescription.date.seconds * 1000).format("[le] DD/MM/YYYY [à] HH:mm") }</Typography>
+                        <Typography variant='h5'>&nbsp;{ moment(selectedPrescription.date).format("[le] DD/MM/YYYY [à] HH:mm") }</Typography>
                       </Box>
                       <Box sx={prescriptionPropsStyle}>
                         <Typography variant='h4'>Lieu : </Typography>
