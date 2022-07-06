@@ -10,6 +10,7 @@ export class UserContext {
 
     userId: string | null = null
     userName: string | null = null
+    userPublicID: string | null
     userType: UserType | null = null
 
     patientPrescriptions: PrescriptionData[] = []
@@ -35,6 +36,9 @@ export class UserContext {
     }
     updateUserName(value: string | null) {
         this.userName = value
+    }
+    updateUserPublicID(value: string | null) {
+        this.userPublicID = value
     }
     updateUserType(value: UserType | null) {
         this.userType = value

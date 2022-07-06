@@ -13,17 +13,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
     try {
       const { uid } = req.query
-      const result: UserData = {}
-      await getData('users', uid as string, result, true)
-      await getData(`${result.userType}s`, uid as string, result, false)
-      if (result.userType !== 'patient') {
-        await getData('patients', uid as string, result, false)
-      }
+      const result = await fetchUserData(uid as string)
+
       res.status(200).json(result)
     } catch (error) {
       res.status(404).json({ error: error.message + req.body.uid })
     }
   }
+}
+
+export async function fetchUserData(uid: string) {
+  const result: UserData = {}
+  await getData('users', uid, result, true)
+  await getData(`${result.userType}s`, uid, result, false)
+  if (result.userType !== 'patient') {
+    await getData('patients', uid, result, false)
+  }
+  return result
 }
 
 async function getData(docName: string, uid: string, user: UserData, strict: boolean): Promise<void> {
