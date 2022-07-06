@@ -17,7 +17,6 @@ function Login() {
   })
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const [openRegister, setOpenRegister] = React.useState<boolean>(false)
-  const userContext = React.useContext(USER_CONTEXT)
 
   const router = useRouter()
 

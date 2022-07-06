@@ -15,7 +15,7 @@ export interface UserData {
   idUser: string
   firstName: string
   lastName: string
-  publicID: string
+  publicID?: string
   userType: UserType | null
 
   rpps?: string

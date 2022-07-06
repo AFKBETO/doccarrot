@@ -16,7 +16,7 @@ import {
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import {MedicationData, UserData, UserType} from "../../../../config/types";
 import { USER_CONTEXT } from "../../../../config/userContext";
-import {addPrescription, getUser, getUserByPublicID} from "../../../../config/api";
+import {addPrescription, getUserByPublicID} from "../../../../config/api";
 import toast from "react-hot-toast";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";

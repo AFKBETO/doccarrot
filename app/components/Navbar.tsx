@@ -56,7 +56,7 @@ function Navbar() {
             </Link>
 
             {/*---------- MENU CONNEXION OU UTILISATEUR ----------*/}
-            { !(!userContext.userId) && userContext.firebaseUser?.emailVerified ?
+            { userContext.userId != null && userContext.firebaseUser != null && userContext.firebaseUser.emailVerified ?
               /*---------- Utilisateur connecté ----------*/
               <ClickAwayListener onClickAway={handleClickAway}>
                 <Box sx={{ position: 'relative' }} zIndex='tooltip'>
@@ -135,7 +135,7 @@ function Navbar() {
             {/*---------- Nom d'utilisateur ----------*/}
             <Box sx={{position: 'relative'}}>
               {
-                !userContext.userId || !userContext.firebaseUser?.emailVerified ?
+                userContext.userId != null || (userContext.firebaseUser != null && !userContext.firebaseUser.emailVerified) ?
                 <></> :
                 <Typography component='div' sx={{position: 'absolute', right: '120%', bottom: '70%', color: 'text.secondary'}} noWrap={true}>Bonjour, { userContext.userName }</Typography>
               }
