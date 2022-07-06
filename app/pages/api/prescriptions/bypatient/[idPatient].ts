@@ -9,6 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'GET') {
         try {
             const { idPatient } = req.query
+
             const docs = (await getDocs(query(collection(firestore, 'prescriptions'), where('idPatient', '==', idPatient))))
                 .docs
                 .map(d => d.data())
@@ -35,9 +36,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 prescriptions.push(prescription)
             }
 
-      res.status(200).json({ prescriptions })
-    } catch (error) {
-      res.status(404).json({ error: error.message + req.body.uid })
+            res.status(200).json({ prescriptions })
+        } catch (error) {
+            console.log(error)
+            res.status(404).json({ error: error.message + req.body.uid })
+        }
     }
-  }
 }

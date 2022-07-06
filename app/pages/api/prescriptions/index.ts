@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { firestore } from '../../../config/firebase'
-import {collection, doc, getDoc, getDocs, query, setDoc, where} from 'firebase/firestore'
-import {PrescriptionData, SharedWithData } from "../../../config/types";
+import {addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where} from 'firebase/firestore'
+import { PrescriptionData, SharedWithData} from "../../../config/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'PUT') {
         try {
-            const { uid, idPatient, idDoctor, date, location, signature, maxUses, medications } = req.body
+            const { idPatient, idDoctor, date, location, signature, maxUses, medications } = req.body
 
-            await setDoc(doc(firestore, 'prescriptions', uid), {
+            const idPrescription = (await addDoc(collection(firestore, 'prescriptions'), {
                 idPatient,
                 idDoctor,
                 date,
@@ -16,20 +16,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 signature,
                 currentUses: 0,
                 maxUses
-            }, { merge: true })
+            })).id;
+
+            await updateDoc(doc(firestore, 'prescriptions', idPrescription), { idPrescription })
 
             for (const med of medications) {
-                const { idMedication, idMedicationType, quantity } = med
-                await setDoc(doc(firestore, 'prescriptions', uid, 'medications', med.uid), {
-                    idMedication,
+                const { idMedicationType, quantity } = med
+                const idMedication = (await addDoc(collection(firestore, 'prescriptions', idPrescription, 'medications'), {
                     idMedicationType,
                     quantity
-                }, { merge: true });
+                })).id
+                await updateDoc(doc(firestore, 'prescriptions', idPrescription, 'medications', idMedication), { idMedication })
             }
 
             res.status(201).json({ message: 'Data added successfully'})
-        } catch {
-            res.status(400).json({ error: 'Cannot add prescription' })
+        } catch(error) {
+            console.log(error)
+            res.status(400).json({ error: 'Cannot add prescription : ' + error.message })
         }
     }
 }
@@ -55,6 +58,7 @@ export async function fetchPrescriptionDetails(prescription: PrescriptionData, w
     for (const med of meds) {
         const medTypeData = (await getDoc(doc(firestore, 'medicationTypes', med.idMedicationType))).data()
         prescription.medications.push({
+            idMedicationType: med.idMedicationType,
             idMedication: med.idMedication,
             quantity: med.quantity,
             name: medTypeData?.name

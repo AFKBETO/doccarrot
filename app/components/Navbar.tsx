@@ -107,9 +107,9 @@ function Navbar() {
                         : userContext.userType == UserType.doctor ?
                         <>
                           <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                            <Link href={`/user/${userContext.userId}/doctor/prescription`}>
+                            <Link href={`/user/${userContext.userId}/doctor/patients`}>
                               <Button color='primary'>
-                                <Typography variant="h4" noWrap={true}>Prescription</Typography>
+                                <Typography variant="h4" noWrap={true}>Patients</Typography>
                               </Button>
                             </Link>
                           </Box>

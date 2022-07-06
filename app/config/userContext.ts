@@ -20,6 +20,7 @@ export class UserContext {
     pharmacistPrescriptions: PrescriptionData[] = []
 
     doctorMedicationTypes: MedicationType[]
+    doctorPatients: UserData[]
 
     refreshUserData: Function
 
@@ -58,6 +59,9 @@ export class UserContext {
 
     updateDoctorMedicationTypes(value: MedicationType[]) {
         this.doctorMedicationTypes = value
+    }
+    updateDoctorPatients(value: UserData[]) {
+        this.doctorPatients = value
     }
 
     updateRefreshUserDataFunction(value: Function) {

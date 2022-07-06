@@ -38,8 +38,9 @@ export interface MedicationType {
 
 export interface MedicationData {
   idMedication: string
+  idMedicationType: string
   quantity: number
-  name: string
+  name?: string
 }
 
 export interface PrescriptionData {

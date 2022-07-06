@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {
+    MedicationData,
     MedicationType,
     PharmacyData,
     PrescriptionData, SharingCodeData,
@@ -52,6 +53,22 @@ export async function getPrescriptionsByPharmacy (idPharmacy: string): Promise<P
         return res.data.prescriptions as PrescriptionData[];
     } catch (error) {
         console.log(error);
+        throw error
+    }
+}
+
+export async function addPrescription (idPatient: string, idDoctor: string, date: number, location: string, signature: string, maxUses: number, medications: MedicationData[]): Promise<void> {
+    try {
+        await axios.put(`${process.env.NEXT_PUBLIC_URL}/api/prescriptions/`,{
+            idPatient,
+            idDoctor,
+            date,
+            location,
+            signature,
+            maxUses,
+            medications
+        })
+    } catch (error) {
         throw error
     }
 }
@@ -142,6 +159,16 @@ export async function getMedicationTypes (): Promise<MedicationType[]> {
     try {
         return (await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/medicationTypes/`)).data.medicationTypes as MedicationType[]
     } catch (error) {
+        throw error
+    }
+}
+
+export async function getPatientsByDoctor (idDoctor: string): Promise<UserData[]> {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/user/bydoctor/${idDoctor}`)
+        return res.data.patients as UserData[];
+    } catch (error) {
+        console.log(error);
         throw error
     }
 }
