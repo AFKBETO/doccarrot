@@ -66,38 +66,6 @@ const Input = styled('input')({
   display: 'none',
 });
 
-const handleSubmission = () => {
-}
-
-const removeDoctor = () => {
-}
-
-const removePharmacy = () => {
-}
-
-const pharmacies = [
-  {
-    id: 1,
-    nom: 'Pharmacie des Allées',
-    adresse: "32 Avenue Marx Dormoy",
-  },
-  {
-    id: 2,
-    nom: 'Xavier',
-    adresse: `ZAC de la Gare`,
-  }/*,
-  {
-    id: 3,
-    nom: 'Mathieu André',
-    adresse: '12 rue Eugène Pelletan',
-  },
-  {
-    id: 4,
-    nom: 'Pharmacie du progrès',
-    adresse: '72 court Carnot',
-  },*/
-]
-
 function Suivi() {
   const [searchDoc, setSearchDoc] = useState<string>('')
   const [searchPhar, setSearchPhar] = useState<string>('')
@@ -129,7 +97,7 @@ function Suivi() {
               {/*---------- MEDECINS ----------*/}
               <Grid item xs={10}>
                 <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-                  <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes médecins</Typography>
+                  <Typography variant="h3">Mes médecins</Typography>
                   <List sx={{ mb: 2 }}>
                     { userContext.patientDoctors
                         .filter(doctor => searchDoc.length == 0 || doctor.firstName.toLowerCase().includes(searchDoc) || doctor.lastName.toLowerCase().includes(searchDoc))
@@ -137,7 +105,7 @@ function Suivi() {
                             <React.Fragment key={doctor.idUser}>
                               <ListItem button>
                                 <ListItemText primary={doctor.firstName} secondary={doctor.lastName} />
-                                <IconButton component="span" onClick={removeDoctor}>
+                                <IconButton component="span" >
                                   <RemoveIcon />
                                 </IconButton>
                               </ListItem>
@@ -160,7 +128,7 @@ function Suivi() {
               {/*---------- PHARMACIES ----------*/}
               <Grid item xs={10}>
                 <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-                  <Typography sx={{background: '#ABBD98', color: 'white', fontSize: 25}}>Mes pharmacies</Typography>
+                  <Typography variant="h3">Mes pharmacies</Typography>
                   <List sx={{ mb: 2 }}>
                     { userContext.patientPharmacies
                         .filter(pharmacy => searchPhar.length == 0 || pharmacy.name.toLowerCase().includes(searchPhar) || pharmacy.address.toLowerCase().includes(searchPhar))
@@ -168,7 +136,7 @@ function Suivi() {
                             <React.Fragment key={pharmacy.idPharmacy}>
                               <ListItem button>
                                 <ListItemText primary={pharmacy.name} secondary={pharmacy.address} />
-                                <IconButton component="span" onClick={removePharmacy}>
+                                <IconButton component="span" >
                                   <RemoveIcon />
                                 </IconButton>
                               </ListItem>
@@ -197,7 +165,7 @@ function Suivi() {
               <Grid container direction='row' display='flex'>
                 <label htmlFor="contained-button-file">
                   <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                  <IconButton component="span" onClick={handleSubmission}>
+                  <IconButton component="span" >
                     <FileDownloadIcon />
                   </IconButton>
                 </label>
@@ -207,7 +175,7 @@ function Suivi() {
               <Grid container direction='row' display='flex'>
                 <label htmlFor="contained-button-file">
                   <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                  <IconButton component="span" onClick={handleSubmission}>
+                  <IconButton component="span" >
                     <FileDownloadIcon />
                   </IconButton>
                 </label>

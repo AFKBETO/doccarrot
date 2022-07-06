@@ -7,27 +7,27 @@ import { UserData, UserType} from "../../../../config/types";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
         try {
-            const { idPatient } = req.query
-            const prescriptions = (await getDocs(query(collection(firestore, 'prescriptions'), where('idPatient', '==', idPatient))))
+            const { idDoctor } = req.query
+            const prescriptions = (await getDocs(query(collection(firestore, 'prescriptions'), where('idDoctor', '==', idDoctor))))
                 .docs
                 .map(d => d.data())
 
-            const doctorsIds = [...new Set(prescriptions.map(p => p.idDoctor))]
+            const patientsIds = [...new Set(prescriptions.map(p => p.idPatient))]
 
-            const doctors: UserData[] = []
-            for (const doctorId of doctorsIds) {
-                const doctor = (await getDoc(doc(firestore, 'users', doctorId))).data()
+            const patients: UserData[] = []
+            for (const patientId of patientsIds) {
+                const doctor = (await getDoc(doc(firestore, 'users', patientId))).data()
                 if (doctor) {
-                    doctors.push({
-                        idUser: doctorId,
+                    patients.push({
+                        idUser: patientId,
                         firstName: doctor.firstName,
                         lastName: doctor.lastName,
-                        userType: UserType.doctor
+                        userType: UserType.patient
                     })
                 }
             }
 
-            res.status(201).json({ doctors })
+            res.status(201).json({ patients })
         } catch (error) {
             res.status(404).json({ error: error.message + req.body.uid })
         }

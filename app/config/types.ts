@@ -16,20 +16,12 @@ export interface UserData {
   firstName: string
   lastName: string
   userType: UserType | null
-}
 
-export interface PatientData {
-  nss?: string
-  tokenCarteVitale?: string
-}
-
-export interface DoctorData {
-  rpps?: string
-}
-
-export interface PharmacistData {
   rpps?: string
   idPharmacy?: string
+
+  nss?: string
+  tokenCarteVitale?: string
 }
 
 export interface PharmacyData {
@@ -39,21 +31,24 @@ export interface PharmacyData {
   publicID: number
 }
 
-export interface MedicationTypes {
-  id: string,
+export interface MedicationType {
+  idMedicationType: string,
   name: string
 }
 
 export interface MedicationData {
   idMedication: string
+  idMedicationType: string
   quantity: number
-  name: string
+  name?: string
 }
 
 export interface PrescriptionData {
   idPrescription: string
   idPatient: string
   idDoctor: string
+  patientFirstName: string
+  patientLastName: string
   doctorFirstName: string
   doctorLastName: string
   date: Timestamp

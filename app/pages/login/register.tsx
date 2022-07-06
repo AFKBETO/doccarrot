@@ -1,11 +1,10 @@
 import React from 'react'
 import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth'
 import { Box, Button, FilledInput, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography, Switch } from '@mui/material'
-import { AuthData, PatientData, DoctorData, UserData, UserType, PharmacistData } from '../../config/types'
+import { AuthData, UserData, UserType } from '../../config/types'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { auth } from '../../config/firebase'
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/router'
 import { addUser } from '../../config/api'
 
 interface TabPanelProps {
@@ -46,13 +45,13 @@ function TabPanel(props: TabPanelProps) {
 function labelProps (index: number) {
   return {
     id: `tab-${index}`,
-    'aria-control': `tabpanel-${index}` 
+    //'aria-control': `tabpanel-${index}`
   }
 }
 
 function Register ({ closeModal }: RegisterProps) {
   const [tabValue, setTabValue] = React.useState<number>(0)
-  const [userData, setUserData] = React.useState<AuthData & UserData & PatientData & DoctorData & PharmacistData>({
+  const [userData, setUserData] = React.useState<AuthData & UserData>({
     idUser: "",
     tokenCarteVitale: "",
     email: '',
@@ -139,7 +138,7 @@ function Register ({ closeModal }: RegisterProps) {
     <Box sx={{ margin: 'auto', mt: 4, pt: 2, border: 1, borderRadius: '20px', backgroundColor: 'primary.dark' }}>
       <Typography variant='h4' align='center'>Inscription</Typography>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs textColor='secondary' indicatorColor='secondary' value={tabValue} onChange={changeTab} aria-label='basic tabs example' variant='scrollable' centered selectionFollowsFocus>
+        <Tabs textColor='secondary' indicatorColor='secondary' value={tabValue} onChange={changeTab} aria-label='basic tabs example' variant='scrollable' selectionFollowsFocus>
           <Tab label='Patient' {...labelProps(0)} />
           <Tab label='Médecin Pharmacien' {...labelProps(1)} />
         </Tabs>

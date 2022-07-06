@@ -27,15 +27,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 async function getData(docName: string, uid: string, user: UserData, strict: boolean): Promise<void> {
-  try {
-    const docSnap = await getDoc(doc(firestore, docName, uid as string)) 
-    if (strict && !docSnap.exists()) throw new Error("no data found")
-    const result = docSnap.data()
-    for (const key in result) {
-      user[key] = result[key]
-    }
-  } catch (error) {
-    throw error
+  const docSnap = await getDoc(doc(firestore, docName, uid as string))
+  if (strict && !docSnap.exists()) throw new Error("no data found")
+  const result = docSnap.data()
+  for (const key in result) {
+    user[key] = result[key]
   }
-  
 }

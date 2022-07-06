@@ -13,21 +13,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 .docs
                 .map(d => d.data())
 
-            let sharedPrescriptionsIds = []
-            for (let code of allCodes) {
-                const sharedWithPharmacies = (await getDocs(query(collection(firestore, 'sharingCodes', code.idSharingCode), where('idPharmacy', '==', idPharmacy)))).docs
+            const sharedPrescriptionsIds = []
+            for (const code of allCodes) {
+                const sharedWithPharmacies = (await getDocs(query(collection(firestore, 'sharingCodes', code.idSharingCode, 'sharedWith'), where('idPharmacy', '==', idPharmacy)))).docs
                 if (sharedWithPharmacies.length != 0) {
                     sharedPrescriptionsIds.push(code.idPrescription)
                 }
             }
 
-            let prescriptions: PrescriptionData[] = []
-            for (let prescriptionId of [...new Set(sharedPrescriptionsIds)]) {
-                let doc = (await getDocs(query(collection(firestore, 'prescriptions'), where('idPrescription', '==', prescriptionId)))).docs.map(d => d.data()).find(() => true)
+            const prescriptions: PrescriptionData[] = []
+            for (const prescriptionId of [...new Set(sharedPrescriptionsIds)]) {
+                const doc = (await getDocs(query(collection(firestore, 'prescriptions'), where('idPrescription', '==', prescriptionId)))).docs.map(d => d.data()).find(() => true)
                 if (doc) {
-                    let prescription: PrescriptionData = {
+                    const prescription: PrescriptionData = {
                         currentUses: doc.currentUses,
                         date: doc.date,
+                        patientFirstName: "?",  // to be fetched below
+                        patientLastName: "?",  // to be fetched below
                         doctorFirstName: "?",  // to be fetched below
                         doctorLastName: "?",  // to be fetched below
                         idDoctor: doc.idDoctor,
@@ -38,13 +40,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         medications: [],  // to be fetched below,
                         sharingCodes: []  // to be fetched below,
                     }
-                    await fetchPrescriptionDetails(prescription)
+                    await fetchPrescriptionDetails(prescription, false)
                     prescriptions.push(prescription)
                 }
             }
 
             res.status(201).json({ prescriptions })
         } catch (error) {
+            console.log(error)
             res.status(404).json({ error: error.message + req.body.uid })
         }
     }

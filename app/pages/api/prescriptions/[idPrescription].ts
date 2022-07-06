@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { firestore } from '../../../config/firebase'
-import {collection, doc, getDoc, getDocs} from 'firebase/firestore'
+import {doc, getDoc, updateDoc} from 'firebase/firestore'
 import {fetchPrescriptionDetails} from "./index";
 import {PrescriptionData} from "../../../config/types";
 
@@ -11,9 +11,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const { idPrescription } = req.query
             const data = (await getDoc(doc(firestore, 'prescriptions', idPrescription as string))).data()
             if (data) {
-                let prescription: PrescriptionData = {
+                const prescription: PrescriptionData = {
                     currentUses: data.currentUses,
                     date: data.date,
+                    patientFirstName: "?",  // to be fetched below
+                    patientLastName: "?",  // to be fetched below
                     doctorFirstName: "?",  // to be fetched below,
                     doctorLastName: "?",  // to be fetched below,
                     idDoctor: data.idDoctor,
@@ -30,6 +32,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 throw new Error();
             }
         } catch (error) {
+            res.status(404).json({ error: error.message + req.body.uid })
+        }
+    }
+    else if (req.method === 'PATCH') {
+        try {
+            const { idPrescription } = req.query
+            const { currentUses } = req.body
+
+            await updateDoc(doc(firestore, 'prescriptions', idPrescription as string), { currentUses })
+            res.status(201).json({ message: 'Data changed successfully'})
+        } catch (error) {
+            console.log(error)
             res.status(404).json({ error: error.message + req.body.uid })
         }
     }

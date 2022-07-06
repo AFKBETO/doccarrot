@@ -2,7 +2,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {firestore} from '../../../../config/firebase'
 import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
-import {PharmacyData, PrescriptionData, UserData, UserType} from "../../../../config/types";
+import {PharmacyData } from "../../../../config/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
@@ -12,15 +12,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 .docs
                 .map(d => d.data())
 
-            let sharedWithPharmaciesIDs = []
+            const sharedWithPharmaciesIDs = []
 
-            for (let sharingCode of sharingCodes) {
+            for (const sharingCode of sharingCodes) {
                 const sharedWith = (await getDocs(collection(firestore, 'sharingCodes', sharingCode.idSharingCode, 'sharedWith')))
                     .docs
                     .map(d => d.data())
 
-                for (let shared of sharedWith) {
-                    if (shared.idPharmacy) {
+                for (const shared of sharedWith) {
+                    if (shared.idPharmacy != null) {
                         sharedWithPharmaciesIDs.push(shared.idPharmacy)
                     }
                 }
@@ -28,8 +28,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const pharmaciesIDs = [...new Set(sharedWithPharmaciesIDs)]
 
-            let pharmacies: PharmacyData[] = []
-            for (let pharmacyId of pharmaciesIDs) {
+            const pharmacies: PharmacyData[] = []
+            for (const pharmacyId of pharmaciesIDs) {
                 const pharmacy = (await getDoc(doc(firestore, 'pharmacies', pharmacyId))).data()
                 if (pharmacy) {
                     pharmacies.push({

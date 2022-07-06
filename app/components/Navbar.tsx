@@ -107,9 +107,9 @@ function Navbar() {
                         : userContext.userType == UserType.doctor ?
                         <>
                           <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                            <Link href={`/user/${userContext.userId}/doctor/prescription`}>
+                            <Link href={`/user/${userContext.userId}/doctor/patients`}>
                               <Button color='primary'>
-                                <Typography variant="h4" noWrap={true}>Prescription</Typography>
+                                <Typography variant="h4" noWrap={true}>Mes Patients</Typography>
                               </Button>
                             </Link>
                           </Box>
@@ -117,6 +117,13 @@ function Navbar() {
                         /*---------- Navbar pharmacien ----------*/
                         :
                         <>
+                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                            <Link href={`/user/${userContext.userId}/pharmacist/prescriptions`}>
+                              <Button color='primary'>
+                                <Typography variant="h4" noWrap={true}>Prescriptions</Typography>
+                              </Button>
+                            </Link>
+                          </Box>
                         </>
                       }
                       <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>

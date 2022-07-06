@@ -1,6 +1,5 @@
 import '../styles/globals.css'
-import React, {useState} from 'react'
-//import useMediaQuery from '@mui/material/useMediaQuery'
+import React from 'react'
 import theme from '../styles/theme'
 import { AppProps } from 'next/app'
 import { ThemeProvider } from '@mui/material/styles'
@@ -13,17 +12,35 @@ import { Box } from "@mui/material"
 import { useHooks } from "../config/dataHooks";
 
 const bodyStyle = {
-  'maxHeight': '90vh',
-  'margin': 0,
-  'display': 'flex',
-  'flexDirection': 'column'
+  display: 'flex',
+  flexDirection: 'column',
+  minHeight: '100vh'
+}
+const contentWrapStyle = {
+  flex: 1,
+  minHeight: '90vh'
 }
 
 function MyApp ({ Component, pageProps }: AppProps) {
   //const lightMode = useMediaQuery('(prefers-color-scheme: light)');
 
   const userContext = React.useContext(USER_CONTEXT)
-  const { firebaseUser, firebaseLoading, firebaseError, userId, userName, userType, patientPrescriptions, patientDoctors, patientPharmacies, refreshUserData } = useHooks();
+  const {
+    firebaseUser,
+    firebaseLoading,
+    firebaseError,
+    userId,
+    userName,
+    userType,
+    patientPrescriptions,
+    patientDoctors,
+    patientPharmacies,
+    pharmacistPharmacyId,
+    pharmacistPrescriptions,
+    doctorMedicationTypes,
+    doctorPatients,
+    refreshUserData
+  } = useHooks();
 
   userContext.updateFirebase(firebaseUser, firebaseLoading, firebaseError)
   userContext.updateUserId(userId)
@@ -32,15 +49,16 @@ function MyApp ({ Component, pageProps }: AppProps) {
   userContext.updatePatientPrescriptions(patientPrescriptions)
   userContext.updatePatientDoctors(patientDoctors)
   userContext.updatePatientPharmacies(patientPharmacies)
+  userContext.updatePharmacistPharmacyId(pharmacistPharmacyId)
+  userContext.updatePharmacistPrescriptions(pharmacistPrescriptions)
   userContext.updateRefreshUserDataFunction(refreshUserData)
+  userContext.updateDoctorMedicationTypes(doctorMedicationTypes)
+  userContext.updateDoctorPatients(doctorPatients)
 
   return (
       <ThemeProvider theme={theme()}>
-        <Box sx={{
-          position:'relative',
-          maxHeight: '70vh'
-        }}>
-          <Box sx={bodyStyle}>
+        <Box sx={bodyStyle}>
+          <Box sx={contentWrapStyle}>
             <USER_CONTEXT.Provider value={userContext}>
               <Navbar />
               <Component {...pageProps} />

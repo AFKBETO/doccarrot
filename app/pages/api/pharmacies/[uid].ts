@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { firestore } from '../../../config/firebase'
-import {collection, doc, getDoc, getDocs} from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import {PharmacyData} from "../../../config/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const p = (await getDoc(doc(firestore, 'pharmacies', uid as string))).data()
       if (!p) throw new Error();
 
-      let pharmacy: PharmacyData = {
+      const pharmacy: PharmacyData = {
         idPharmacy: uid as string,
         address: p.address,
         name: p.name,

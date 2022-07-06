@@ -13,7 +13,7 @@ import {
   Container,
   Box,
   Modal,
-  FormControl, Select, MenuItem, InputLabel, OutlinedInput, TextField, Button
+  FormControl, Select, MenuItem, InputLabel, TextField, Button, FormLabel, FormControlLabel, SelectChangeEvent
 } from '@mui/material'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -23,7 +23,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import moment from "moment";
 import {PharmacyData, PrescriptionData, SharedWithData, UserType} from "../../../../config/types";
 import { USER_CONTEXT } from "../../../../config/userContext";
-import {addSharingCode, getPharmacyById, getPharmacyByPublicId} from "../../../../config/api";
+import {addSharingCode, getPharmacyByPublicId} from "../../../../config/api";
 import toast from "react-hot-toast";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -39,7 +39,7 @@ const modalStyle = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  minWidth: 400,
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -66,10 +66,9 @@ const deletePrescri = () => {
 
 function makeid(length: number) {  // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
   let result = '';
-  let characters = '0123456789';
-  let charactersLength = characters.length;
+  const characters = '0123456789';
   for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return result;
 }
@@ -78,7 +77,7 @@ function describeSharedWith(sharedWith: SharedWithData[]) {
   if (sharedWith.length == 0) return "non partagé"
   let shared = "partagé avec "
   for (let i = 0; i < sharedWith.length; ++i) {
-    shared += sharedWith[i].pharmacyName || (sharedWith[i].doctorFirstName + ' ' + sharedWith[i].doctorLastName)
+    shared += sharedWith[i].pharmacyName != null ? sharedWith[i].pharmacyName : (sharedWith[i].doctorFirstName + ' ' + sharedWith[i].doctorLastName)
     if (i + 1 < sharedWith.length) shared += ", "
   }
   return shared
@@ -90,9 +89,13 @@ function Prescriptions() {
   const userContext = React.useContext(USER_CONTEXT)
 
   const [selectedPrescription, setSelectedPrescription] = useState<PrescriptionData | null | undefined>(null);
-  const [sharingSelectedPharmacy, setSharingSelectedPharmacy] = useState<PharmacyData | null>(null);
+  const [sharingSelectedPharmacyIndex, setSharingSelectedPharmacyIndex] = useState<string>('');
   const [sharingPharmacyID, setSharingPharmacyID] = useState<string>('');
   const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
+
+  const selectOtherPharmacy = (event: SelectChangeEvent<string>) => {
+    setSharingSelectedPharmacyIndex(event.target.value as string)
+  }
 
   useEffect(() => {
     setSelectedPrescription(userContext.patientPrescriptions.find(p => p.idPrescription == selectedPrescription?.idPrescription))
@@ -102,7 +105,7 @@ function Prescriptions() {
     let shareWithPharmacyId = null
 
     // find pharmacy to share with
-    if (sharingPharmacyID) {
+    if (sharingPharmacyID !== '') {
       try {
         const pharmacy = await getPharmacyByPublicId(sharingPharmacyID);
         shareWithPharmacyId = pharmacy.idPharmacy
@@ -110,19 +113,20 @@ function Prescriptions() {
         toast.error(`Aucune pharmacie n'a été trouvée avec l'ID ${sharingPharmacyID}.`)
         return
       }
-    } else if (sharingSelectedPharmacy) {
-      shareWithPharmacyId = sharingSelectedPharmacy.idPharmacy
+    } else if (sharingSelectedPharmacyIndex !== '') {
+      shareWithPharmacyId = userContext.patientPharmacies[parseInt(sharingSelectedPharmacyIndex)]?.idPharmacy
     }
 
     // close modal
     setOpenCreateModal(false)
+    setSharingSelectedPharmacyIndex('')
 
     // generate code
     await addSharingCode(
         userContext.userId as string,
         selectedPrescription?.idPrescription as string,
         makeid(10),
-        shareWithPharmacyId ? [{ idPharmacy: shareWithPharmacyId }] : []
+        shareWithPharmacyId != null ? [{ idPharmacy: shareWithPharmacyId }] : []
     )
 
     // refresh user data
@@ -150,8 +154,8 @@ function Prescriptions() {
                     <React.Fragment key={prescription.idPrescription}>
                       <ListItem button onClick={() => setSelectedPrescription(prescription) }>
                         <ListItemText
-                            primary={ moment(prescription.date.seconds * 1000).format("[Le] DD/MM/YYYY [à] HH:mm") }
-                            secondary={ prescription.location }
+                            primary={ "Prescription pour " + prescription.patientFirstName + " " + prescription.patientLastName }
+                            secondary={ "Par Dr. " + prescription.doctorLastName + " " + moment(prescription.date.seconds * 1000).format("[le] DD/MM/YYYY [à] HH:mm") }
                         />
                         <IconButton component="span"><RemoveRedEyeIcon /></IconButton>
                       </ListItem>
@@ -229,43 +233,48 @@ function Prescriptions() {
 
                     {/*---------- SHARE PRESCRIPTION ----------*/}
                     <Grid item xs={1}>
-                      <IconButton component="span" onClick={ () => { if (selectedPrescription) setOpenCreateModal(true) } }>
+                      <IconButton component="span" onClick={ () => { if (selectedPrescription != null) setOpenCreateModal(true) } }>
                         <QrCodeIcon />
                       </IconButton>
+
                       <Modal open={openCreateModal} onClose={ () => setOpenCreateModal(false) }>
                         <Box sx={modalStyle}>
                           <Typography id="modal-modal-title" variant="h3">Partager la prescription</Typography>
                           <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
 
-                            <FormControl fullWidth>
-                            </FormControl>
-
                             {/*---------- ... WITH KNOWN PHARMACY ... ----------*/}
                             { userContext.patientPharmacies.length != 0 ?
-                                <>
-                                  <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                                  <Select labelId="select-pharmacy-label" id="select-pharmacy" label="Avec votre pharmacie"
-                                          value={ 0 }
-                                          onChange={ event => setSharingSelectedPharmacy(userContext.patientPharmacies[event.target.value as number]) }
+                                <FormControl fullWidth>
+                                  <Typography variant="h5" id="id-pharmacy-label">Partager directement avec votre pharmacie (optionnel)</Typography>
+                                  <Typography variant="h6" id="id-pharmacy-label">Pratique : vous n'aurez pas besoin d'indiquer le code au pharmacien.</Typography>
+                                  <Select id="select-pharmacy"
+                                          value={ sharingSelectedPharmacyIndex }
+                                          onChange={ event => selectOtherPharmacy(event) }
                                   >
                                     { userContext.patientPharmacies.map((pharmacy, idx) => (
-                                        <MenuItem value={idx}>{ pharmacy.name }</MenuItem>
+                                        <MenuItem value={idx} key={idx}>{ pharmacy.name }</MenuItem>
                                     )) }
                                   </Select>
-                                </>
+                                </FormControl>
                                 : <></>
                             }
 
                             {/*---------- ... WITH NEW PHARMACY ... ----------*/}
-                            <TextField id="id-pharmacy" label="Avec une nouvelle pharmacie" variant="outlined"
-                                       value={sharingPharmacyID}
-                                       onChange={ event => setSharingPharmacyID(event.target.value) }
-                            />
+                            <FormControl fullWidth sx={{ marginTop: 5 }}>
+                              <Typography variant="h5" id="id-pharmacy-label">Partager directement avec une nouvelle pharmacie (optionnel)</Typography>
+                              <Typography variant="h6" id="id-pharmacy-label">Pour vous faciliter la tâche, demandez le code pharmacie à votre pharmacien. Dans le futur, vous pourrez directement partager vos prescriptions à cette pharmacie.</Typography>
+                              <TextField id="id-pharmacy" variant="outlined"
+                                         value={sharingPharmacyID}
+                                         onChange={ event => setSharingPharmacyID(event.target.value) }
+                              />
+                            </FormControl>
 
                             {/*---------- ... VALIDATE BUTTON ... ----------*/}
-                            <Button variant='contained' sx={{ bgcolor: 'primary.dark', marginTop: 5 }} focusRipple={false} onClick={ shareToPharmacy }>
-                              <Typography sx={{ color: 'text.primary' }}>Générer code de partage</Typography>
-                            </Button>
+                            <FormControl fullWidth>
+                              <Button variant='contained' sx={{ bgcolor: 'primary.dark', marginTop: 5 }} focusRipple={false} onClick={ shareToPharmacy }>
+                                <Typography sx={{ color: 'text.secondary' }}>Partager</Typography>
+                              </Button>
+                            </FormControl>
 
                           </Typography>
                         </Box>

@@ -1,11 +1,9 @@
 import axios from 'axios'
 import {
-    DoctorData,
     MedicationData,
-    PatientData,
-    PharmacistData,
+    MedicationType,
     PharmacyData,
-    PrescriptionData,
+    PrescriptionData, SharingCodeData,
     UserData,
     UserType
 } from './types'
@@ -59,6 +57,30 @@ export async function getPrescriptionsByPharmacy (idPharmacy: string): Promise<P
     }
 }
 
+export async function addPrescription (idPatient: string, idDoctor: string, date: number, location: string, signature: string, maxUses: number, medications: MedicationData[]): Promise<void> {
+    try {
+        await axios.put(`${process.env.NEXT_PUBLIC_URL}/api/prescriptions/`,{
+            idPatient,
+            idDoctor,
+            date,
+            location,
+            signature,
+            maxUses,
+            medications
+        })
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function setPrescriptionUses(idPrescription: string, currentUses: number): Promise<void> {
+    try {
+        await axios.patch(`${process.env.NEXT_PUBLIC_URL}/api/prescriptions/${idPrescription}`,{ currentUses })
+    } catch (error) {
+        throw error
+    }
+}
+
 export async function getDoctorsByPatient (idUser: string): Promise<UserData[]> {
     try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/doctors/bypatient/${idUser}`)
@@ -99,6 +121,16 @@ export async function getPharmaciesByPatient (idUser: string): Promise<PharmacyD
     }
 }
 
+export async function getSharingCodeByPublicID (publicID: string): Promise<SharingCodeData> {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/sharingCodes/bypublicid/${publicID}`)
+        return res.data.sharingCode as SharingCodeData;
+    } catch (error) {
+        if (error?.response?.status != 404) console.log(error);
+        throw error
+    }
+}
+
 export async function addSharingCode(idPatient: string, idPrescription: string, code: string, sharedWith: { idPharmacy: string }[]): Promise<void> {
     try {
         await axios.put(`${process.env.NEXT_PUBLIC_URL}/api/sharingCodes/`,{
@@ -112,6 +144,31 @@ export async function addSharingCode(idPatient: string, idPrescription: string, 
     }
 }
 
-export async function getMedicines () {
-    return await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/medicine/`)
+export async function addSharingCodeSharedWith(idSharingCode: string, sharedWith: { idPharmacy?: string | null, idDoctor?:string | null }[]): Promise<void> {
+    try {
+        await axios.put(`${process.env.NEXT_PUBLIC_URL}/api/sharingCodes/sharedWith/`,{
+            idSharingCode,
+            sharedWith
+        })
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function getMedicationTypes (): Promise<MedicationType[]> {
+    try {
+        return (await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/medicationTypes/`)).data.medicationTypes as MedicationType[]
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function getPatientsByDoctor (idDoctor: string): Promise<UserData[]> {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/user/bydoctor/${idDoctor}`)
+        return res.data.patients as UserData[];
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
 }
