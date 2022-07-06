@@ -109,7 +109,7 @@ function Navbar() {
                           <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
                             <Link href={`/user/${userContext.userId}/doctor/patients`}>
                               <Button color='primary'>
-                                <Typography variant="h4" noWrap={true}>Patients</Typography>
+                                <Typography variant="h4" noWrap={true}>Mes Patients</Typography>
                               </Button>
                             </Link>
                           </Box>
