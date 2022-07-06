@@ -3,15 +3,9 @@ import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import { styled } from '@mui/material/styles';
 import {
-  Paper,
-  Typography,
-  Grid,
-  ListItem,
-  ListItemText,
-  List,
-  IconButton,
-  Container,
-  Box, Modal, FormControl, Select, MenuItem, TextField, Button,
+  Paper, Typography, Grid, Container, Box, Modal,
+  ListItem, ListItemText, List,
+  IconButton, FormControl, TextField, Button,
 } from '@mui/material'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import AddTaskIcon from '@mui/icons-material/AddTask';
@@ -159,7 +153,7 @@ function Prescriptions() {
               <Modal open={openScanModal} onClose={ () => setOpenScanModal(false) }>
                 <Box sx={modalStyle}>
                   <Typography id="modal-modal-title" variant="h3">Récupérer une prescription</Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
+                  <Box id="modal-modal-description" sx={{ mt: 2 }} component="div">
 
                     {/*---------- Entrer le code ----------*/}
                     <FormControl fullWidth sx={{ marginTop: 5 }}>
@@ -178,7 +172,7 @@ function Prescriptions() {
                       </Button>
                     </FormControl>
 
-                  </Typography>
+                  </Box>
                 </Box>
               </Modal>
             </Item>

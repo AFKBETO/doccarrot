@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import Head from 'next/head'
 import React from 'react'
 import theme from '../styles/theme'
 import { AppProps } from 'next/app'
@@ -56,18 +57,29 @@ function MyApp ({ Component, pageProps }: AppProps) {
   userContext.updateDoctorPatients(doctorPatients)
 
   return (
-      <ThemeProvider theme={theme()}>
-        <Box sx={bodyStyle}>
-          <Box sx={contentWrapStyle}>
-            <USER_CONTEXT.Provider value={userContext}>
-              <Navbar />
-              <Component {...pageProps} />
-            </USER_CONTEXT.Provider>
-            <Toaster />
-          </Box>
-          <Footer />
-        </Box>
-      </ThemeProvider>
+      <html>
+        <Head>
+          <title>Ormeli</title>
+          <meta name='description' content='Ormeli App' />
+          <link rel='icon' href='/favicon.png' />
+        </Head>
+        <main>
+          <ThemeProvider theme={theme()}>
+            <body>
+              <Box sx={bodyStyle}>
+                <Box sx={contentWrapStyle}>
+                  <USER_CONTEXT.Provider value={userContext}>
+                    <Navbar />
+                    <Component {...pageProps} />
+                  </USER_CONTEXT.Provider>
+                  <Toaster />
+                </Box>
+                <Footer />
+              </Box>
+            </body>
+          </ThemeProvider>
+        </main>
+      </html>
   )
 }
 

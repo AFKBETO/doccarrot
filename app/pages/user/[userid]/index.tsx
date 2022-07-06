@@ -14,9 +14,9 @@ function User () {
             <Grid container sx={{ paddingLeft: 5, paddingRight:5, paddingBottom: 10 }}>
                 <Grid item>
                     <Typography variant="h2">Hello, { userContext.userName }</Typography>
-                    <p style={{ textAlign: 'justify' }}>
+                    <Typography style={{ textAlign: 'justify' }}>
                       ... paramètres utilisateur ...
-                    </p>
+                    </Typography>
                 </Grid>
             </Grid>
       </RouteGuard>
