@@ -1,9 +1,10 @@
 import { VisibilityOff, Visibility } from "@mui/icons-material"
-import { Box, BoxProps, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, TextField } from "@mui/material"
-import { applyActionCode, verifyPasswordResetCode } from "firebase/auth"
+import { Box, BoxProps, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, TextField, Typography } from "@mui/material"
+import { applyActionCode, confirmPasswordReset, verifyPasswordResetCode } from "firebase/auth"
 import { useRouter } from "next/router"
 import React from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
+import toast from "react-hot-toast"
 import Loader from "../../components/Loader"
 import { auth } from "../../config/firebase"
 import { AuthData } from "../../config/types"
@@ -16,7 +17,7 @@ function ResetPassword (props : { actionCode: string } & BoxProps) {
     email: '',
     password: ''
   })
-  const [status, setStatus] = React.useState<'loading' | 'ok' | 'error'>('loading')
+  const [status, setStatus] = React.useState<'loading' | 'ok' | 'error' | 'changed'>('loading')
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const [errorValidator, setErrorValidator] = React.useState({
     password: [] as React.ReactNode[],
@@ -60,7 +61,25 @@ function ResetPassword (props : { actionCode: string } & BoxProps) {
     verifyCode()
   }, [props.actionCode])
 
+  const submit = async () => {
+    try {
+      await confirmPasswordReset(auth, props.actionCode, userData.password)
+      toast.success('Votre mot de passe a été modifié.')
+      setStatus('changed')
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
   switch (status) {
+    case 'changed': {
+      return (
+        <Box {...props}>
+          Votre mot de passe a été modifié. Vous pouvez vous authentifier.
+          <Button href='/login'>Login</Button>
+        </Box>
+      )
+    }
     case 'loading': {
       return (
         <Box {...props}><Loader show /></Box>
@@ -104,6 +123,20 @@ function ResetPassword (props : { actionCode: string } & BoxProps) {
                 color: 'text.primary'
               }}
             />
+            <Box textAlign='center' sx={{ my: 4}}>
+              <Button variant="contained"
+                disabled={
+                  errorValidator.password.length > 0 || 
+                  errorValidator.passwordConfirm ||
+                  errorValidator.freshPassword
+                }
+                sx={{ bgcolor: 'primary.dark' }}
+                focusRipple={false}
+                onClick={submit}
+              >
+                <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
+              </Button>
+            </Box>
           </Stack>
         </Box>
       )
@@ -162,7 +195,7 @@ function Action (props: BoxProps) {
   if (mode == 'verifyEmail') {
     return <VerifyEmail {...props} actionCode={oobCode as string} />
   }
-  return (<Box>Mode invalide</Box>)
+  return (<Box {...props}>Mode invalide</Box>)
   
 }
 
@@ -178,8 +211,17 @@ function ActionWrapper() {
     }
   }, [loading, user, router])
   
-  if (render) return <Action />
+  if (render) return <Action sx={{
+      width: '25%',
+      margin: 'auto',
+      textAlign: 'center',
+      mt: 4,
+      padding: 4,
+      mb: 4,
+      borderRadius: '20px',
+      backgroundColor: 'primary.main'
+    }} />
   else return <></>
-  }
+}
 
 export default ActionWrapper
