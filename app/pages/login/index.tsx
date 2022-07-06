@@ -40,8 +40,6 @@ function Login() {
       if (user.emailVerified) {
         router.push('/')
       } else {
-        setTimeout(async () => await signOut(auth), 500)
-        toast.error('Vous n\'avez pas encore vérifié votre adresse')
         toast((t) => (
           <Box onClick={() => {
               sendEmailVerification(user)
@@ -50,7 +48,7 @@ function Login() {
             Vous n&apos;avez pas encore vérifié votre adresse. Cliquez ici pour renvoyer l&apos;email de vérification.
           </Box>
         ))
-        console.log(userContext)
+        setTimeout(async () => await signOut(auth), 500)
       }
     } catch (error) {
       toast.error('Email/mot de passe invalide')

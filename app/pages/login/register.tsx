@@ -60,7 +60,8 @@ function Register ({ closeModal }: RegisterProps) {
     lastName: '',
     userType: UserType.patient,
     nss: '',
-    rpps: ''
+    rpps: '',
+    publicID: ''
   })
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const [errorValidator, setErrorValidator] = React.useState({
@@ -120,7 +121,6 @@ function Register ({ closeModal }: RegisterProps) {
       freshPassword: false
     })
   }
-  //const router = useRouter()
   const register = async () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
