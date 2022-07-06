@@ -13,6 +13,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         userType: userType
       }, { merge: true })
       await addUserType(req)
+      await updateDoc(doc(firestore, 'users', uid), { idUser: uid });
+
       res.status(201).json({ message: 'Data added successfully'})
     } catch {
       res.status(400).json({ error: 'Cannot add user' })
