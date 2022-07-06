@@ -42,7 +42,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
     doctorPatients,
     refreshUserData
   } = useHooks();
-
+  
   userContext.updateFirebase(firebaseUser, firebaseLoading, firebaseError)
   userContext.updateUserId(userId)
   userContext.updateUserName(userName)
@@ -60,7 +60,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
       <html>
         <Head>
           <title>Ormeli</title>
-          <meta name='description' content='Ormeli App' />
+          <meta name='description' content='Application d&apos;ordonance numérique pour tous' />
           <link rel='icon' href='/favicon.png' />
         </Head>
         <main>
