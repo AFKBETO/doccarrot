@@ -58,7 +58,7 @@ function ResetPassword (props : { actionCode: string } & BoxProps) {
 
   React.useEffect(() => {
     verifyCode()
-  })
+  }, [props.actionCode])
 
   switch (status) {
     case 'loading': {
@@ -130,7 +130,7 @@ function VerifyEmail (props : { actionCode: string } & BoxProps) {
 
   React.useEffect(() => {
     verifyCode()
-  })
+  }, [props.actionCode])
 
   switch (status) {
     case 'loading': {
