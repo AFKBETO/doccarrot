@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { sendEmailVerification, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../../config/firebase'
 import { AuthData } from '../../config/types'
 import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button, Modal } from '@mui/material'
@@ -36,12 +36,20 @@ function Login() {
 
   const login = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, userData.email, userData.password)
-      if (userCredential.user.emailVerified) {
+      const { user } = await signInWithEmailAndPassword(auth, userData.email, userData.password)
+      if (user.emailVerified) {
         router.push('/')
       } else {
-        setTimeout(async () => await signOut(auth), 1000)
+        setTimeout(async () => await signOut(auth), 500)
         toast.error('Vous n\'avez pas encore vérifié votre adresse')
+        toast((t) => (
+          <Box onClick={() => {
+              sendEmailVerification(user)
+              toast.dismiss(t.id)
+            }}>
+            Vous n&apos;avez pas encore vérifié votre adresse. Cliquez ici pour renvoyer l&apos;email de vérification.
+          </Box>
+        ))
         console.log(userContext)
       }
     } catch (error) {
