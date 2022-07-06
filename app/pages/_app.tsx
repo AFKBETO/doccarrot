@@ -57,29 +57,25 @@ function MyApp ({ Component, pageProps }: AppProps) {
   userContext.updateDoctorPatients(doctorPatients)
 
   return (
-      <html>
-        <Head>
-          <title>Ormeli</title>
-          <meta name='description' content='Application d&apos;ordonance numérique pour tous' />
-          <link rel='icon' href='/favicon.png' />
-        </Head>
-        <main>
-          <ThemeProvider theme={theme()}>
-            <body>
-              <Box sx={bodyStyle}>
-                <Box sx={contentWrapStyle}>
-                  <USER_CONTEXT.Provider value={userContext}>
-                    <Navbar />
-                    <Component {...pageProps} />
-                  </USER_CONTEXT.Provider>
-                  <Toaster />
-                </Box>
-                <Footer />
-              </Box>
-            </body>
-          </ThemeProvider>
-        </main>
-      </html>
+    <>
+      <Head>
+        <title>Ormeli</title>
+        <meta name='description' content='Application d&apos;ordonance numérique pour tous' />
+        <link rel='icon' href='/favicon.png' />
+      </Head>
+      <ThemeProvider theme={theme()}>
+          <Box sx={bodyStyle}>
+            <Box sx={contentWrapStyle}>
+              <USER_CONTEXT.Provider value={userContext}>
+                <Navbar />
+                <Component {...pageProps} />
+              </USER_CONTEXT.Provider>
+              <Toaster />
+            </Box>
+            <Footer />
+          </Box>
+      </ThemeProvider>
+    </>
   )
 }
 

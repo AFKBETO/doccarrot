@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
 import Register from './register'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { USER_CONTEXT } from '../../config/userContext'
 
 function Login() {
   const [userData, setUserData] = React.useState<AuthData>({
@@ -16,6 +17,7 @@ function Login() {
   })
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const [openRegister, setOpenRegister] = React.useState<boolean>(false)
+  const userContext = React.useContext(USER_CONTEXT)
 
   const router = useRouter()
 
@@ -38,8 +40,9 @@ function Login() {
       if (userCredential.user.emailVerified) {
         router.push('/')
       } else {
-        await signOut(auth)
-        toast.error('Vous n\'avez pas encore vérifié votre adresse')  
+        setTimeout(async () => await signOut(auth), 1000)
+        toast.error('Vous n\'avez pas encore vérifié votre adresse')
+        console.log(userContext)
       }
     } catch (error) {
       toast.error('Email/mot de passe invalide')
@@ -121,9 +124,10 @@ function LoginWrapper() {
   const [render, setRender] = React.useState(false)
   const [user, loading] = useAuthState(auth)
   const router = useRouter()
+
   useEffect(() => {
     if (!loading) {
-      if (user) router.push({ pathname: '/'})
+      if (user && user.emailVerified) router.push({ pathname: '/'})
       else setRender(true)
     }
   }, [loading, user, router])
