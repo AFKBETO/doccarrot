@@ -8,7 +8,8 @@ import SwipeableViews from 'react-swipeable-views';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { autoPlay } from 'react-swipeable-views-utils';
-import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -88,12 +89,12 @@ function Home() {
           activeStep={ activeStep }
           nextButton={
             <Button size="small" onClick={handleNext} disabled={ activeStep === images.length - 1 }>
-              <Typography variant='h5' component='div'><KeyboardArrowRight /></Typography>
+              <Typography variant='h5' component='div'><KeyboardArrowRightIcon /></Typography>
             </Button>
           }
           backButton={
             <Button size="small" onClick={handleBack} disabled={ activeStep === 0 }>
-              <Typography variant='h5' component='div'><KeyboardArrowLeft /></Typography>
+              <Typography variant='h5' component='div'><KeyboardArrowLeftIcon /></Typography>
             </Button>
           }
         />
