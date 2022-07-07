@@ -90,6 +90,7 @@ function ResetPassword (props : { actionCode: string } & BoxProps) {
       return (
         <Box {...props}>
           <Stack spacing={2} justifyContent="center" alignItems="center" sx={{ mt: 4}}>
+            <Typography sx={{ color: 'text.primary' }}>Réinitialisation de mot de passe</Typography>
             <FormControl variant="filled" size='small' required
               error={errorValidator.password.length > 0}
               sx={{ m: 1, width: '70%'}}
