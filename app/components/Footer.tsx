@@ -22,7 +22,8 @@ const style = (width: number) => ({
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
-  background: '#ABBD98'
+  background: '#ABBD98',
+  zIndex: 1500
 })
 
 const userTypeNames = ['patient', 'médecin', 'pharmacien']
