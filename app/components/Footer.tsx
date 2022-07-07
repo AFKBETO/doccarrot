@@ -15,7 +15,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 500,
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -28,7 +28,7 @@ function Footer() {
   const userContext = React.useContext(USER_CONTEXT)
   const { width, height } = useViewport()
   const smallSize = 600
-  
+
   const [open, setOpen] = React.useState({
     modalMentions: false,
     modalCredits: false,
@@ -56,9 +56,9 @@ function Footer() {
               <Grid item xs={userContext.userId != null ? 3 : 4} textAlign='center'>
                 <Button onClick={event => handleOpen(event, 'modalMentions')}>
                   <Typography component='div' variant="h4">
-                    { width > smallSize ? 
-                    'Mentions légales'
-                    : <PolicyIcon /> }
+                    { width > smallSize ?
+                        'Mentions légales'
+                        : <PolicyIcon /> }
                   </Typography>
                 </Button>
                 <Modal
@@ -78,7 +78,27 @@ function Footer() {
 
                     <Grid container direction='column' sx={{ maxHeight: '70vh', overflow: 'auto' }}>
                       <Typography component='div' id="modal-modal-description" sx={{ mt: 2 }}>
-                        Mentions légales ici
+                        <Typography variant="h5">Éditeurs</Typography>
+                        <p style={{ textAlign: 'justify' }}>
+                          Association Doc’carrot
+                          <br />
+                          Siège social : 13 allées de la Carotte
+                          <br />
+                          Standard : xx-xx-xx-xx-xx
+                          <br />
+                          Email : <u>doccarrot@gmail.com</u>
+                        </p>
+
+                        <Typography variant="h5" sx={{ mt: 2 }}>Droits d’auteur</Typography>
+                        <p style={{ textAlign: 'justify' }}>
+                          L’ensemble de ce site relève de la législation française et internationale sur le droit d’auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques. La reproduction de tout ou partie de ce site sur quelque support que ce soit est formellement interdite sauf autorisation préalable.
+                        </p>
+
+                        <Typography variant="h5" sx={{ mt: 2 }}>Exactitude de l’information</Typography>
+                        <p style={{ textAlign: 'justify' }}>
+                          Nous remercions tout utilisateur qui constaterait des inexactitudes, des informations erronées ou incomplètes d’en informer le responsable de la publication : Monsieur Carotte.
+                        </p>
+
                       </Typography>
                     </Grid>
                   </Box>
@@ -89,10 +109,10 @@ function Footer() {
               <Grid item xs={userContext.userId != null ? 3 : 4} textAlign='center'>
                 <Button onClick={event => handleOpen(event, 'modalCredits')}>
                   <Typography component='div' variant="h4">
-                    { width > smallSize ? 
-                      'Crédits'
-                      : <PeopleIcon />}
-                    </Typography>
+                    { width > smallSize ?
+                        'Crédits'
+                        : <PeopleIcon />}
+                  </Typography>
                 </Button>
                 <Modal
                     open={open.modalCredits}
@@ -140,9 +160,9 @@ function Footer() {
               <Grid item xs={userContext.userId  != null ? 3 : 4} textAlign='center'>
                 <Button onClick={event => handleOpen(event, 'modalAbout')}>
                   <Typography component='div' variant="h4">
-                    { width > smallSize ? 
-                      'A propos'
-                      : <InfoIcon />}
+                    { width > smallSize ?
+                        'A propos'
+                        : <InfoIcon />}
                   </Typography>
                 </Button>
                 <Modal
@@ -177,9 +197,9 @@ function Footer() {
                   <Grid item xs={3} textAlign='center' >
                     <Button onClick={event => handleOpen(event, 'modalTutorial')}>
                       <Typography component='div' variant="h4">
-                        { width > smallSize ? 
-                        'Tutoriel'
-                        : <HelpIcon />}
+                        { width > smallSize ?
+                            'Tutoriel'
+                            : <HelpIcon />}
                       </Typography>
                     </Button>
                     <Modal
@@ -222,10 +242,10 @@ function Footer() {
 
             </Grid>
             { width > smallSize ?
-            <Box sx={{position: 'relative'}}>
-              <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
-            </Box>
-            : null 
+                <Box sx={{position: 'relative'}}>
+                  <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+                </Box>
+                : null
             }
           </Box>
         </AppBar>
