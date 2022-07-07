@@ -26,7 +26,7 @@ const userTypeNames = ['patient', 'médecin', 'pharmacien']
 
 function Footer() {
   const userContext = React.useContext(USER_CONTEXT)
-  const { width } = useViewport()
+  const { width, height } = useViewport()
   const smallSize = 600
   
   const [open, setOpen] = React.useState({
@@ -40,9 +40,9 @@ function Footer() {
   const handleClose = (event: React.MouseEvent, field: string) => setOpen({...open, [field]: false})
 
   return (
-      <Box border={1} sx={{
+      <Box sx={{
         flexGrow: 1,
-        position : 'sticky',
+        position : height > 500 ? 'sticky' : 'relative',
         bottom: '0vh',
         width: '100%'
       }}>
@@ -81,7 +81,7 @@ function Footer() {
                       </Button>
                     </div>
 
-                    <Grid container direction='column'>
+                    <Grid container direction='column' sx={{ maxHeight: '70vh', overflow: 'auto' }}>
                       <Typography component='div' id="modal-modal-description" sx={{ mt: 2 }}>
                         Mentions légales ici
                       </Typography>
@@ -114,7 +114,7 @@ function Footer() {
                       </Button>
                     </div>
 
-                    <Grid container>
+                    <Grid container sx={{ maxHeight: '70vh', overflow: 'auto' }}>
                       <Typography component='div' variant='h3'>{'Notre équipe Doc\'Carrot'}</Typography>
                       <Grid item xs={6}>
                         <Image src='/viet.jpg' width='100%' height='100%' alt='QVNguyen' />
@@ -165,7 +165,7 @@ function Footer() {
                       </Button>
                     </div>
 
-                    <Grid container direction='column'>
+                    <Grid container direction='column' sx={{ maxHeight: '70vh', overflow: 'auto' }}>
                       <Typography component='div' id="modal-modal-description" sx={{ mt: 2 }}>
                         Efrei Paris
                       </Typography>
@@ -202,7 +202,7 @@ function Footer() {
                           </Button>
                         </div>
 
-                        <Grid container direction='column'>
+                        <Grid container direction='column' sx={{ maxHeight: '70vh', overflow: 'auto' }}>
                           <Typography component='div' id="modal-modal-description" sx={{ mt: 2 }}>
                             <Typography sx={{ mt: 2 }}>
                               Vous êtes sur le point de commencer le tutoriel ! Il va vous introduire à l&apos;utilisation de votre espace { userTypeNames[userContext.userType as number] }.
