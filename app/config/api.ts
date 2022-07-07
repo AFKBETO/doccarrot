@@ -23,7 +23,7 @@ export async function getUser (uid: string): Promise<UserData> {
 
 export async function getUserByPublicID (publicID: string): Promise<UserData> {
     try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/user/bypublicid/${publicID}`)
+        const res = await axios.get(`/api/user/bypublicid/${publicID}`)
         return {
             ...res.data,
             userType: UserType[res.data.userType as keyof typeof UserType]

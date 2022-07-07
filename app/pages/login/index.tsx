@@ -6,7 +6,7 @@ import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, Input
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
-import Register from './register'
+import Register from '../../components/register'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import useViewport from '../../config/viewportHook'
 
@@ -19,7 +19,7 @@ const modalStyle = (width: number) => ({
   left: '50%',
   width: ((width > medSize) ? '25%' : ((width > smallSize) ? '50%' : '70%')),
   transform: 'translate(-50%, -50%)',
-  bgcolor: 'transparent',
+  margin: 'auto', mt: 4, py: 2, border: 1, borderRadius: '20px', backgroundColor: 'primary.dark',
   boxShadow: 'none' 
 })
 
