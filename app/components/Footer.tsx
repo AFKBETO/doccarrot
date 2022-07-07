@@ -1,11 +1,9 @@
 import React from 'react'
 import Image from 'next/image'
 //import Link from 'next/link'
-import {Modal, AppBar, Box, Toolbar, Typography, Button, Grid, Stack} from '@mui/material'
+import {Modal, AppBar, Box, Typography, Button, Grid} from '@mui/material'
 import {USER_CONTEXT} from "../config/userContext";
 import CloseIcon from '@mui/icons-material/Close';
-import {KeyboardArrowRight} from "@mui/icons-material";
-import useViewport from '../config/viewportHook';
 
 const style = {
   position: 'absolute',
@@ -48,7 +46,7 @@ function Footer() {
             </Box>
             <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
               {/*---------- BOUTON ET MODAL : MENTIONS LEGALES ----------*/}
-              <Grid item xs={userContext.userId ? 3 : 4} textAlign='center'>
+              <Grid item xs={userContext.userId != null ? 3 : 4} textAlign='center'>
                 <Button onClick={event => handleOpen(event, 'modalMentions')}>
                   <Typography component='div' variant="h4">Mentions légales</Typography>
                 </Button>
@@ -77,7 +75,7 @@ function Footer() {
               </Grid>
 
               {/*---------- BOUTON ET MODAL : CREDITS ----------*/}
-              <Grid item xs={userContext.userId ? 3 : 4} textAlign='center'>
+              <Grid item xs={userContext.userId != null ? 3 : 4} textAlign='center'>
                 <Button onClick={event => handleOpen(event, 'modalCredits')}>
                   <Typography component='div' variant="h4">Crédits</Typography>
                 </Button>
@@ -124,7 +122,7 @@ function Footer() {
               </Grid>
 
               {/*---------- BOUTON ET MODAL : A PROPOS ----------*/}
-              <Grid item xs={userContext.userId ? 3 : 4} textAlign='center'>
+              <Grid item xs={userContext.userId  != null ? 3 : 4} textAlign='center'>
                 <Button onClick={event => handleOpen(event, 'modalAbout')}>
                   <Typography component='div' variant="h4">A propos</Typography>
                 </Button>
@@ -156,7 +154,7 @@ function Footer() {
               </Grid>
 
               {/*---------- BOUTON ET MODAL : TUTORIEL ----------*/}
-              { userContext.userId ?
+              { userContext.userId  != null ?
                   <Grid item xs={3} textAlign='center' >
                     <Button onClick={event => handleOpen(event, 'modalTutorial')}>
                       <Typography component='div' variant="h4">Tutoriel</Typography>
@@ -179,10 +177,10 @@ function Footer() {
                         <Grid container direction='column'>
                           <Typography component='div' id="modal-modal-description" sx={{ mt: 2 }}>
                             <Typography sx={{ mt: 2 }}>
-                              Vous êtes sur le point de commencer le tutoriel ! Il va vous introduire à l'utilisation de votre espace { userTypeNames[userContext.userType as number] }.
+                              Vous êtes sur le point de commencer le tutoriel ! Il va vous introduire à l&apos;utilisation de votre espace { userTypeNames[userContext.userType as number] }.
                             </Typography>
                             <Typography sx={{ mt: 2 }}>
-                              Vous allez pouvoir suivre le Doc et son fidèle assistant "carotte".
+                              Vous allez pouvoir suivre le Doc et son fidèle assistant &quot;carotte&quot;.
                             </Typography>
                             <Typography component='div' sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', mt: 2 }}>
                               <Image src='/lapin.png' width='72vw' height='100vh' alt='Docteur Lapin' />
