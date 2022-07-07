@@ -142,7 +142,7 @@ function Login() {
           </Box>
         </Modal>
         <Button variant='contained' sx={{ bgcolor: 'primary.dark'}} focusRipple={false} onClick={handleOpenReset}>
-          {'Oubliez votre mot de passe ?'}
+          {'Mot de passe oublié ?'}
         </Button>
         <Modal
           open={openReset}
