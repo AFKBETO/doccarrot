@@ -1,12 +1,12 @@
 import React from 'react'
 import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth'
 import { Box, Button, FilledInput, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography, Switch } from '@mui/material'
-import { AuthData, UserData, UserType } from '../../config/types'
+import { AuthData, UserData, UserType } from '../config/types'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { auth } from '../../config/firebase'
+import { auth } from '../config/firebase'
 import toast from 'react-hot-toast'
-import { addUser } from '../../config/api'
-import { validateEmail, validatePassword } from '../../config/validators'
+import { addUser } from '../config/api'
+import { validateEmail, validatePassword } from '../config/validators'
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -136,7 +136,7 @@ function Register ({ closeModal }: RegisterProps) {
   }
 
   return (
-    <Box sx={{ margin: 'auto', mt: 4, py: 2, border: 1, borderRadius: '20px', backgroundColor: 'primary.dark' }}>
+    <Box>
       <Typography variant='h4' align='center'>Inscription</Typography>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs textColor='secondary' indicatorColor='secondary' value={tabValue} onChange={changeTab} aria-label='basic tabs example' variant='scrollable' selectionFollowsFocus>
