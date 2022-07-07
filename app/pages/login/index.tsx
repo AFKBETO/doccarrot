@@ -6,9 +6,9 @@ import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, Input
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
-import Register from '../../components/register'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import useViewport from '../../config/viewportHook'
+import Register from "../../components/Register";
 
 const medSize = 900
 const smallSize = 600
