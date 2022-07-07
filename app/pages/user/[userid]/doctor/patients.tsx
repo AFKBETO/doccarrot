@@ -1,7 +1,13 @@
 import React, { useState} from 'react'
-import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
-import { styled } from '@mui/material/styles';
+
+import {MedicationData, UserData, UserType} from '../../../../config/types'
+import { USER_CONTEXT } from '../../../../config/userContext'
+import {addPrescription, getUserByPublicID} from '../../../../config/api'
+import useViewport from '../../../../config/viewportHook'
+import RouteGuard from '../../../../components/RouteGuard'
+
+import { styled } from '@mui/material/styles'
 import {
   Paper,
   Typography,
@@ -13,17 +19,14 @@ import {
   Container,
   Box, Modal, FormControl, Select, MenuItem, TextField, Button,
 } from '@mui/material'
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import {MedicationData, UserData, UserType} from "../../../../config/types";
-import { USER_CONTEXT } from "../../../../config/userContext";
-import {addPrescription, getUserByPublicID} from "../../../../config/api";
-import toast from "react-hot-toast";
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
-import SendIcon from "@mui/icons-material/Send";
-import moment from "moment";
-import useViewport from '../../../../config/viewportHook';
-import CloseIcon from "@mui/icons-material/Close";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye'
+import RemoveIcon from '@mui/icons-material/Remove'
+import AddIcon from '@mui/icons-material/Add'
+import SendIcon from '@mui/icons-material/Send'
+import CloseIcon from '@mui/icons-material/Close'
+
+import toast from 'react-hot-toast'
+import moment from 'moment'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -64,9 +67,9 @@ function Prescriptions() {
   const { width } = useViewport()
   const medSize = 900
 
-  const [selectedPatient, setSelectedPatient] = useState<UserData | null>(null);
-  const [newPatientPublicID, setNewPatientPublicID] = useState<string>('');
-  const [openPatientModal, setOpenPatientModal] = useState<boolean>(false);
+  const [selectedPatient, setSelectedPatient] = useState<UserData | null>(null)
+  const [newPatientPublicID, setNewPatientPublicID] = useState<string>('')
+  const [openPatientModal, setOpenPatientModal] = useState<boolean>(false)
 
   const [medications, setMedications] = React.useState<PrescriptionMedication[]>([])
   const [location, setLocation] = React.useState<string>('')
@@ -162,13 +165,13 @@ function Prescriptions() {
 
           {/*---------- TITRE TOP ----------*/}
           <Grid item xs={10}>
-            <Typography variant="h2">Mes prescriptions</Typography>
+            <Typography variant='h2'>Mes prescriptions</Typography>
           </Grid>
 
           {/*---------- PARTIE GAUCHE : LISTE DES PATIENTS ----------*/}
           <Grid item xs={(width > medSize ? 4: 12)}>
             <Item sx={{ background: '#ABBD98', borderRadius: 5 }}>
-              <Typography variant="h3" sx={{ textDecoration: 'underline' }}>Mes patients</Typography>
+              <Typography variant='h3' sx={{ textDecoration: 'underline' }}>Mes patients</Typography>
 
               {/*---------- Liste de patients ----------*/}
               <List sx={{ mb: 2, maxHeight: '100%', overflow: 'auto' }}>
@@ -176,16 +179,16 @@ function Prescriptions() {
                     <React.Fragment key={patient.idUser}>
                       <ListItem button onClick={() => setSelectedPatient(patient) }>
                         <ListItemText
-                            primary={ patient.firstName + " " + patient.lastName }
+                            primary={ patient.firstName + ' ' + patient.lastName }
                         />
-                        <IconButton component="span"><RemoveRedEyeIcon /></IconButton>
+                        <IconButton component='span'><RemoveRedEyeIcon /></IconButton>
                       </ListItem>
                     </React.Fragment>
                 )) }
               </List>
 
               {/*---------- Bouton d'ajout pour un nouveau patient ----------*/}
-              <IconButton component="span" onClick={ () => setOpenPatientModal(true) }>
+              <IconButton component='span' onClick={ () => setOpenPatientModal(true) }>
                 <AddIcon />
               </IconButton>
 
@@ -194,21 +197,21 @@ function Prescriptions() {
 
                   {/*---------- Titre modal et bouton de fermeture ----------*/}
                   <div style={{ float: 'left' }}>
-                    <Typography id="modal-modal-title" variant="h3">Nouveau patient</Typography>
+                    <Typography id='modal-modal-title' variant='h3'>Nouveau patient</Typography>
                   </div>
                   <div style={{ float: 'right' }}>
-                    <Button size="small" onClick={ event => setOpenPatientModal(false) }>
+                    <Button size='small' onClick={ event => setOpenPatientModal(false) }>
                       <CloseIcon></CloseIcon>
                     </Button>
                   </div>
 
-                  <Box id="modal-modal-description" sx={{ mt: 2 }} component="div">
+                  <Box id='modal-modal-description' sx={{ mt: 2 }} component='div'>
 
                     {/*---------- Entrer le code ----------*/}
                     <FormControl fullWidth sx={{ marginTop: 5 }}>
-                      <Typography variant="h5" id="id-pharmacy-label">Numéro du patient</Typography>
-                      <Typography variant="h6" id="id-pharmacy-label">Demandez à votre patient son numéro dans le système.</Typography>
-                      <TextField id="id-pharmacy" variant="outlined"
+                      <Typography variant='h5' id='id-pharmacy-label'>Numéro du patient</Typography>
+                      <Typography variant='h6' id='id-pharmacy-label'>Demandez à votre patient son numéro dans le système.</Typography>
+                      <TextField id='id-pharmacy' variant='outlined'
                                  value={newPatientPublicID}
                                  onChange={ event => setNewPatientPublicID(event.target.value) }
                       />
@@ -241,7 +244,7 @@ function Prescriptions() {
                     <Container sx={{ margin: 2, textAlign: 'left' }}>
 
                       {/*---------- INFORMATIONS GENERALES ----------*/}
-                      <Typography variant="h3" sx={{ marginBottom: 2 }}>Généralités</Typography>
+                      <Typography variant='h3' sx={{ marginBottom: 2 }}>Généralités</Typography>
                       <Box sx={prescriptionPropsStyle}>
                         <Typography variant='h4'>Médecin : </Typography>
                         <Typography variant='h5'>&nbsp;{ userContext.userName }</Typography>
@@ -252,14 +255,14 @@ function Prescriptions() {
                       </Box>
                       <Box sx={prescriptionPropsStyle}>
                         <Typography variant='h4'>Lieu : </Typography>
-                        <TextField id="location" type="text" variant="outlined" sx={{marginLeft: 1}}
+                        <TextField id='location' type='text' variant='outlined' sx={{marginLeft: 1}}
                                    value={ location }
                                    onChange={ event => setLocation(event.target.value) }
                         />
                       </Box>
                       <Box sx={prescriptionPropsStyle}>
                         <Typography variant='h4'>Nombre d&apos;utilisations : </Typography>
-                        <TextField id="quantity" type="number" variant="outlined" sx={{marginLeft: 1}}
+                        <TextField id='quantity' type='number' variant='outlined' sx={{marginLeft: 1}}
                                    InputProps={{ inputProps: { min: 1} }}
                                    value={ maxUses }
                                    onChange={ event => setMaxUses(parseInt(event.target.value)) }
@@ -267,13 +270,13 @@ function Prescriptions() {
                       </Box>
 
                       {/*---------- MEDICAMENTS : LISTE ----------*/}
-                      <Typography variant="h3" sx={{marginTop: 3}}>Médicaments</Typography>
+                      <Typography variant='h3' sx={{marginTop: 3}}>Médicaments</Typography>
                       <List sx={{ maxHeight: '100%', overflow: 'auto' }}>
                         { medications.map((medication) => (
                             <React.Fragment key={ medication.index }>
                               <ListItem>
                                 {/*---------- Type de médicament ----------*/}
-                                <Select id="select-type"
+                                <Select id='select-type'
                                         value={ medication.indexMedicationType }
                                         onChange={ event => updateMedicationType(medication, event.target.value as number) }
                                 >
@@ -283,14 +286,14 @@ function Prescriptions() {
                                 </Select>
 
                                 {/*---------- Quantité du médicament ----------*/}
-                                <TextField id="quantity" type="number" variant="outlined" label="Quantité" sx={{marginLeft: 1}}
+                                <TextField id='quantity' type='number' variant='outlined' label='Quantité' sx={{marginLeft: 1}}
                                            InputProps={{ inputProps: { min: 0 } }}
                                            value={ medication.quantity }
                                            onChange={ event => updateMedicationQuantity(medication, parseInt(event.target.value)) }
                                 />
 
                                 {/*---------- Icône de suppression ----------*/}
-                                <IconButton component="span" onClick={ () => removeMedication(medication.index) }>
+                                <IconButton component='span' onClick={ () => removeMedication(medication.index) }>
                                   <RemoveIcon />
                                 </IconButton>
                               </ListItem>
@@ -299,14 +302,14 @@ function Prescriptions() {
                       </List>
 
                       {/*---------- MEDICAMENTS : AJOUT ----------*/}
-                      <IconButton component="span" onClick={ () => addMedication() }>
+                      <IconButton component='span' onClick={ () => addMedication() }>
                         <AddIcon />
                       </IconButton>
 
                       {/*---------- SIGNATURE ----------*/}
-                      <Typography variant="h3" sx={{marginTop: 3}}>Signature</Typography>
+                      <Typography variant='h3' sx={{marginTop: 3}}>Signature</Typography>
                       <Box sx={prescriptionPropsStyle}>
-                        <TextField id="location" type="text" variant="outlined" sx={{marginLeft: 1}}
+                        <TextField id='location' type='text' variant='outlined' sx={{marginLeft: 1}}
                                    value={ signature }
                                    onChange={ event => setSignature(event.target.value) }
                         />
@@ -334,7 +337,7 @@ function Prescriptions() {
 
                     {/*---------- SEND PRESCRIPTION ----------*/}
                     <Grid item xs={(width > medSize ? 1: 12)}>
-                      <IconButton component="span" onClick={ () => sendPrescription() }>
+                      <IconButton component='span' onClick={ () => sendPrescription() }>
                         <SendIcon />
                       </IconButton>
                     </Grid>

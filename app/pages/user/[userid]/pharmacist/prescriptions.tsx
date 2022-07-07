@@ -1,28 +1,32 @@
 import React, {useEffect, useState} from 'react'
-import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
-import { styled } from '@mui/material/styles';
-import {
-  Paper, Typography, Grid, Container, Box, Modal,
-  ListItem, ListItemText, List,
-  IconButton, FormControl, TextField, Button,
-} from '@mui/material'
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import AddTaskIcon from '@mui/icons-material/AddTask';
-import moment from "moment";
-import { PrescriptionData, SharedWithData, UserType} from "../../../../config/types";
-import { USER_CONTEXT } from "../../../../config/userContext";
+
 import {
   addSharingCode,
   addSharingCodeSharedWith,
   getPharmacyById,
   getPharmacyByPublicId,
   getSharingCodeByPublicID, setPrescriptionUses
-} from "../../../../config/api";
-import toast from "react-hot-toast";
-import QrCodeIcon from "@mui/icons-material/QrCode";
-import CloseIcon from "@mui/icons-material/Close";
-import useViewport from '../../../../config/viewportHook';
+} from '../../../../config/api'
+import useViewport from '../../../../config/viewportHook'
+import { PrescriptionData, SharedWithData, UserType} from '../../../../config/types'
+import { USER_CONTEXT } from '../../../../config/userContext'
+import RouteGuard from '../../../../components/RouteGuard'
+
+import { styled } from '@mui/material/styles'
+import {
+  Paper, Typography, Grid, Container, Box, Modal,
+  ListItem, ListItemText, List,
+  IconButton, FormControl, TextField, Button,
+} from '@mui/material'
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye'
+import AddTaskIcon from '@mui/icons-material/AddTask'
+import QrCodeIcon from '@mui/icons-material/QrCode'
+import CloseIcon from '@mui/icons-material/Close'
+
+import moment from 'moment'
+import toast from 'react-hot-toast'
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

@@ -8,26 +8,23 @@ import SwipeableViews from 'react-swipeable-views';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { autoPlay } from 'react-swipeable-views-utils';
-import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
   {
     imgPath:
-      'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
+      'https://media.discordapp.net/attachments/885519275870265415/994609467750613052/ordonnance-medecin.jpeg',
   },
   {
     imgPath:
-      'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
+      'https://media.discordapp.net/attachments/885519275870265415/994609468077772890/pillules.jpeg?width=1014&height=676',
   },
   {
     imgPath:
-      'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
-  },
-  {
-    imgPath:
-      'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
+      'https://media.discordapp.net/attachments/885519275870265415/994609468371370024/pillules2.jpeg',
   }
 ];
 
@@ -74,9 +71,8 @@ function Home() {
                 <Box
                   component="img"
                   sx={{
-                    height: 255,
                     display: 'block',
-                    maxWidth: 400,
+                    maxWidth: 800,
                     overflow: 'hidden',
                     width: '100%',
                   }}
@@ -93,12 +89,12 @@ function Home() {
           activeStep={ activeStep }
           nextButton={
             <Button size="small" onClick={handleNext} disabled={ activeStep === images.length - 1 }>
-              <Typography variant='h5' component='div'><KeyboardArrowRight /></Typography>
+              <Typography variant='h5' component='div'><KeyboardArrowRightIcon /></Typography>
             </Button>
           }
           backButton={
             <Button size="small" onClick={handleBack} disabled={ activeStep === 0 }>
-              <Typography variant='h5' component='div'><KeyboardArrowLeft /></Typography>
+              <Typography variant='h5' component='div'><KeyboardArrowLeftIcon /></Typography>
             </Button>
           }
         />

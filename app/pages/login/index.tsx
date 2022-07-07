@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { useAuthState } from 'react-firebase-hooks/auth'
+
 import { auth } from '../../config/firebase'
 import { AuthData } from '../../config/types'
-import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button, Modal } from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { useRouter } from 'next/router'
-import toast from 'react-hot-toast'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import useViewport from '../../config/viewportHook'
 import Register from "../../components/Register"
+
+import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button, Modal } from '@mui/material'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+
+import toast from 'react-hot-toast'
+
+
 
 const medSize = 900
 const smallSize = 600
@@ -117,7 +123,7 @@ function Login() {
                   onClick={toggleShowPassword}
                   onMouseDown={toggleShowPassword}
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </IconButton>
               </InputAdornment>
             }
