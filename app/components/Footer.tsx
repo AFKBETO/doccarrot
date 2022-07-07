@@ -41,7 +41,7 @@ function Footer() {
         <AppBar position='static'>
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{position: 'relative'}}>
-              <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+              <Image src='/lapin.png' width='72vw' height='100vh' alt='Carotte Assistant' />
             </Box>
 
             <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
