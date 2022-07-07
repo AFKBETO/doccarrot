@@ -47,7 +47,7 @@ function Solutions() {
                       Fini les ordonnances perdues, imprimées, ré-imprimées
                   </Typography>
                   <Typography variant="h4" component='div' sx={{ marginBottom: 3, textAlign: 'justify' }}>
-                      e-ordonnances, compte rendu de (télé)consultation, formulaires médicaux, etc, le patient peut retrouver tout son historique de suivi des derniers 24 mois dans son espace personnel. Le patient est maître de ses données, et décide de partager ou restreindre l’accès à ses ordonnances à n’importe quel professionnel de santé de France de son choix.
+                      e-ordonnances, compte rendu de (télé)consultation, formulaires médicaux, etc, le patient peut retrouver tout son historique de suivi des derniers 24 mois dans son espace personnel. Le patient est maître de ses données, et décide de partager ou restreindre l&apos;accès à ses ordonnances à n&apos;importe quel professionnel de santé de France de son choix.
                   </Typography>
               </Item>
 
@@ -56,7 +56,7 @@ function Solutions() {
                       Adoptez la e-prescription sécurisée
                   </Typography>
                   <Typography variant="h4" component='div' sx={{ marginBottom: 3, textAlign: 'justify' }}>
-                      La prescription électronique signée avec une signature conforme Ormeli permet d’authentifier le prescripteur et de rendre infalsifiable l’e-ordonnance émise. La e-ordonnance est accessible à vos patients, ils maîtrisent le partage de leur données et leur parcours de soin. Délivrable dans toutes les pharmacies, la gestion de la délivrance par le pharmacien se fait en ligne et assure sa traçabilité.
+                      La prescription électronique signée avec une signature conforme Ormeli permet d&apos;authentifier le prescripteur et de rendre infalsifiable l&apos;e-ordonnance émise. La e-ordonnance est accessible à vos patients, ils maîtrisent le partage de leur données et leur parcours de soin. Délivrable dans toutes les pharmacies, la gestion de la délivrance par le pharmacien se fait en ligne et assure sa traçabilité.
                   </Typography>
               </Item>
 
