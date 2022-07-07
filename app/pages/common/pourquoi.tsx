@@ -1,27 +1,58 @@
-import {Grid, Typography, Box} from "@mui/material";
+import {Grid, Typography, Box, Paper, TextField} from "@mui/material";
 import React from "react";
+import {styled} from "@mui/material/styles";
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    color: 'black',
+    maxWidth: 800,
+    marginRight: 30
+}))
 
 function Pourquoi() {
-  return (
-      <Grid container sx={{ px:5, pb: 10, overflow: 'auto' }}>
-        <Typography variant="h2">Pourquoi Ormeli ?</Typography>
-        <Box component='p' style={{ textAlign: 'justify' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed libero orci, viverra nec tortor nec, accumsan posuere risus. Aenean mollis justo at tempor sodales. Etiam ullamcorper urna vel ante auctor, id dictum ex vehicula. Morbi in finibus dolor, id sagittis enim. Praesent a pellentesque sapien. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam pharetra est nec mauris posuere fringilla. Integer vitae malesuada mauris, sit amet congue libero. Sed justo leo, consequat eget mollis sed, lobortis nec tellus.
-        </Box>
-        <Box component='p' style={{ textAlign: 'justify' }}>
-          Sed at tincidunt risus. Integer suscipit viverra suscipit. Etiam pellentesque sagittis ipsum nec rutrum. Sed dapibus dignissim quam. Nunc nec porta purus, vitae faucibus tortor. Curabitur a congue orci, nec aliquam risus. Donec cursus pulvinar justo. Phasellus id massa et massa sodales rhoncus.
-        </Box>
-        <Box component='p' style={{ textAlign: 'justify' }}>
-          Suspendisse ultrices nisi nec nisl ullamcorper, ac molestie tellus facilisis. Curabitur non sem ultricies, tempus risus at, euismod quam. Morbi ac consequat eros. Mauris ac condimentum nisi. Duis lobortis enim nisl, ut pellentesque odio elementum id. Vestibulum ligula nunc, gravida id magna in, rutrum tincidunt sapien. Pellentesque lobortis dictum laoreet.
-        </Box>
-        <Box component='p' style={{ textAlign: 'justify' }}>
-          Mauris eget placerat augue, ultricies sollicitudin arcu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit risus, sagittis eu bibendum et, varius id nibh. Donec vehicula vulputate tincidunt. Suspendisse et neque dui. Sed pharetra lobortis ex, sed ornare nisi luctus sit amet. Maecenas at mattis dolor. Mauris vitae tincidunt odio. Suspendisse at imperdiet mauris. Proin a metus et orci auctor egestas sit amet vitae leo.
-        </Box>
-        <Box component='p' style={{ textAlign: 'justify' }}>
-          Nulla eget arcu ante. Phasellus nec mollis odio, id maximus urna. Nullam venenatis suscipit mi quis ultricies. Proin sit amet neque aliquam felis facilisis hendrerit sed in elit. Vivamus urna erat, facilisis vitae elit eget, vestibulum fermentum est. Duis rutrum vitae quam ac fringilla. Nunc hendrerit, mi et porttitor ornare, tortor ipsum luctus sapien, id elementum odio turpis quis odio. Etiam sapien ex, tincidunt ut diam quis, tristique laoreet purus. Aliquam sit amet lorem quis dolor hendrerit elementum eu sed arcu. Vivamus commodo tristique tellus ut lobortis. Phasellus tempor hendrerit est molestie cursus. Nunc fermentum lectus sapien, non euismod leo iaculis ultrices. Duis sed felis quis nisl aliquam porta a sit amet eros. Donec id risus luctus, viverra sem eu, accumsan mauris. Mauris semper urna massa, id iaculis arcu euismod sed.
-        </Box>
-      </Grid>
-  )
+    return (
+        <Grid container direction='column' sx={{ px:5, pb: 10, overflow: 'auto' }}>
+
+            <Typography variant="h2">Pourquoi Ormeli ?</Typography>
+
+            <Grid container>
+                <Item sx={{ background: '#ABBD98', borderRadius: 5, padding: 3, marginTop: 3 }}>
+                    <Typography variant="h3" sx={{ marginBottom: 3, textDecoration: 'underline' }}>Construisons ensemble les services e-santé de demain</Typography>
+                    <Typography variant="h4" sx={{ marginBottom: 3, textAlign: 'justify' }}>
+                        En 2021 il devrait être aussi simple et sécurisé d’accéder à ses données de santé qu’à ses données bancaires. La santé connait une incroyable accélération du virage numérique et d'ici 2025 pourrait être à 100% digitalisée. Nous rendons cela possible..
+                    </Typography>
+                </Item>
+
+                <Item sx={{ background: '#ABBD98', borderRadius: 5, padding: 3, marginTop: 3 }}>
+                    <Typography variant="h3" sx={{ marginBottom: 3, textDecoration: 'underline' }}>Nous maîtrisons toutes les contraintes réglementaires, y compris les plus exigeantes.</Typography>
+                    <Typography variant="h4" component='div' sx={{ marginBottom: 3, textAlign: 'justify' }}>
+                        Ormeli est pleinement engagé à accompagner le virage numérique en santé porté par le Ministère de la Santé, l'ANS et l'Assurance Maladie avec le plan MaSanté2022 et Ségur numérique de la ville.
+                        <br />
+                        <br />
+                        Notre infrastructure ouverte et interopérable nous permet de développer des connexions aux nouveaux téléservices tels que SIDEP, la e-prescription unifiée, l'ENS, l'INSI, le DMP, la messagerie sécurisée MSsanté et de proposer ces téléservices au sein de nos solutions.
+                    </Typography>
+                </Item>
+
+                <Item sx={{ background: '#ABBD98', borderRadius: 5, padding: 3, marginTop: 3 }}>
+                    <Typography variant="h3" sx={{ marginBottom: 3, textDecoration: 'underline' }}>Nous digitalisons avec vous n’importe quel processus e-santé.</Typography>
+                    <Typography variant="h4" component='div' sx={{ marginBottom: 3, textAlign: 'justify' }}>
+                        Nous apportons la couche technologique indispensable aux acteurs de la santé d’aujourd’hui grâce à notre lab d’innovation Tech composé d'une trentaine d'ingénieurs, designers et product managers
+                    </Typography>
+                </Item>
+
+                <Item sx={{ background: '#ABBD98', borderRadius: 5, padding: 3, marginTop: 3 }}>
+                    <Typography variant="h3" sx={{ marginBottom: 3, textDecoration: 'underline' }}>Nos valeurs les plus fondamentales sont la protection des données de santé, la transparence, et le respect des règles éthiques et déontologiques.</Typography>
+                    <Typography variant="h4" component='div' sx={{ marginBottom: 3, textAlign: 'justify' }}>
+                        Depuis sa création, Ormeli travaille avec plusieurs avocats spécialisés en matière de protection des données à caractère personnel et droit de la santé, et se fait assister par un délégué à la protection des données (DPO) dont les compétences ont été certifiées par la CNIL.
+                        Sur les sites internet d’Ormeli et de Covid-Pharma, l‘ensemble des éléments nécessaires à la parfaite information des professionnels de santé et de leurs patients sont rendus disponibles : politiques de confidentialité, déclaration sur le RGPD et charte du sous-traitant.
+                    </Typography>
+                </Item>
+            </Grid>
+
+        </Grid>
+    )
 }
 
 export default Pourquoi

@@ -8,6 +8,7 @@ import { UserType } from '../config/types'
 import { useRouter } from 'next/router'
 import { AppBar, Box, Toolbar, Typography, Button, IconButton, Grid, ClickAwayListener, Container, Menu, MenuItem } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
+import {NEXT_PROJECT_ROOT} from "next/dist/lib/constants";
 
 
 function Navbar() {
@@ -42,13 +43,13 @@ function Navbar() {
   return (
     <AppBar position='static'>
       <Container maxWidth="xl">
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }} disableGutters>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', zIndex: 10 }} disableGutters>
 
           {/*---------- PARTIE GAUCHE : LOGO LAPIN + TITRE ORMELI ----------*/}
           <Grid container direction='row' justifyContent='flex-start' alignItems='center' sx={{ flexShrink: 3 }}>
             <Link href='/'>
               <IconButton size='large' edge='start' color='inherit' aria-label='menu' sx={{ width: '40%', height: '40%' }}>
-                <Image src='/favicon.png' width='80%' height='90%' alt='Ormeli' />
+                <Image src={ `${NEXT_PROJECT_ROOT}/favicon.png` } width='80%' height='90%' alt='Ormeli' />
               </IconButton>
             </Link>
             <Link href='/'>
@@ -158,7 +159,7 @@ function Navbar() {
                 <Typography component='div' sx={{position: 'absolute', right: '120%', bottom: '70%', color: 'text.secondary'}} noWrap={true}>Bonjour, { userContext.userName }</Typography>
               }
             </Box>
-            <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+            <Image src={ `${NEXT_PROJECT_ROOT}/carotte_assistant.png` } width='72vw' height='100vh' alt='Carotte Assistant' />
           </Box>
           
           <Grid container direction='row' justifyContent='flex-end' alignItems='center' sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -254,7 +255,7 @@ function Navbar() {
                 <></> :
                 <Typography component='div' sx={{position: 'absolute', right: '120%', bottom: '70%', color: 'text.secondary'}} noWrap={true}>Bonjour, { userContext.userName }</Typography>
               }
-              <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+              <Image src={ `${NEXT_PROJECT_ROOT}/carotte_assistant.png` } width='72vw' height='100vh' alt='Carotte Assistant' />
             </Box>
           </Grid>
         </Toolbar>

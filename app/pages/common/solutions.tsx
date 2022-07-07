@@ -1,25 +1,67 @@
-import {Grid, Typography, Box} from "@mui/material"
+import {Grid, Typography, Box, Paper} from "@mui/material"
 import React from "react"
+import {styled} from "@mui/material/styles";
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    color: 'black',
+    maxWidth: 800,
+    marginRight: 30
+}))
 
 function Solutions() {
   return (
-      <Grid container sx={{ px:5, pb: 10, overflow: 'auto' }}>
+      <Grid container direction='column' sx={{ px:5, pb: 10, overflow: 'auto' }}>
+
           <Typography variant="h2">Nos solutions</Typography>
-          <Box component='p' style={{ textAlign: 'justify' }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed libero orci, viverra nec tortor nec, accumsan posuere risus. Aenean mollis justo at tempor sodales. Etiam ullamcorper urna vel ante auctor, id dictum ex vehicula. Morbi in finibus dolor, id sagittis enim. Praesent a pellentesque sapien. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam pharetra est nec mauris posuere fringilla. Integer vitae malesuada mauris, sit amet congue libero. Sed justo leo, consequat eget mollis sed, lobortis nec tellus.
-          </Box>
-          <Box component='p' style={{ textAlign: 'justify' }}>
-              Sed at tincidunt risus. Integer suscipit viverra suscipit. Etiam pellentesque sagittis ipsum nec rutrum. Sed dapibus dignissim quam. Nunc nec porta purus, vitae faucibus tortor. Curabitur a congue orci, nec aliquam risus. Donec cursus pulvinar justo. Phasellus id massa et massa sodales rhoncus.
-          </Box>
-          <Box component='p' style={{ textAlign: 'justify' }}>
-              Suspendisse ultrices nisi nec nisl ullamcorper, ac molestie tellus facilisis. Curabitur non sem ultricies, tempus risus at, euismod quam. Morbi ac consequat eros. Mauris ac condimentum nisi. Duis lobortis enim nisl, ut pellentesque odio elementum id. Vestibulum ligula nunc, gravida id magna in, rutrum tincidunt sapien. Pellentesque lobortis dictum laoreet.
-          </Box>
-          <Box component='p' style={{ textAlign: 'justify' }}>
-              Mauris eget placerat augue, ultricies sollicitudin arcu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris velit risus, sagittis eu bibendum et, varius id nibh. Donec vehicula vulputate tincidunt. Suspendisse et neque dui. Sed pharetra lobortis ex, sed ornare nisi luctus sit amet. Maecenas at mattis dolor. Mauris vitae tincidunt odio. Suspendisse at imperdiet mauris. Proin a metus et orci auctor egestas sit amet vitae leo.
-          </Box>
-          <Box component='p' style={{ textAlign: 'justify' }}>
-              Nulla eget arcu ante. Phasellus nec mollis odio, id maximus urna. Nullam venenatis suscipit mi quis ultricies. Proin sit amet neque aliquam felis facilisis hendrerit sed in elit. Vivamus urna erat, facilisis vitae elit eget, vestibulum fermentum est. Duis rutrum vitae quam ac fringilla. Nunc hendrerit, mi et porttitor ornare, tortor ipsum luctus sapien, id elementum odio turpis quis odio. Etiam sapien ex, tincidunt ut diam quis, tristique laoreet purus. Aliquam sit amet lorem quis dolor hendrerit elementum eu sed arcu. Vivamus commodo tristique tellus ut lobortis. Phasellus tempor hendrerit est molestie cursus. Nunc fermentum lectus sapien, non euismod leo iaculis ultrices. Duis sed felis quis nisl aliquam porta a sit amet eros. Donec id risus luctus, viverra sem eu, accumsan mauris. Mauris semper urna massa, id iaculis arcu euismod sed.
-          </Box>
+
+          <Grid container>
+              <Item sx={{ background: '#ABBD98', borderRadius: 5, padding: 3, marginTop: 3 }}>
+                  <Typography variant="h3" sx={{ marginBottom: 3, textDecoration: 'underline' }}>
+                      Pour les pharmaciens :
+                      <br />
+                      Accompagnez vos patients avec de nouveaux services numériques
+                  </Typography>
+                  <Typography variant="h4" sx={{ marginBottom: 3, textAlign: 'justify' }}>
+                      Ormeli vous propose des solutions simplifiant le suivi du parcours de soin et vous déchargeant des tâches administratives.
+                  </Typography>
+              </Item>
+
+              <Item sx={{ background: '#ABBD98', borderRadius: 5, padding: 3, marginTop: 3 }}>
+                  <Typography variant="h3" sx={{ marginBottom: 3, textDecoration: 'underline' }}>
+                      Pour les médecins :
+                      <br />
+                      Gagnez du temps avec notre solution médicale en ligne
+                  </Typography>
+                  <Typography variant="h4" component='div' sx={{ marginBottom: 3, textAlign: 'justify' }}>
+                      Conçue autour de la e-prescription et enrichie de multiples fonctionnalités pour simplifier votre pratique.
+                  </Typography>
+              </Item>
+
+              <Item sx={{ background: '#ABBD98', borderRadius: 5, padding: 3, marginTop: 3 }}>
+                  <Typography variant="h3" sx={{ marginBottom: 3, textDecoration: 'underline' }}>
+                      Pour les patients :
+                      <br />
+                      Fini les ordonnances perdues, imprimées, ré-imprimées
+                  </Typography>
+                  <Typography variant="h4" component='div' sx={{ marginBottom: 3, textAlign: 'justify' }}>
+                      e-ordonnances, compte rendu de (télé)consultation, formulaires médicaux, etc, le patient peut retrouver tout son historique de suivi des derniers 24 mois dans son espace personnel. Le patient est maître de ses données, et décide de partager ou restreindre l’accès à ses ordonnances à n’importe quel professionnel de santé de France de son choix.
+                  </Typography>
+              </Item>
+
+              <Item sx={{ background: '#ABBD98', borderRadius: 5, padding: 3, marginTop: 3 }}>
+                  <Typography variant="h3" sx={{ marginBottom: 3, textDecoration: 'underline' }}>
+                      Adoptez la e-prescription sécurisée
+                  </Typography>
+                  <Typography variant="h4" component='div' sx={{ marginBottom: 3, textAlign: 'justify' }}>
+                      La prescription électronique signée avec une signature conforme Ormeli permet d’authentifier le prescripteur et de rendre infalsifiable l’e-ordonnance émise. La e-ordonnance est accessible à vos patients, ils maîtrisent le partage de leur données et leur parcours de soin. Délivrable dans toutes les pharmacies, la gestion de la délivrance par le pharmacien se fait en ligne et assure sa traçabilité.
+                  </Typography>
+              </Item>
+
+          </Grid>
+
       </Grid>
   )
 }

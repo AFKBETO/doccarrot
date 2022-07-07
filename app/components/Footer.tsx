@@ -9,6 +9,7 @@ import PolicyIcon from '@mui/icons-material/Policy'
 import PeopleIcon from '@mui/icons-material/People'
 import InfoIcon from '@mui/icons-material/Info'
 import HelpIcon from '@mui/icons-material/Help'
+import {NEXT_PROJECT_ROOT} from "next/dist/lib/constants";
 
 const medSize = 900
 const smallSize = 600
@@ -22,7 +23,8 @@ const style = (width: number) => ({
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
-  background: '#ABBD98'
+  background: '#ABBD98',
+  zIndex: 1500
 })
 
 const userTypeNames = ['patient', 'médecin', 'pharmacien']
@@ -52,7 +54,7 @@ function Footer() {
         <AppBar position='static'>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{position: 'relative'}}>
-              <Image src='/lapin.png' width={ width > smallSize ?'100vw': '0'} height={ width > smallSize ?'100vh': '83vh'} alt='Docteur Lapin' />
+              <Image src={ `${NEXT_PROJECT_ROOT}/lapin.png` } width={ width > smallSize ?'100vw': '0'} height={ width > smallSize ?'100vh': '83vh'} alt='Docteur Lapin' />
             </Box>
             <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
               {/*---------- BOUTON ET MODAL : MENTIONS LEGALES ----------*/}
@@ -135,23 +137,23 @@ function Footer() {
                     <Grid container sx={{ maxHeight: '70vh', overflow: 'auto' }}>
                       <Typography component='div' variant='h3'>{'Notre équipe Doc\'Carrot'}</Typography>
                       <Grid item xs={6}>
-                        <Image src='/viet.jpg' width='100%' height='100%' alt='QVNguyen' />
+                        <Image src={ `${NEXT_PROJECT_ROOT}/viet.jpg` } width='100%' height='100%' alt='QVNguyen' />
                         <Typography component='div'>Quang Viet Nguyen</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Image src='/guillaume.jpeg' width='100%' height='100%' alt='GVandenneucker' />
+                        <Image src={ `${NEXT_PROJECT_ROOT}/guillaume.jpeg` } width='100%' height='100%' alt='GVandenneucker' />
                         <Typography component='div'>Guillaume Vandenneucker</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Image src='/maya.jpeg' width='100%' height='100%' alt='MGawinowski' />
+                        <Image src={ `${NEXT_PROJECT_ROOT}/maya.jpeg` } width='100%' height='100%' alt='MGawinowski' />
                         <Typography component='div'>Maya Gawinowski</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Image src='/maxime.jpeg' width='100%' height='100%' alt='MLarroze' />
+                        <Image src={ `${NEXT_PROJECT_ROOT}/maxime.jpeg` } width='100%' height='100%' alt='MLarroze' />
                         <Typography component='div'>Maxime Larroze</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Image src='/brahim.jpeg' width='100%' height='100%' alt='BHda' />
+                        <Image src={ `${NEXT_PROJECT_ROOT}/brahim.jpeg` } width='100%' height='100%' alt='BHda' />
                         <Typography component='div'>Brahim Hda</Typography>
                       </Grid>
                     </Grid>
@@ -229,11 +231,11 @@ function Footer() {
                               Vous allez pouvoir suivre le Doc et son fidèle assistant &quot;carotte&quot;.
                             </Typography>
                             <Typography component='div' sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', mt: 2 }}>
-                              <Image src='/lapin.png' width='100vw' height='100vh' alt='Docteur Lapin' />
+                              <Image src={ `${NEXT_PROJECT_ROOT}/lapin.png` } width='100vw' height='100vh' alt='Docteur Lapin' />
                               <Button variant='contained' sx={{ bgcolor: 'primary.dark', marginTop: 5 }} focusRipple={false}>
                                 <Typography sx={{ color: 'text.secondary' }}>Commencer</Typography>
                               </Button>
-                              <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+                              <Image src={ `${NEXT_PROJECT_ROOT}/carotte_assistant.png` } width='72vw' height='100vh' alt='Carotte Assistant' />
                             </Typography>
                           </Typography>
                         </Grid>
@@ -246,7 +248,7 @@ function Footer() {
             </Grid>
             { width > smallSize ?
                 <Box sx={{position: 'relative'}}>
-                  <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+                  <Image src={ `${NEXT_PROJECT_ROOT}/carotte_assistant.png` } width='72vw' height='100vh' alt='Carotte Assistant' />
                 </Box>
                 : null
             }
