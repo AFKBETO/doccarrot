@@ -37,7 +37,7 @@ function Home() {
 
   if (userContext.firebaseLoading) {
     return (
-      <Grid container sx={{ padding: 10, textAlign: 'center' }}>
+      <Grid container sx={{ padding: 10, alignItems: 'center' }}>
         <Loader show />
       </Grid>
     )
