@@ -5,6 +5,7 @@ import {Modal, AppBar, Box, Toolbar, Typography, Button, Grid, Stack} from '@mui
 import {USER_CONTEXT} from "../config/userContext";
 import CloseIcon from '@mui/icons-material/Close';
 import {KeyboardArrowRight} from "@mui/icons-material";
+import useViewport from '../config/viewportHook';
 
 const style = {
   position: 'absolute',
@@ -22,7 +23,7 @@ const userTypeNames = ['patient', 'médecin', 'pharmacien']
 
 function Footer() {
   const userContext = React.useContext(USER_CONTEXT)
-
+  
   const [open, setOpen] = React.useState({
     modalMentions: false,
     modalCredits: false,
@@ -41,15 +42,13 @@ function Footer() {
         width: '100%'
       }}>
         <AppBar position='static'>
-          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{position: 'relative'}}>
               <Image src='/lapin.png' width='72vw' height='100vh' alt='Carotte Assistant' />
             </Box>
-
             <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
-
               {/*---------- BOUTON ET MODAL : MENTIONS LEGALES ----------*/}
-              <Grid item xs={3}>
+              <Grid item xs={userContext.userId ? 3 : 4} textAlign='center'>
                 <Button onClick={event => handleOpen(event, 'modalMentions')}>
                   <Typography component='div' variant="h4">Mentions légales</Typography>
                 </Button>
@@ -78,7 +77,7 @@ function Footer() {
               </Grid>
 
               {/*---------- BOUTON ET MODAL : CREDITS ----------*/}
-              <Grid item xs={2}>
+              <Grid item xs={userContext.userId ? 3 : 4} textAlign='center'>
                 <Button onClick={event => handleOpen(event, 'modalCredits')}>
                   <Typography component='div' variant="h4">Crédits</Typography>
                 </Button>
@@ -125,7 +124,7 @@ function Footer() {
               </Grid>
 
               {/*---------- BOUTON ET MODAL : A PROPOS ----------*/}
-              <Grid item xs={2}>
+              <Grid item xs={userContext.userId ? 3 : 4} textAlign='center'>
                 <Button onClick={event => handleOpen(event, 'modalAbout')}>
                   <Typography component='div' variant="h4">A propos</Typography>
                 </Button>
@@ -158,7 +157,7 @@ function Footer() {
 
               {/*---------- BOUTON ET MODAL : TUTORIEL ----------*/}
               { userContext.userId ?
-                  <Grid item xs={3} >
+                  <Grid item xs={3} textAlign='center' >
                     <Button onClick={event => handleOpen(event, 'modalTutorial')}>
                       <Typography component='div' variant="h4">Tutoriel</Typography>
                     </Button>
@@ -197,14 +196,14 @@ function Footer() {
                       </Box>
                     </Modal>
                   </Grid>
-                  : <></>
+                  : null
               }
 
             </Grid>
             <Box sx={{position: 'relative'}}>
-              <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+              <Image src='/lapin.png' width='72vw' height='100vh' alt='Carotte Assistant' />
             </Box>
-          </Toolbar>
+          </Box>
         </AppBar>
       </Box>
   )
