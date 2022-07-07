@@ -201,7 +201,7 @@ function Footer() {
 
             </Grid>
             <Box sx={{position: 'relative'}}>
-              <Image src='/lapin.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+              <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
             </Box>
           </Box>
         </AppBar>
