@@ -10,17 +10,20 @@ import PeopleIcon from '@mui/icons-material/People'
 import InfoIcon from '@mui/icons-material/Info'
 import HelpIcon from '@mui/icons-material/Help'
 
-const style = {
+const medSize = 900
+const smallSize = 600
+
+const style = (width: number) => ({
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
+  width: ((width > medSize) ? 500 : ((width > smallSize) ? '50%' : '70%')),
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
   background: '#ABBD98'
-}
+})
 
 const userTypeNames = ['patient', 'médecin', 'pharmacien']
 
@@ -65,7 +68,7 @@ function Footer() {
                     open={open.modalMentions}
                     onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalMentions')}
                 >
-                  <Box sx={style}>
+                  <Box sx={style(width)}>
 
                     <div style={{ float: 'left' }}>
                       <Typography component='div' id="modal-modal-title" variant="h3">Mentions légales</Typography>
@@ -118,7 +121,7 @@ function Footer() {
                     open={open.modalCredits}
                     onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalCredits')}
                 >
-                  <Box sx={style}>
+                  <Box sx={style(width)}>
 
                     <div style={{ float: 'left' }}>
                       <Typography component='div' id="modal-modal-title" variant="h3">Crédits</Typography>
@@ -169,7 +172,7 @@ function Footer() {
                     open={open.modalAbout}
                     onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalAbout')}
                 >
-                  <Box sx={style}>
+                  <Box sx={style(width)}>
 
                     <div style={{ float: 'left' }}>
                       <Typography component='div' id="modal-modal-title" variant="h3">A propos</Typography>
@@ -206,7 +209,7 @@ function Footer() {
                         open={open.modalTutorial}
                         onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalTutorial')}
                     >
-                      <Box sx={style} textAlign='center' alignItems='center' justifyContent='center'>
+                      <Box sx={style(width)} textAlign='center' alignItems='center' justifyContent='center'>
 
                         <div style={{ float: 'left' }}>
                           <Typography component='div' id="modal-modal-title" variant="h3">Besoin d&apos;aide ?</Typography>
