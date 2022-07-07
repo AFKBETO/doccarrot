@@ -39,7 +39,7 @@ export function useHooks () {
                 const userData = await getUser(firebaseUser.uid)
                 setUserId(firebaseUser.uid)
                 setUserName(userData.firstName + ' ' + userData.lastName)
-                setUserPublicID(userData.publicID)
+                setUserPublicID(userData.publicID != undefined ? userData.publicID : '')
                 setUserType(userData.userType)
 
                 if (userData.userType == UserType.patient) {

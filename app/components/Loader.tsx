@@ -1,3 +1,5 @@
+
+import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 
 interface Props {
@@ -6,7 +8,7 @@ interface Props {
 
 function Loader({ show } : Props) {
   return (
-    show ? <div className='loader'><CircularProgress /></div> : null
+    show ? <Box className='loader'><CircularProgress /></Box> : null
   )
 }
 

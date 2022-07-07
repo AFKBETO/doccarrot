@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../../config/firebase'
 import { AuthData } from '../../config/types'
 import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, InputAdornment, IconButton, Stack , Button, Modal } from '@mui/material'
@@ -17,12 +17,14 @@ function Login() {
   })
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const [openRegister, setOpenRegister] = React.useState<boolean>(false)
-  const userContext = React.useContext(USER_CONTEXT)
+  const [openReset, setOpenReset] = React.useState<boolean>(false)
 
   const router = useRouter()
 
-  const handleOpen = () => setOpenRegister(true)
-  const handleClose = () => setOpenRegister(false)
+  const handleOpenRegister = () => setOpenRegister(true)
+  const handleCloseRegister = () => setOpenRegister(false)
+  const handleOpenReset = () => setOpenReset(true)
+  const handleCloseReset = () => setOpenReset(false)
 
   const modifyForm = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
     setUserData({
@@ -34,15 +36,33 @@ function Login() {
     setShowPassword(!showPassword)
   }
 
+  const sendPasswordReset = async () => {
+    try{
+      await sendPasswordResetEmail(auth, userData.email)
+    } catch (error) {
+      console.log(error)
+    }
+    setOpenReset(false)
+    toast.success(`Un message de réinitialisation de mot de passe a été envoyé à ${userData.email}`)
+    setUserData({email: '', password: ''})
+    
+  }
+
   const login = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, userData.email, userData.password)
-      if (userCredential.user.emailVerified) {
+      const { user } = await signInWithEmailAndPassword(auth, userData.email, userData.password)
+      if (user.emailVerified) {
         router.push('/')
       } else {
-        setTimeout(async () => await signOut(auth), 1000)
-        toast.error('Vous n\'avez pas encore vérifié votre adresse')
-        console.log(userContext)
+        toast((t) => (
+          <Box onClick={() => {
+              sendEmailVerification(user)
+              toast.dismiss(t.id)
+            }}>
+            Vous n&apos;avez pas encore vérifié votre adresse. Cliquez ici pour renvoyer l&apos;email de vérification.
+          </Box>
+        ))
+        setTimeout(async () => await signOut(auth), 500)
       }
     } catch (error) {
       toast.error('Email/mot de passe invalide')
@@ -62,9 +82,9 @@ function Login() {
       }}
     >
       <Typography variant='h3' align='center'>Connexion</Typography>
-      <Stack spacing={2} justifyContent='center' alignItems='center' sx={{ my: 4}}>
+      <Stack spacing={2} justifyContent='center' alignItems='center' sx={{ my: 4, pb: 2}}>
         <TextField id='email-required' variant='filled' label='Email' type='email' color='secondary' size='small' required
-          value={userData.email}
+          value={openReset ? '' : userData.email}
           onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'email')}
           sx={{
             width: '70%',
@@ -96,12 +116,12 @@ function Login() {
           <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
         </Button>
 
-        <Button onClick={handleOpen}>
+        <Button onClick={handleOpenRegister}>
           {'Votre première connexion ? C\'est par ici !'}
         </Button>
         <Modal
           open={openRegister}
-          onClose={handleClose}
+          onClose={handleCloseRegister}
         >
           <Box sx={{
             position: 'absolute',
@@ -112,7 +132,42 @@ function Login() {
             bgcolor: 'transparent',
             boxShadow: 'none' 
           }}>
-            <Register closeModal={handleClose} />
+            <Register closeModal={handleCloseRegister} />
+          </Box>
+        </Modal>
+        <Button variant='contained' sx={{ bgcolor: 'primary.dark'}} focusRipple={false} onClick={handleOpenReset}>
+          {'Oubliez votre mot de passe ?'}
+        </Button>
+        <Modal
+          open={openReset}
+          onClose={handleCloseReset}
+        >
+          <Box sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: '25%',
+            transform: 'translate(-50%, -50%)',
+            margin: 'auto', mt: 4, py: 2, border: 1, borderRadius: '20px', backgroundColor: 'primary.dark',
+            textAlign: 'center'
+          }}>
+            <Stack spacing={2} justifyContent="center" alignItems="center" >
+              <Typography variant='h4'>Réinitialisez votre mot de passe</Typography>
+              <TextField id='email-required' variant='filled' label='Saisissez votre email' type='email' color='secondary' size='small' required
+                value={userData.email}
+                onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'email')}
+                sx={{
+                  width: '70%',
+                  color: 'text.primary'
+                }}
+              />
+              <Button variant='contained' sx={{ bgcolor: 'primary.dark'}}
+                focusRipple={false}
+                onClick={sendPasswordReset}
+              >
+                <Typography sx={{ color: 'text.primary' }}>Valider</Typography>
+              </Button>
+            </Stack>
           </Box>
         </Modal>
       </Stack>
