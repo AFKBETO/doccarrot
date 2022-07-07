@@ -1,24 +1,29 @@
 import React, {useEffect, useState} from 'react'
-import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
+
+import { PrescriptionData, SharedWithData, UserType } from '../../../../config/types'
+import { USER_CONTEXT } from '../../../../config/userContext'
+import { addSharingCode, getPharmacyByPublicId } from '../../../../config/api'
+import useViewport from '../../../../config/viewportHook'
+import RouteGuard from '../../../../components/RouteGuard'
+
 import { styled } from '@mui/material/styles';
 import {
   Typography, Box, Grid, Container,Paper, Modal,
   ListItem, ListItemText, List,
   FormControl, Select, MenuItem, TextField, Button, SelectChangeEvent, IconButton
 } from '@mui/material'
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import QrCodeIcon from '@mui/icons-material/QrCode';
-import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import moment from "moment";
-import { PrescriptionData, SharedWithData, UserType } from "../../../../config/types";
-import { USER_CONTEXT } from "../../../../config/userContext";
-import { addSharingCode, getPharmacyByPublicId } from "../../../../config/api";
-import toast from "react-hot-toast";
-import CloseIcon from "@mui/icons-material/Close";
-import useViewport from '../../../../config/viewportHook';
+import CloseIcon from "@mui/icons-material/Close"
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import QrCodeIcon from '@mui/icons-material/QrCode'
+import DeleteIcon from '@mui/icons-material/Delete'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+
+import moment from 'moment'
+import toast from "react-hot-toast"
+
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
