@@ -6,6 +6,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { auth } from '../../config/firebase'
 import toast from 'react-hot-toast'
 import { addUser } from '../../config/api'
+import CloseIcon from "@mui/icons-material/Close";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -137,6 +138,11 @@ function Register ({ closeModal }: RegisterProps) {
   return (
     <Box sx={{ margin: 'auto', mt: 4, pt: 2, border: 1, borderRadius: '20px', backgroundColor: 'primary.dark' }}>
       <Typography variant='h4' align='center'>Inscription</Typography>
+      <div style={{ float: 'right' }}>
+        <Button size="small" onClick={ () => closeModal() }>
+          <CloseIcon></CloseIcon>
+        </Button>
+      </div>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs textColor='secondary' indicatorColor='secondary' value={tabValue} onChange={changeTab} aria-label='basic tabs example' variant='scrollable' selectionFollowsFocus>
           <Tab label='Patient' {...labelProps(0)} />

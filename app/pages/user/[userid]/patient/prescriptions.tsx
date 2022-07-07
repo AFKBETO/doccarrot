@@ -17,6 +17,7 @@ import { PrescriptionData, SharedWithData, UserType } from "../../../../config/t
 import { USER_CONTEXT } from "../../../../config/userContext";
 import { addSharingCode, getPharmacyByPublicId } from "../../../../config/api";
 import toast from "react-hot-toast";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -231,7 +232,17 @@ function Prescriptions() {
 
                       <Modal open={openCreateModal} onClose={ () => setOpenCreateModal(false) }>
                         <Box sx={modalStyle}>
-                          <Typography id="modal-modal-title" variant="h3">Partager la prescription</Typography>
+
+                          {/*---------- Titre modal et bouton de fermeture ----------*/}
+                          <div style={{ float: 'left' }}>
+                            <Typography id="modal-modal-title" variant="h3">Partager la prescription</Typography>
+                          </div>
+                          <div style={{ float: 'right' }}>
+                            <Button size="small" onClick={ event => setOpenCreateModal(false) }>
+                              <CloseIcon></CloseIcon>
+                            </Button>
+                          </div>
+
                           <Box id="modal-modal-description" sx={{ mt: 2 }} component="div">
 
                             {/*---------- ... WITH KNOWN PHARMACY ... ----------*/}

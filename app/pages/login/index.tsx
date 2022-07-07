@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import Register from './register'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { USER_CONTEXT } from '../../config/userContext'
+import CloseIcon from "@mui/icons-material/Close";
 
 function Login() {
   const [userData, setUserData] = React.useState<AuthData>({
