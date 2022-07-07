@@ -175,12 +175,18 @@ function VerifyEmail (props : { actionCode: string } & BoxProps) {
     }
     case 'ok': {
       return (
-        <Box {...props}>Code ok</Box>
+        <Box {...props}>
+          Votre email a été vérifié. Vous pouvez vous authentifier.
+          <Button href='/login'>Login</Button>
+        </Box>
       )
     }
     default: {
       return (
-        <Box {...props}>Code invalide</Box>
+        <Box {...props}>
+          Code invalide.
+          <Button href='/login'>Login</Button>
+        </Box>
       )
     }
   }
@@ -196,8 +202,11 @@ function Action (props: BoxProps) {
   if (mode == 'verifyEmail') {
     return <VerifyEmail {...props} actionCode={oobCode as string} />
   }
-  return (<Box {...props}>Mode invalide</Box>)
-  
+  return (<Box {...props}>
+      Mode invalide
+      <Button href='/login'>Login</Button>
+    </Box>
+  )
 }
 
 function ActionWrapper() {
