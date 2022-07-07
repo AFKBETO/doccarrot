@@ -22,6 +22,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
 import moment from "moment";
+import useViewport from '../../../../config/viewportHook';
 import CloseIcon from "@mui/icons-material/Close";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -60,6 +61,8 @@ function Prescriptions() {
   const router = useRouter()
   const { userid } = router.query
   const userContext = React.useContext(USER_CONTEXT)
+  const { width } = useViewport()
+  const medSize = 900
 
   const [selectedPatient, setSelectedPatient] = useState<UserData | null>(null);
   const [newPatientPublicID, setNewPatientPublicID] = useState<string>('');
@@ -163,7 +166,7 @@ function Prescriptions() {
           </Grid>
 
           {/*---------- PARTIE GAUCHE : LISTE DES PATIENTS ----------*/}
-          <Grid item xs={4}>
+          <Grid item xs={(width > medSize ? 4: 12)}>
             <Item sx={{ background: '#ABBD98', borderRadius: 5 }}>
               <Typography variant="h3" sx={{ textDecoration: 'underline' }}>Mes patients</Typography>
 
@@ -226,7 +229,7 @@ function Prescriptions() {
           </Grid>
 
           {/*---------- PARTIE CENTRE : ESPACE EDITION ----------*/}
-          <Grid item xs={7}>
+          <Grid item xs={(width > medSize ? 7: 12)}>
             <Item sx={{ background: '#ABBD98', borderRadius: 5 }}>
 
               <Typography variant='h3' sx={{ textDecoration: 'underline' }}>Nouvelle prescription</Typography>
@@ -323,14 +326,14 @@ function Prescriptions() {
           </Grid>
 
           {/*---------- PARTIE DROITE : BOUTONS D'ACTION ----------*/}
-          <Grid item xs={1}>
+          <Grid item xs={(width > medSize ? 1: 12)}>
             { selectedPatient ?
 
                 <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-                  <Grid container spacing={2} direction='column'>
+                  <Grid container spacing={2} direction={(width > medSize ? 'column': 'row')}>
 
                     {/*---------- SEND PRESCRIPTION ----------*/}
-                    <Grid item xs={1}>
+                    <Grid item xs={(width > medSize ? 1: 12)}>
                       <IconButton component="span" onClick={ () => sendPrescription() }>
                         <SendIcon />
                       </IconButton>

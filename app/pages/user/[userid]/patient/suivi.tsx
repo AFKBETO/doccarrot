@@ -11,6 +11,7 @@ import RouteGuard from '../../../../components/RouteGuard'
 import { useRouter } from 'next/router'
 import {USER_CONTEXT} from "../../../../config/userContext";
 import {UserType} from "../../../../config/types";
+import useViewport from '../../../../config/viewportHook';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -71,6 +72,8 @@ function Suivi() {
   const [searchPhar, setSearchPhar] = useState<string>('')
   const router = useRouter()
   const { userid } = router.query
+  const { width } = useViewport()
+  const smallSize = 600
 
   const userContext = React.useContext(USER_CONTEXT);
 
@@ -91,7 +94,7 @@ function Suivi() {
           </Grid>
 
           {/*---------- PARTIE GAUCHE : MEDECINS ET PHARMACIES ----------*/}
-          <Grid item xs={5}>
+          <Grid item xs={(width > smallSize ? 5: 12)}>
             <Grid container spacing={2}>
 
               {/*---------- MEDECINS ----------*/}
@@ -159,7 +162,7 @@ function Suivi() {
           </Grid>
 
           {/*---------- PARTIE DROITE : INFORMATIONS (CARTE VITALE + CARTE IDENTITE) ----------*/}
-          <Grid item xs={7}>
+          <Grid item xs={(width > smallSize ? 7: 12)}>
             <Item sx={{borderRadius: 5}}>
               <Typography sx={{fontSize: 25, textAlign:'left'}}>Mes informations</Typography>
               <Grid container direction='row' display='flex'>
