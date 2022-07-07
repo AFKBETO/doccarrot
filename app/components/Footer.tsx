@@ -114,26 +114,26 @@ function Footer() {
                       </Button>
                     </div>
 
-                    <Grid container direction='column'>
+                    <Grid container>
                       <Typography component='div' variant='h3'>{'Notre équipe Doc\'Carrot'}</Typography>
-                      <Grid item xs={5}>
-                        <Image src='/viet.jpg' width='100%' height='100%' alt='Ormeli' />
+                      <Grid item xs={6}>
+                        <Image src='/viet.jpg' width='100%' height='100%' alt='QVNguyen' />
                         <Typography component='div'>Quang Viet Nguyen</Typography>
                       </Grid>
-                      <Grid item xs={5}>
-                        <Image src='/guillaume.jpeg' width='100%' height='100%' alt='Ormeli' />
+                      <Grid item xs={6}>
+                        <Image src='/guillaume.jpeg' width='100%' height='100%' alt='GVandenneucker' />
                         <Typography component='div'>Guillaume Vandenneucker</Typography>
                       </Grid>
-                      <Grid item xs={5}>
-                        <Image src='/maya.jpeg' width='100%' height='100%' alt='Ormeli' />
+                      <Grid item xs={6}>
+                        <Image src='/maya.jpeg' width='100%' height='100%' alt='MGawinowski' />
                         <Typography component='div'>Maya Gawinowski</Typography>
                       </Grid>
-                      <Grid item xs={5}>
-                        <Image src='/maxime.jpeg' width='100%' height='100%' alt='Ormeli' />
+                      <Grid item xs={6}>
+                        <Image src='/maxime.jpeg' width='100%' height='100%' alt='MLarroze' />
                         <Typography component='div'>Maxime Larroze</Typography>
                       </Grid>
-                      <Grid item xs={5}>
-                        <Image src='/brahim.jpeg' width='100%' height='100%' alt='Ormeli' />
+                      <Grid item xs={6}>
+                        <Image src='/brahim.jpeg' width='100%' height='100%' alt='BHda' />
                         <Typography component='div'>Brahim Hda</Typography>
                       </Grid>
                     </Grid>
