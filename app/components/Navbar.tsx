@@ -173,70 +173,71 @@ function Navbar() {
             { userContext.userId != null && userContext.firebaseUser != null && userContext.firebaseUser.emailVerified ?
               /*---------- Utilisateur connecté ----------*/
               <ClickAwayListener onClickAway={handleClickAway}>
-                <Box sx={{ position: 'relative' }} zIndex='tooltip'>
+                <>
                   <Button color='primary' type='button' onClick={handleClick}>
                     <Typography component='div' variant="h4" noWrap={true}>Mon Espace</Typography>
                   </Button>
-
-                  {/*---------- Menu dropdown utilisateur ----------*/}
-                  { openMenu ?
-                    <Box id='popout-menu' sx={{ position: 'absolute', right: '0px' }}>
-                      <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                        <Link href={`/user/${userContext.userId}`}>
-                          <Button color='primary'>
-                            <Typography component='div' variant="h4" noWrap={true}>Mon Compte</Typography>
-                          </Button>
-                        </Link>
+                  <Box sx={{ position: 'relative' }} zIndex='tooltip'>
+                    {/*---------- Menu dropdown utilisateur ----------*/}
+                    { openMenu ?
+                      <Box id='popout-menu' sx={{ position: 'absolute', right: '0px' }}>
+                        <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                          <Link href={`/user/${userContext.userId}`}>
+                            <Button color='primary'>
+                              <Typography component='div' variant="h4" noWrap={true}>Mon Compte</Typography>
+                            </Button>
+                          </Link>
+                        </Box>
+                        { userContext.userType == UserType.patient ?
+                          /*---------- Navbar patient ----------*/
+                          <>
+                            <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                              <Link href={`/user/${userContext.userId}/patient/prescriptions`}>
+                                <Button color='primary'>
+                                  <Typography component='div' variant="h4" noWrap={true}>Mes Prescriptions</Typography>
+                                </Button>
+                              </Link>
+                            </Box>
+                            <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                              <Link href={`/user/${userContext.userId}/patient/suivi`}>
+                                <Button color='primary'>
+                                  <Typography component='div' variant="h4" noWrap={true}>Mon Suivi de Santé</Typography>
+                                </Button>
+                              </Link>
+                            </Box>
+                          </>
+                          /*---------- Navbar doctor ----------*/
+                          : userContext.userType == UserType.doctor ?
+                          <>
+                            <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                              <Link href={`/user/${userContext.userId}/doctor/patients`}>
+                                <Button color='primary'>
+                                  <Typography component='div' variant="h4" noWrap={true}>Mes Patients</Typography>
+                                </Button>
+                              </Link>
+                            </Box>
+                          </>
+                          /*---------- Navbar pharmacien ----------*/
+                          :
+                          <>
+                            <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                              <Link href={`/user/${userContext.userId}/pharmacist/prescriptions`}>
+                                <Button color='primary'>
+                                  <Typography component='div' variant="h4" noWrap={true}>Prescriptions</Typography>
+                                </Button>
+                              </Link>
+                            </Box>
+                          </>
+                        }
+                        <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
+                            <Button color='inherit' onClick={logout}>
+                              <Typography component='div' variant="h4" noWrap={true}>Déconnecter</Typography>
+                            </Button>
+                        </Box>
                       </Box>
-                      { userContext.userType == UserType.patient ?
-                        /*---------- Navbar patient ----------*/
-                        <>
-                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                            <Link href={`/user/${userContext.userId}/patient/prescriptions`}>
-                              <Button color='primary'>
-                                <Typography component='div' variant="h4" noWrap={true}>Mes Prescriptions</Typography>
-                              </Button>
-                            </Link>
-                          </Box>
-                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                            <Link href={`/user/${userContext.userId}/patient/suivi`}>
-                              <Button color='primary'>
-                                <Typography component='div' variant="h4" noWrap={true}>Mon Suivi de Santé</Typography>
-                              </Button>
-                            </Link>
-                          </Box>
-                        </>
-                        /*---------- Navbar doctor ----------*/
-                        : userContext.userType == UserType.doctor ?
-                        <>
-                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                            <Link href={`/user/${userContext.userId}/doctor/patients`}>
-                              <Button color='primary'>
-                                <Typography component='div' variant="h4" noWrap={true}>Mes Patients</Typography>
-                              </Button>
-                            </Link>
-                          </Box>
-                        </>
-                        /*---------- Navbar pharmacien ----------*/
-                        :
-                        <>
-                          <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                            <Link href={`/user/${userContext.userId}/pharmacist/prescriptions`}>
-                              <Button color='primary'>
-                                <Typography component='div' variant="h4" noWrap={true}>Prescriptions</Typography>
-                              </Button>
-                            </Link>
-                          </Box>
-                        </>
-                      }
-                      <Box sx={{ border: 1, p: 1, bgcolor: 'action.active' }}>
-                          <Button color='inherit' onClick={logout}>
-                            <Typography component='div' variant="h4" noWrap={true}>Déconnecter</Typography>
-                          </Button>
-                      </Box>
-                    </Box>
-                  : <></>}
-                </Box>
+                    : <></>}
+                  </Box>
+                </>
               </ClickAwayListener>
             :
             <Link href='/login'>
