@@ -1,13 +1,17 @@
 import React from 'react'
 import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth'
-import { Box, Button, FilledInput, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography, Switch } from '@mui/material'
-import { AuthData, UserData, UserType } from '../config/types'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+
 import { auth } from '../config/firebase'
-import toast from 'react-hot-toast'
-import CloseIcon from "@mui/icons-material/Close";
+import { AuthData, UserData, UserType } from '../config/types'
 import { addUser } from '../config/api'
 import { validateEmail, validatePassword } from '../config/validators'
+
+import { Box, Button, FilledInput, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, Tab, Tabs, TextField, Typography, Switch } from '@mui/material'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import CloseIcon from "@mui/icons-material/Close";
+
+import toast from 'react-hot-toast'
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -187,7 +191,7 @@ function Register ({ closeModal }: RegisterProps) {
                   onClick={toggleShowPassword}
                   onMouseDown={toggleShowPassword}
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </IconButton>
               </InputAdornment>
             }
