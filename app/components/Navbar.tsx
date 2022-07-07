@@ -48,7 +48,7 @@ function Navbar() {
           <Grid container direction='row' justifyContent='flex-start' alignItems='center' sx={{ flexShrink: 3 }}>
             <Link href='/'>
               <IconButton size='large' edge='start' color='inherit' aria-label='menu' sx={{ width: '40%', height: '40%' }}>
-                <Image src='/favicon.png' width='100%' height='100%' alt='Ormeli' />
+                <Image src='/favicon.png' width='80%' height='90%' alt='Ormeli' />
               </IconButton>
             </Link>
             <Link href='/'>

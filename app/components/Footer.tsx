@@ -48,14 +48,9 @@ function Footer() {
       }}>
         <AppBar position='static'>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            { width > smallSize ?
-              <Box sx={{position: 'relative'}}>
-              <Image src='/lapin.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+            <Box sx={{position: 'relative'}}>
+              <Image src='/lapin.png' width={ width > smallSize ?'100vw': '0'} height={ width > smallSize ?'100vh': '83vh'} alt='Docteur Lapin' />
             </Box>
-            : <Box sx={{position: 'relative'}}>
-              <Image src='/lapin.png' width='0' height='85vh' alt='Carotte Assistant' />
-            </Box>
-            }
             <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
               {/*---------- BOUTON ET MODAL : MENTIONS LEGALES ----------*/}
               <Grid item xs={userContext.userId != null ? 3 : 4} textAlign='center'>
@@ -211,7 +206,7 @@ function Footer() {
                               Vous allez pouvoir suivre le Doc et son fidèle assistant &quot;carotte&quot;.
                             </Typography>
                             <Typography component='div' sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', mt: 2 }}>
-                              <Image src='/lapin.png' width='72vw' height='100vh' alt='Docteur Lapin' />
+                              <Image src='/lapin.png' width='100vw' height='100vh' alt='Docteur Lapin' />
                               <Button variant='contained' sx={{ bgcolor: 'primary.dark', marginTop: 5 }} focusRipple={false}>
                                 <Typography sx={{ color: 'text.secondary' }}>Commencer</Typography>
                               </Button>
