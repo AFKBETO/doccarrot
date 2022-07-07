@@ -57,7 +57,7 @@ function Home() {
 
   return (
     <Grid container sx={{ px:5, pb: 10, overflow: 'auto' }}>
-      <Typography variant='h2' align='center'>Bienvenue sur Ormeli.</Typography>
+      <Typography sx={{mb: 10}} variant='h2' align='center'>Bienvenue sur Ormeli.</Typography>
       <Box>
         <AutoPlaySwipeableViews align='center'
                     axis='x'
@@ -72,9 +72,10 @@ function Home() {
                   component="img"
                   sx={{
                     display: 'block',
-                    maxWidth: 800,
+                    maxWidth: 600,
                     overflow: 'hidden',
                     width: '100%',
+                    maxHeight: 300
                   }}
                   src={step.imgPath}
                   alt={step.imgPath}
