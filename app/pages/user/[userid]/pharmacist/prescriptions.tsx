@@ -22,6 +22,7 @@ import {
 import toast from "react-hot-toast";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import CloseIcon from "@mui/icons-material/Close";
+import useViewport from '../../../../config/viewportHook';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -63,6 +64,8 @@ function Prescriptions() {
   const router = useRouter()
   const { userid } = router.query
   const userContext = React.useContext(USER_CONTEXT)
+  const { width } = useViewport()
+  const medSize = 900
 
   const [selectedPrescription, setSelectedPrescription] = useState<PrescriptionData | null | undefined>(null);
   const [sharingCodeID, setSharingCodeID] = useState<string>('');
@@ -124,7 +127,7 @@ function Prescriptions() {
           </Grid>
 
           {/*---------- PARTIE GAUCHE : LISTE DES PRESCRIPTIONS ----------*/}
-          <Grid item xs={4}>
+          <Grid item xs={(width > medSize ? 4: 12)}>
             <Item sx={{ background: '#ABBD98', borderRadius: 5 }}>
               <Typography variant="h3" sx={{ textDecoration: 'underline' }}>Prescriptions partagées</Typography>
 
@@ -189,7 +192,7 @@ function Prescriptions() {
           </Grid>
 
           {/*---------- PARTIE CENTRE : PRESCRIPTION ACTIVE ----------*/}
-          <Grid item xs={7}>
+          <Grid item xs={(width > medSize ? 7: 12)}>
             <Item sx={{background: '#ABBD98', borderRadius: 5}}>
 
               <Typography variant='h3' sx={{ textDecoration: 'underline' }}>Détails de la prescription</Typography>
@@ -247,14 +250,14 @@ function Prescriptions() {
           </Grid>
 
           {/*---------- PARTIE DROITE : BOUTONS D'ACTION ----------*/}
-          <Grid item xs={1}>
+          <Grid item xs={(width > medSize ? 1: 12)}>
             { selectedPrescription ?
 
                 <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-                  <Grid container spacing={2} direction='column'>
+                  <Grid container spacing={2} direction={(width > medSize ? 'column': 'row')}>
 
                     {/*---------- USE PRESCRIPTION ----------*/}
-                    <Grid item xs={1}>
+                    <Grid item xs={(width > medSize ? 1: 12)}>
                       <IconButton component="span" onClick={usePrescription}>
                         <AddTaskIcon />
                       </IconButton>

@@ -61,7 +61,8 @@ function Prescriptions() {
   const router = useRouter()
   const { userid } = router.query
   const userContext = React.useContext(USER_CONTEXT)
-  const { size } = useViewport()
+  const { width } = useViewport()
+  const medSize = 900
 
   const [selectedPatient, setSelectedPatient] = useState<UserData | null>(null);
   const [newPatientPublicID, setNewPatientPublicID] = useState<string>('');
@@ -165,7 +166,7 @@ function Prescriptions() {
           </Grid>
 
           {/*---------- PARTIE GAUCHE : LISTE DES PATIENTS ----------*/}
-          <Grid item xs={(size == 'big' ? 4: 12)}>
+          <Grid item xs={(width > medSize ? 4: 12)}>
             <Item sx={{ background: '#ABBD98', borderRadius: 5 }}>
               <Typography variant="h3" sx={{ textDecoration: 'underline' }}>Mes patients</Typography>
 
@@ -228,7 +229,7 @@ function Prescriptions() {
           </Grid>
 
           {/*---------- PARTIE CENTRE : ESPACE EDITION ----------*/}
-          <Grid item xs={(size == 'big' ? 7: 12)}>
+          <Grid item xs={(width > medSize ? 7: 12)}>
             <Item sx={{ background: '#ABBD98', borderRadius: 5 }}>
 
               <Typography variant='h3' sx={{ textDecoration: 'underline' }}>Nouvelle prescription</Typography>
@@ -325,14 +326,14 @@ function Prescriptions() {
           </Grid>
 
           {/*---------- PARTIE DROITE : BOUTONS D'ACTION ----------*/}
-          <Grid item xs={(size == 'big' ? 1: 12)}>
+          <Grid item xs={(width > medSize ? 1: 12)}>
             { selectedPatient ?
 
                 <Item sx={{background: '#ABBD98', borderRadius: 5}}>
-                  <Grid container spacing={2} direction={(size == 'big' ? 'column': 'row')}>
+                  <Grid container spacing={2} direction={(width > medSize ? 'column': 'row')}>
 
                     {/*---------- SEND PRESCRIPTION ----------*/}
-                    <Grid item xs={1}>
+                    <Grid item xs={(width > medSize ? 1: 12)}>
                       <IconButton component="span" onClick={ () => sendPrescription() }>
                         <SendIcon />
                       </IconButton>
