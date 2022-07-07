@@ -21,6 +21,7 @@ import {
 } from "../../../../config/api";
 import toast from "react-hot-toast";
 import QrCodeIcon from "@mui/icons-material/QrCode";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -35,7 +36,7 @@ const modalStyle = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  minWidth: 400,
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -152,9 +153,18 @@ function Prescriptions() {
 
               <Modal open={openScanModal} onClose={ () => setOpenScanModal(false) }>
                 <Box sx={modalStyle}>
-                  <Typography id="modal-modal-title" variant="h3">Récupérer une prescription</Typography>
-                  <Box id="modal-modal-description" sx={{ mt: 2 }} component="div">
 
+                  {/*---------- Titre modal et bouton de fermeture ----------*/}
+                  <div style={{ float: 'left' }}>
+                    <Typography id="modal-modal-title" variant="h3">Récupérer une prescription</Typography>
+                  </div>
+                  <div style={{ float: 'right' }}>
+                    <Button size="small" onClick={ event => setOpenScanModal(false) }>
+                      <CloseIcon></CloseIcon>
+                    </Button>
+                  </div>
+
+                  <Box id="modal-modal-description" sx={{ mt: 2 }} component="div">
                     {/*---------- Entrer le code ----------*/}
                     <FormControl fullWidth sx={{ marginTop: 5 }}>
                       <Typography variant="h5" id="id-pharmacy-label">Code de la prescription</Typography>

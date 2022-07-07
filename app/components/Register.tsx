@@ -5,6 +5,7 @@ import { AuthData, UserData, UserType } from '../config/types'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { auth } from '../config/firebase'
 import toast from 'react-hot-toast'
+import CloseIcon from "@mui/icons-material/Close";
 import { addUser } from '../config/api'
 import { validateEmail, validatePassword } from '../config/validators'
 
@@ -138,6 +139,11 @@ function Register ({ closeModal }: RegisterProps) {
   return (
     <Box>
       <Typography variant='h4' align='center'>Inscription</Typography>
+      <div style={{ float: 'right' }}>
+        <Button size="small" onClick={ () => closeModal() }>
+          <CloseIcon></CloseIcon>
+        </Button>
+      </div>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs textColor='secondary' indicatorColor='secondary' value={tabValue} onChange={changeTab} aria-label='basic tabs example' variant='scrollable' selectionFollowsFocus>
           <Tab label='Patient' {...labelProps(0)} />
