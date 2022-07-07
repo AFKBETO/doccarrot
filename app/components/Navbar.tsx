@@ -173,11 +173,11 @@ function Navbar() {
             { userContext.userId != null && userContext.firebaseUser != null && userContext.firebaseUser.emailVerified ?
               /*---------- Utilisateur connecté ----------*/
               <ClickAwayListener onClickAway={handleClickAway}>
-                <>
+                <Box sx={{ position: 'relative' }}>
                   <Button color='primary' type='button' onClick={handleClick}>
                     <Typography component='div' variant="h4" noWrap={true}>Mon Espace</Typography>
                   </Button>
-                  <Box sx={{ position: 'relative' }} zIndex='tooltip'>
+                  <Box zIndex='tooltip'>
                     {/*---------- Menu dropdown utilisateur ----------*/}
                     { openMenu ?
                       <Box id='popout-menu' sx={{ position: 'absolute', right: '0px' }}>
@@ -237,7 +237,7 @@ function Navbar() {
                       </Box>
                     : <></>}
                   </Box>
-                </>
+                </Box>
               </ClickAwayListener>
             :
             <Link href='/login'>
