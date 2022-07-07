@@ -6,16 +6,18 @@ import { Box, Typography, TextField, FormControl, InputLabel, FilledInput, Input
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
-import Register from '../../components/Register'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import useViewport from '../../config/viewportHook'
-import Register from "../../components/Register";
+import Register from "../../components/Register"
 
-const modalStyle = (size: string) => ({
+const medSize = 900
+const smallSize = 600
+
+const modalStyle = (width: number) => ({
   position: 'absolute',
   top: '50%',
   left: '50%',
-  width: ((size == 'small') ? '25%' : ((size == 'med') ? '50%' : '70%')),
+  width: ((width > medSize) ? '25%' : ((width > smallSize) ? '50%' : '70%')),
   transform: 'translate(-50%, -50%)',
   margin: 'auto', mt: 4, py: 2, border: 1, borderRadius: '20px', backgroundColor: 'primary.dark',
   boxShadow: 'none' 
@@ -29,7 +31,7 @@ function Login() {
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const [openRegister, setOpenRegister] = React.useState<boolean>(false)
   const [openReset, setOpenReset] = React.useState<boolean>(false)
-  const { size } = useViewport()
+  const { width } = useViewport()
 
   const router = useRouter()
 
@@ -84,7 +86,7 @@ function Login() {
   return (
     <Box component='form' autoComplete='off' noValidate
       sx={{
-        width: ((size == 'small') ? '25%' : ((size == 'med') ? '50%' : '70%')),
+        width: ((width > medSize) ? '25%' : ((width > smallSize) ? '50%' : '70%')),
         margin: 'auto',
         mt: 4,
         pt: 2,
@@ -135,7 +137,7 @@ function Login() {
           open={openRegister}
           onClose={handleCloseRegister}
         >
-          <Box sx={modalStyle(size)}>
+          <Box sx={modalStyle(width)}>
             <Register closeModal={handleCloseRegister} />
           </Box>
         </Modal>
@@ -146,7 +148,7 @@ function Login() {
           open={openReset}
           onClose={handleCloseReset}
         >
-          <Box sx={modalStyle(size)}>
+          <Box sx={modalStyle(width)}>
             <Stack spacing={1} justifyContent="center" alignItems="center" >
               <Typography variant='h4'>Réinitialisez votre mot de passe</Typography>
               <TextField id='email-required' variant='filled' label='Saisissez votre email' type='email' color='secondary' size='small' required
