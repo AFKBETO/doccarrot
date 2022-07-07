@@ -11,6 +11,7 @@ import { autoPlay } from 'react-swipeable-views-utils';
 //import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
 //import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
 import Carousel from 'react-material-ui-carousel'
+import Image from 'next/image';
 //import RemoveIcon from "@mui/icons-material/Remove";
 
 //const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
@@ -22,7 +23,7 @@ const images = [
   },
   {
     imgPath:
-        'https://media.discordapp.net/attachments/885519275870265415/994609468077772890/pillules.jpeg?width=1014&height=676',
+        'https://media.discordapp.net/attachments/885519275870265415/994609468077772890/pillules.jpeg',
   },
   {
     imgPath:
@@ -59,14 +60,14 @@ function Home() {
 
   return (
       <Grid container direction='column' sx={{ px:5, pb: 10, overflow: 'auto' }}>
-        <Typography sx={{mb: 10}} variant='h2' align='center'>Bienvenue sur Ormeli.</Typography>
+        <Typography variant='h2' align='center'>Bienvenue sur Ormeli.</Typography>
 
-        <Carousel sx={{ textAlign: 'center' }}>
+        <Carousel sx={{ textAlign: 'center', zIndex: 1 }}>
           {
             images.map((image, idx) => (
-                <Paper key={idx}>
-                  <img src={image.imgPath} style={{ height: 500 }} />
-                </Paper>
+                <Box key={idx} style={{zIndex:1}}>
+                  <Image src={image.imgPath} width={500} height={300} style={{zIndex:1}} />
+                </Box>
             ))
           }
         </Carousel>

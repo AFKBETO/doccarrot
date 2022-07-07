@@ -43,7 +43,7 @@ function Navbar() {
   return (
     <AppBar position='static'>
       <Container maxWidth="xl">
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }} disableGutters>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', zIndex: 10 }} disableGutters>
 
           {/*---------- PARTIE GAUCHE : LOGO LAPIN + TITRE ORMELI ----------*/}
           <Grid container direction='row' justifyContent='flex-start' alignItems='center' sx={{ flexShrink: 3 }}>
