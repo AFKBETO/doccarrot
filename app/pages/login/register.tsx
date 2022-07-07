@@ -136,7 +136,7 @@ function Register ({ closeModal }: RegisterProps) {
   }
 
   return (
-    <Box sx={{ margin: 'auto', mt: 4, pt: 2, border: 1, borderRadius: '20px', backgroundColor: 'primary.dark' }}>
+    <Box sx={{ margin: 'auto', mt: 4, py: 2, border: 1, borderRadius: '20px', backgroundColor: 'primary.dark' }}>
       <Typography variant='h4' align='center'>Inscription</Typography>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs textColor='secondary' indicatorColor='secondary' value={tabValue} onChange={changeTab} aria-label='basic tabs example' variant='scrollable' selectionFollowsFocus>
@@ -144,7 +144,7 @@ function Register ({ closeModal }: RegisterProps) {
           <Tab label='Médecin Pharmacien' {...labelProps(1)} />
         </Tabs>
       </Box>
-      <Stack spacing={2} justifyContent="center" alignItems="center" sx={{ mt: 4}}>
+      <Stack spacing={1} justifyContent="center" alignItems="center" sx={{ mt: 2}}>
         <TextField id='email-required' variant='filled' label='Email' type='email' color='secondary' size='small' required
           error={errorValidator.email}
           helperText={errorValidator.email ? 'Email invalide' : ''}
@@ -219,7 +219,7 @@ function Register ({ closeModal }: RegisterProps) {
       </Stack>
       {/*---------Création compte patient---------*/}
       <TabPanel value={tabValue} index={0}>
-        <Stack spacing={2} justifyContent="center" alignItems="center">
+        <Stack spacing={1} justifyContent="center" alignItems="center">
           <TextField id='nss' variant='filled' label='Numéro NSS' type='text' color='secondary' size='small'
             value={userData.nss}
             onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'nss')}
@@ -232,7 +232,7 @@ function Register ({ closeModal }: RegisterProps) {
       </TabPanel>
       {/*---------Création compte médecin---------*/}
       <TabPanel value={tabValue} index={1}>
-        <Stack spacing={2} justifyContent="center" alignItems="center">
+        <Stack spacing={1} justifyContent="center" alignItems="center">
           <FormGroup>
             <FormControlLabel control={
               <Switch size='small' inputProps={{ 'aria-label': 'controlled' }}
@@ -251,7 +251,7 @@ function Register ({ closeModal }: RegisterProps) {
           />
         </Stack>
       </TabPanel>
-      <Box textAlign='center' sx={{ my: 4}}>
+      <Box textAlign='center' sx={{ my: 1 }}>
         <Button variant="contained"
           disabled={
             errorValidator.email || 

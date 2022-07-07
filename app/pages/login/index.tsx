@@ -8,7 +8,20 @@ import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
 import Register from './register'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { USER_CONTEXT } from '../../config/userContext'
+import useViewport from '../../config/viewportHook'
+
+const medSize = 900
+const smallSize = 600
+
+const modalStyle = (width: number) => ({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: ((width > medSize) ? '25%' : ((width > smallSize) ? '50%' : '70%')),
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'transparent',
+  boxShadow: 'none' 
+})
 
 function Login() {
   const [userData, setUserData] = React.useState<AuthData>({
@@ -18,6 +31,7 @@ function Login() {
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const [openRegister, setOpenRegister] = React.useState<boolean>(false)
   const [openReset, setOpenReset] = React.useState<boolean>(false)
+  const { width } = useViewport()
 
   const router = useRouter()
 
@@ -72,7 +86,7 @@ function Login() {
   return (
     <Box component='form' autoComplete='off' noValidate
       sx={{
-        width: '25%',
+        width: ((width > medSize) ? '25%' : ((width > smallSize) ? '50%' : '70%')),
         margin: 'auto',
         mt: 4,
         pt: 2,
@@ -82,7 +96,7 @@ function Login() {
       }}
     >
       <Typography variant='h3' align='center'>Connexion</Typography>
-      <Stack spacing={2} justifyContent='center' alignItems='center' sx={{ my: 4, pb: 2}}>
+      <Stack spacing={1} justifyContent='center' alignItems='center' sx={{ my: 4, pb: 2}}>
         <TextField id='email-required' variant='filled' label='Email' type='email' color='secondary' size='small' required
           value={openReset ? '' : userData.email}
           onInput={event => modifyForm(event as React.ChangeEvent<HTMLInputElement>, 'email')}
@@ -123,15 +137,7 @@ function Login() {
           open={openRegister}
           onClose={handleCloseRegister}
         >
-          <Box sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: '25%',
-            transform: 'translate(-50%, -50%)',
-            bgcolor: 'transparent',
-            boxShadow: 'none' 
-          }}>
+          <Box sx={modalStyle(width)}>
             <Register closeModal={handleCloseRegister} />
           </Box>
         </Modal>
@@ -142,16 +148,8 @@ function Login() {
           open={openReset}
           onClose={handleCloseReset}
         >
-          <Box sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: '25%',
-            transform: 'translate(-50%, -50%)',
-            margin: 'auto', mt: 4, py: 2, border: 1, borderRadius: '20px', backgroundColor: 'primary.dark',
-            textAlign: 'center'
-          }}>
-            <Stack spacing={2} justifyContent="center" alignItems="center" >
+          <Box sx={modalStyle(width)}>
+            <Stack spacing={1} justifyContent="center" alignItems="center" >
               <Typography variant='h4'>Réinitialisez votre mot de passe</Typography>
               <TextField id='email-required' variant='filled' label='Saisissez votre email' type='email' color='secondary' size='small' required
                 value={userData.email}
