@@ -1,7 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 //import Link from 'next/link'
-import { Modal, AppBar, Box, Toolbar, Typography, Button, Grid } from '@mui/material'
+import {Modal, AppBar, Box, Toolbar, Typography, Button, Grid, Stack} from '@mui/material'
+import {USER_CONTEXT} from "../config/userContext";
 
 const style = {
   position: 'absolute',
@@ -15,7 +16,11 @@ const style = {
   background: '#ABBD98'
 }
 
+const userTypeNames = ['patient', 'médecin', 'pharmacien']
+
 function Footer() {
+  const userContext = React.useContext(USER_CONTEXT)
+
   const [open, setOpen] = React.useState({
     modalMentions: false,
     modalCredits: false,
@@ -123,24 +128,39 @@ function Footer() {
               </Grid>
 
               {/*---------- BOUTON ET MODAL : TUTORIEL ----------*/}
-              <Grid item xs={3} >
-                <Button onClick={event => handleOpen(event, 'modalTutorial')}>
-                  <Typography component='div' variant="h4">Tutoriel</Typography>
-                </Button>
-                <Modal
-                    open={open.modalTutorial}
-                    onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalTutorial')}
-                >
-                  <Box sx={style}>
-                    <Typography component='div' id="modal-modal-title" variant="h3">
-                      Besoin d&apos;aide ?
-                    </Typography>
-                    <Typography component='div' id="modal-modal-description" sx={{ mt: 2 }}>
-                      Tutoriel ici
-                    </Typography>
-                  </Box>
-                </Modal>
-              </Grid>
+              { userContext.userId ?
+                  <Grid item xs={3} >
+                    <Button onClick={event => handleOpen(event, 'modalTutorial')}>
+                      <Typography component='div' variant="h4">Tutoriel</Typography>
+                    </Button>
+                    <Modal
+                        open={open.modalTutorial}
+                        onClose={(event: React.MouseEvent<Element, MouseEvent>) => handleClose(event, 'modalTutorial')}
+                    >
+                      <Box sx={style} textAlign='center' alignItems='center' justifyContent='center'>
+                        <Typography component='div' id="modal-modal-title" variant="h3">
+                          Besoin d&apos;aide ?
+                        </Typography>
+                        <Typography component='div' id="modal-modal-description" sx={{ mt: 2 }}>
+                          <Typography sx={{ mt: 2 }}>
+                            Vous êtes sur le point de commencer le tutoriel ! Il va vous introduire à l'utilisation de votre espace { userTypeNames[userContext.userType as number] }.
+                          </Typography>
+                          <Typography sx={{ mt: 2 }}>
+                            Vous allez pouvoir suivre le Doc et son fidèle assistant "carotte".
+                          </Typography>
+                          <Typography component='div' sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', mt: 2 }}>
+                            <Image src='/lapin.png' width='72vw' height='100vh' alt='Docteur Lapin' />
+                            <Button variant='contained' sx={{ bgcolor: 'primary.dark', marginTop: 5 }} focusRipple={false}>
+                              <Typography sx={{ color: 'text.secondary' }}>Commencer</Typography>
+                            </Button>
+                            <Image src='/carotte_assistant.png' width='72vw' height='100vh' alt='Carotte Assistant' />
+                          </Typography>
+                        </Typography>
+                      </Box>
+                    </Modal>
+                  </Grid>
+                  : <></>
+              }
 
             </Grid>
             <Box sx={{position: 'relative'}}>
