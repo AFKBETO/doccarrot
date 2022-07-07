@@ -12,6 +12,7 @@ import { Paper, InputBase, List, Typography, IconButton, Grid, ListItem, ListIte
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import SearchIcon from '@mui/icons-material/Search'
 import RemoveIcon from '@mui/icons-material/Remove'
+import {NEXT_PROJECT_ROOT} from "next/dist/lib/constants";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -174,7 +175,7 @@ function Suivi() {
                 </label>
                 <Typography sx={{fontSize: 20, textAlign: 'left'}}>Carte vitale</Typography>
               </Grid>
-              <Image src='/carotte_assistant.png' width='100%' height='100%' alt='carte-vitale'></Image>
+              <Image src={ `${NEXT_PROJECT_ROOT}/carotte_assistant.png` } width='100%' height='100%' alt='carte-vitale'></Image>
               <Grid container direction='row' display='flex'>
                 <label htmlFor="contained-button-file">
                   <Input accept="image/*" id="contained-button-file" multiple type="file" />
@@ -184,7 +185,7 @@ function Suivi() {
                 </label>
                 <Typography sx={{fontSize: 20, textAlign: 'left'}}>{'Carte d\'identité'}</Typography>
               </Grid>
-              <Image src='/carotte_assistant.png' width='100%' height='100%' alt='carte-identite'></Image>
+              <Image src={ `${NEXT_PROJECT_ROOT}/carotte_assistant.png` } width='100%' height='100%' alt='carte-identite'></Image>
             </Item>
           </Grid>
         </Grid>
