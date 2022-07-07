@@ -23,6 +23,7 @@ import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
 import moment from "moment";
 import useViewport from '../../../../config/viewportHook';
+import CloseIcon from "@mui/icons-material/Close";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -189,7 +190,17 @@ function Prescriptions() {
 
               <Modal open={openPatientModal} onClose={ () => setOpenPatientModal(false) }>
                 <Box sx={modalStyle}>
-                  <Typography id="modal-modal-title" variant="h3">Nouveau patient</Typography>
+
+                  {/*---------- Titre modal et bouton de fermeture ----------*/}
+                  <div style={{ float: 'left' }}>
+                    <Typography id="modal-modal-title" variant="h3">Nouveau patient</Typography>
+                  </div>
+                  <div style={{ float: 'right' }}>
+                    <Button size="small" onClick={ event => setOpenPatientModal(false) }>
+                      <CloseIcon></CloseIcon>
+                    </Button>
+                  </div>
+
                   <Box id="modal-modal-description" sx={{ mt: 2 }} component="div">
 
                     {/*---------- Entrer le code ----------*/}

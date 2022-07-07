@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import Register from '../../components/Register'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import useViewport from '../../config/viewportHook'
+import Register from "../../components/Register";
 
 const modalStyle = (size: string) => ({
   position: 'absolute',
