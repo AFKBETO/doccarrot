@@ -185,7 +185,7 @@ function Prescriptions() {
                     {/*---------- Valider ----------*/}
                     <FormControl fullWidth>
                       <Button variant='contained' sx={{ bgcolor: 'primary.dark', marginTop: 5 }} focusRipple={false} onClick={ shareWithMyPharmacy }>
-                        <Typography sx={{ color: 'text.secondary' }}>Récuperer la prescription</Typography>
+                        <Typography sx={{ color: 'text.secondary' }}>Récupérer la prescription</Typography>
                       </Button>
                     </FormControl>
 

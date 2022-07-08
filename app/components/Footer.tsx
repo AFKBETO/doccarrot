@@ -23,7 +23,8 @@ const style = (width: number) => ({
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
-  background: '#ABBD98'
+  background: '#ABBD98',
+  zIndex: 1600
 })
 
 const userTypeNames = ['patient', 'médecin', 'pharmacien']
@@ -49,7 +50,7 @@ function Footer() {
         position : height > 500 ? 'sticky' : 'relative',
         bottom: '0vh',
         width: '100%',
-        zIndex: 1500
+        zIndex: 1000
       }}>
         <AppBar position='static'>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
