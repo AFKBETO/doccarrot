@@ -40,7 +40,7 @@ function Home() {
 
   return (
       <Grid container direction='column' sx={{ px:5, pb: 10, overflow: 'auto' }}>
-        <Typography variant='h2' align='center'>Bienvenue sur Ormeli.</Typography>
+        <Typography variant='h2' align='center'>Bienvenue sur Ormeli</Typography>
 
         <Carousel sx={{ textAlign: 'center', zIndex: 1 }}>
           {
